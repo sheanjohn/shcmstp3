@@ -1,2 +1,2 @@
 # shcmstp3
-tp3 mysql
+ThinkPHP3+Mysql开发的CMS系统
