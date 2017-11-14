@@ -1,0 +1,50 @@
+<ul class="nav nav-list" id="leftnav">
+	<li class="nav-header"><i class="fa fa-cog"></i> 系统</li>
+	<li class="active" name="Index"><a
+		href="{:C('ROOT_DIR')}/home/index"><i class="fa fa-home"></i> 概览</a></li>
+	<li name="Cate"><a href="{:C('ROOT_DIR')}/home/cate"><i
+			class="fa fa-folder-open"></i> 栏目</a></li>
+	<li name="Users"><a href="{:C('ROOT_DIR')}/home/users"><i
+			class="fa fa-users"></i> 会员</a></li>
+	<li name="Mgrs"><a href="{:C('ROOT_DIR')}/home/mgrs"><i
+			class="fa fa-user-circle"></i> 管理员</a></li>
+
+	<li class="nav-header"><i class="fa fa-shopping-cart"></i> 商城</li>
+	<li name="Comm"><a href="{:C('ROOT_DIR')}/home/comm"><i
+			class="fa fa-cubes"></i> 商品</a></li>
+	<li name="Active"><a href="{:C('ROOT_DIR')}/home/active"><i
+			class="fa fa-cart-plus"></i> 活动</a></li>
+	<li name="Pinpai"><a href="{:C('ROOT_DIR')}/home/pinpai"><i
+			class="fa fa-star"></i> 品牌</a></li>
+	<li name="Dingdan"><a href="{:C('ROOT_DIR')}/home/dingdan"><i
+			class="fa fa-list"></i> 订单</a></li>
+
+	<li class="nav-header"><i class="fa fa-file-text"></i> 文章</li>
+	<li name="Article"><a href="{:C('ROOT_DIR')}/home/article"><i
+			class="fa fa-file"></i> 文章</a></li>
+	<li name="Article1"><a href="javascript:;"><i
+			class="fa fa-caret-square-o-right "></i> 专题</a></li>
+
+	<li class="divider" style="display: none;"></li>
+	<li class="nav-header"><i class="fa fa-tasks"></i> 其他</li>
+	<li name="Log"><a href="{:C('ROOT_DIR')}/home/log"><i
+			class="fa fa-clock-o"></i> 日志</a></li>
+	<li name="Config"><a href="{:C('ROOT_DIR')}/home/config"><i
+			class="fa fa-cogs"></i> 参数配置</a></li>
+	<li name="Pic"><a href="{:C('ROOT_DIR')}/home/pic"><i
+			class="fa fa-image"></i> 图片库</a></li>
+</ul>
+<script>
+	/**
+	自动设置样式指针(class=active)
+	**/
+	var CONTROLLER_NAME;
+	CONTROLLER_NAME="{$CONTROLLER_NAME}";
+	$("#leftnav li").each(function(index, element) {
+        if($(this).attr("name")==CONTROLLER_NAME){
+			$(this).addClass("active");
+		}else{
+			$(this).removeClass("active");
+		}
+    });
+</script>

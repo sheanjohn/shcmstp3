@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body
+	onLoad="uploadfile('pic_{$_GET['id']}','#file_img','#picurl','#upimg')">
+	<include file="Public:alerts" />
+	<script>
+		//读取图库标题
+		$(function(){
+			var URL='__CONTROLLER__';
+			var id="{$_GET['id']}";
+			//把图库ID提交给保存图片的AJAX
+			$.ajax({
+				type:'POST',
+				url:URL + '/load_pic_title',
+				data:{
+					id:id
+				},
+				dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+				success: function(data){
+					if(data!=''){					
+						$("#h2_pictitle").html(data);
+						loadmore();
+						$("#btn_nextpage").fadeIn(800);
+					}else{
+						$("#h2_pictitle").html('数据错误');
+					}
+				}
+			});
+		})
+	</script>
+	<div class="container">
+		<div class="row">
+			<!---开始--->
+			<div class="span9">
+				<h2 id="h2_pictitle">正在读取...</h2>
+
+
+				<div class="well blank-slate" id="gbodx">
+					<p>点击按钮在当前图库添加图片</p>
+					<span class="btn btn-sm btn-success" id="btn_addnew">+ 添加图片</span>
+					<script>
+								$("#btn_addnew").click(function(e) {
+                                    $("#div_addnew").fadeIn(800);
+									$("#content").fadeOut(800);
+									$("#pagebox").fadeOut(800);
+                                });
+							</script>
+				</div>
+				<ul class="thumbnails" id="content"></ul>
+				<div id="pagebox" style="padding: 5px; text-align: center;">
+					<span class="btn btn-sm btn-info" id="btn_nextpage"
+						style="display: none;">>>> 继续加载{$sh1_page_listnum1}条数据</span>
+					<script>
+								$("#btn_nextpage").click(function(e) {
+                                    loadmore();
+                                });
+							</script>
+				</div>
+
+				<!-- 新建开始 -->
+				<div class="span9" id="div_addnew" style="display: none;">
+					<fieldset>
+						<legend>上传图片</legend>
+
+						<div class="control-group">
+							<label class="control-label">图片</label>
+							<div class="controls">
+								<img src="__PUBLIC__/admin/img/noimg.gif" id="upimg"
+									style="width: 200px; border: solid 2px #36C; border-radius: 5px; margin: 5px;"
+									class="img-responsive" /> <input id="file_img"
+									name="file_upload" type="file" class="input-file" multiple>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">类型</label>
+							<div class="controls">
+								<select id="pictype">
+									<option selected value="1">普通图片</option>
+									<option value="0">缩略图(多用于商品列表)</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-actions">
+							<button type="button" class="btn btn-primary" id="btn_save">保存</button>
+							<button class="btn btn-sm btn-danger" id="btn-cancel">取消并收起</button>
+							<input type="hidden" value="0" id="id" /> <input type="hidden"
+								id="picurl" /> <input type="hidden" id="picid"
+								value="{$_GET['id']}" />
+							<script>
+									//清空表单
+									function clearfm(){
+										$("#id").val("0");
+										$("#picurl").val("");
+										$("#pictype").val("1");
+										$("#upimg").attr('src','__PUBLIC__/admin/img/noimg.gif');
+									}
+									$("#btn-cancel").click(function(e) {
+										var resu=confirm('此操作将删除你刚刚上传的图片\r是否继续?');
+										if (resu){
+											var picurl=$("#picurl").val();
+											clearfm();
+											//alert(picurl);
+											del_pic_file(picurl);
+											$("#div_addnew").fadeOut(800);
+											$("#content").fadeIn(800);
+											$("#pagebox").fadeIn(800);
+										}
+                                    });
+									$("#btn_save").click(function(e) {
+										var id=$("#id").val();
+										var picurl=$("#picurl").val();
+										var pictype=$("#pictype").val();
+										var picid=$("#picid").val();
+										if(id=='' || picurl=='' || picid==''){
+											balert('warning','信息不完整');
+											return;
+										}
+                                        var URL='__CONTROLLER__';
+										$.ajax({
+											type:'POST',
+											url:URL + '/save_pic_item',
+											data:{
+												id:id,
+												picurl:picurl,
+												pictype:pictype,
+												picid:picid
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												clearfm();
+												if(data=='ok'){
+													window.location.reload();
+												}else{
+													balert('danger','保存失败');
+												}
+											}
+										});
+
+                                    });
+								</script>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+			//栏目列表
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										var picid=$("#picid").val();
+										if(picid==''){
+											balert('danger',"数据错误");
+											return;
+										}
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_pic_item',
+											data:{
+												s:s,
+												picid:picid
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('我也是有底线的');
+													$("#btn_nextpage").slideUp(1000);
+													return;
+												}
+												var show1,show2
+												for (var i=0;i<b.length;i++)
+												{
+
+show2="{$_GET['select']}";
+if(show2=='yes'){
+	show2='&nbsp;&nbsp;<a href="javascript:;" onclick="window.parent.getV('+"'"+b[i].id+"'"+')" class="btn btn-sm btn-success">选择</a>';
+}else{
+	show1=b[i].pictype;
+	if(show1=='0'){
+		show1='&nbsp;&nbsp;(缩略图)';
+	}else{
+		show1='&nbsp;&nbsp;(普通图)';
+	}
+}
+show1=show2;
+
+str=str+'<li class="span3">';
+str=str+'	<div class="thumbnail">';
+str=str+'		<img src="'+b[i].picurl+'"/>';
+str=str+'		<div class="caption">';
+str=str+'			<h5>#'+b[i].id+show1+'</h5>';
+str=str+'			<p><a href="'+b[i].picurl+'" target="_blank">看大图</a> | <a href="javascript:;" onclick="del_pic_item('+"'"+b[i].id+"'"+')">删除</a> </p>';
+str=str+'		</div>';
+str=str+'	</div>';
+str=str+'</li>';
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str);
+											$("#btn_nextpage").html('>>> 继续加载{$sh1_page_listnum1}条数据');
+											$("#btn_nextpage").addClass("btn-info");
+											}
+										});
+			}
+			//读取
+			function load_cate(id){
+				var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/load_cate',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												},  
+						success: function(data){
+							var b=$.parseJSON(data);
+							$("#id").val(b.id);
+							$("#catetitle").val(b.catetitle);
+							$("#fid").val(b.fid);
+							$("#url").val(b.url);
+							//icon
+							$("#cont").val(b.cont);
+							$("#ismenu").val(b.ismenu);
+							$("#isshow").val(b.isshow);
+							$("#orderid").val(b.orderid);
+							$("#div_addnew").fadeIn(1000);
+						}
+					});
+			}
+			function del_pic_file(url){
+				if(id==''){
+					balert('danger','数据错误');
+					return;
+				}
+				var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/del_temp_pic',
+						data:{
+							url:url
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							return;
+						}
+					});
+			}
+			
+			function del_pic_item(id){
+				if(id==''){
+					balert('danger','数据错误');
+					return;
+				}else if(confirm("确定要删除吗？")){
+					var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/del_pic_item',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							if(data=='ok'){
+								window.location.reload();
+							}else{
+								balert('danger','删除失败');
+							}
+						}
+					});
+				}
+			}
+			
+		</script>
+	<input type="hidden" id="curpage" value="0" />
+</body>
+</html>

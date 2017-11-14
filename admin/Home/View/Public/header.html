@@ -1,0 +1,43 @@
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse"
+				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+				class="icon-bar"></span> <span class="icon-bar"></span>
+			</a> <a class="brand" href="{:C('ROOT_DIR')}">{:C('WEB_NAME')}</a>
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="active"><a href="{:C('ROOT_DIR')}"><i
+							class="fa fa-tachometer"></i> 控制台</a></li>
+					<li><a href="/" target="_blank"><i class="fa fa-eye"></i>
+							预览网站</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <i class="fa fa-wrench"></i> 数据统计 <b
+							class="caret"></b>
+					</a>
+						<ul class="dropdown-menu">
+							<volist name="menu_count" id="i">
+							<li><a href="javascript:;" style="color: #333;">{$i.tabname}数量：{$i.count}
+							</a></li>
+							<li class="divider" style="display: none;"></li>
+							</volist>
+						</ul></li>
+				</ul>
+				<ul class="nav pull-right">
+					<li><a href="javascript:;"><i class="fa fa-user-circle"></i>
+							{$Think.session.uname}</a></li>
+					<li><a href="javascript:;"><i
+							class="fa fa-exclamation-circle"> {$Think.session.utype}</i></a></li>
+					<li><a id="btn_logout" href="javascript:;"><i class="fa fa-sign-out"></i> 退出登录</a> <script>
+				$("#btn_logout").click(function(e) {
+                	var res=confirm("是否要退出登录？");
+					if(res){
+						window.location.href="__CONTROLLER__/logout"
+					}
+           		});
+			</script></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
