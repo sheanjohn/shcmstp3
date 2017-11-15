@@ -38,9 +38,7 @@ class PmgrsController extends PpublicController {
 	public function save_mgrs() {
 		$id = $_POST ['id'];
 		$d ['uname'] = $_POST ['uname'];
-		if ($_POST ['pswd'] != '0') {
-			$d ['upswd'] = md5 ( $_POST ['upswd'] );
-		}
+		$d ['upswd'] = md5 ( $_POST ['upswd'] );
 		$d ['utype'] = $_POST ['utype'];
 		$c = M ( "managers" )->where ( "uname='" . $_POST ['uname'] . "'" )->count ();
 		if ($c > 0 && $id == '0') {

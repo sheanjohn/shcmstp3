@@ -99,6 +99,9 @@
 										placeholder="请再次输入密码..." />
 								</div>
 							</div>
+							<div class="control-group">
+								<span style="text-align:right;">可直接设置新的密码，或输入旧的密码(编辑时)，不能留空。</span>
+							</div>
 							<div class="form-actions">
 								<button type="button" class="btn btn-primary" id="btn_save">保存</button>
 								<button type="button" class="btn btn-sm btn-danger"
@@ -124,23 +127,20 @@
 									var uname=$("#uname").val();
 									var upswd=$("#upswd").val();
 									if(id=='1'){
-										balert('warning','请注意：你无法修改该管理员的类型，即使你选择了新的权限类型');
+										//balert('warning','请注意：你无法修改该管理员的类型，即使你选择了新的权限类型');
 										var utype='9';
 									}else{
 										var utype=$("#utype").val();
 									}
 									
 									var upswd1=$("#upswd1").val();
-									if(id=='' || uname=='' || utype==''){
+									if(id=='' || uname=='' || utype=='' || upswd==''){
 										balert('warning','信息不完整');
 										return;
 									}
 									if(upswd!=upswd1){
 										balert('warning','两次输入的密码不同');
 										return;
-									}
-									if(upswd==''){
-										upswd='0';
 									}
 									
                                     var URL='__CONTROLLER__';
