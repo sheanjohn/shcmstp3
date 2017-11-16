@@ -26,6 +26,7 @@ class PcateController extends PpublicController {
 		$orderid = $_POST ['orderid'];
 		$icon = $_POST ['icon'];
 		$zhuanti=$_POST['zhuanti'];
+		$cmod=$_POST['cmod'];
 		
 		$c = M ( "category" )->where ( "catetitle='" . $catetitle . "' and fid=" . $fid )->count ();
 		if ($c > 0 && $id == '0') {
@@ -39,6 +40,7 @@ class PcateController extends PpublicController {
 			$d ['isshow'] = $isshow;
 			$d ['orderid'] = $orderid;
 			$d ['icon'] = $icon;
+			$d ['cmod'] = $cmod;
 			if($zhuanti!=''){
 				$d['zhuanti']=$zhuanti;
 			}

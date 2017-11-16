@@ -41,7 +41,7 @@
 								style="float: left; width: 60px; padding: 3px; margin-left: 5px;"
 								class="btn btn-sm btn-default" value="预置" id="btn_ot" /> <script>
 											$("#btn_ot").click(function(e) {
-                                                $("#selbox").slideDown(800);
+                                                $("#selbox").slideDown(400);
                                             });
 										</script></td>
 							<td style="text-align: center"><input type="text"
@@ -127,7 +127,7 @@
 									var cvalue=$("#cvalue_add").val();
 									var ccont=$("#ccont_add").val();
 									if(id=='' || cname=='' || cvalue==''){
-										balert('warning','信息不完整');
+										modal('提示','信息不完整');
 										return;
 									}
 									if(ccont==''||ccont==null){
@@ -155,9 +155,9 @@
 											if(data=='ok'){
 												window.location.reload();
 											}else if(data=='rename'){
-												balert('warning','参数已存在');
+												modal('提示','参数已存在');
 											}else{
-												balert('danger','保存失败');
+												modal('错误','保存失败');
 											}
 										}
 									});
@@ -168,7 +168,7 @@
 									var cvalue=$("#cvalue_"+id).val();
 									var ccont=$("#ccont_"+id).val();
 									if(id=='' || cname=='' || cvalue==''){
-										balert('warning','信息不完整');
+										modal('提示','信息不完整');
 										return;
 									}
 									if(ccont==''||ccont==null){
@@ -196,9 +196,9 @@
 											if(data=='ok'){
 												window.location.reload();
 											}else if(data=='rename'){
-												balert('warning','参数已存在');
+												modal('提示','参数已存在');
 											}else{
-												balert('danger','保存失败');
+												modal('错误','保存失败');
 											}
 										}
 									});
@@ -278,7 +278,7 @@ str=str+'</tr>';
 		 //删除
 		 function del_conf(id){
 			 if(id==""){
-				 balert('danger',"数据错误");
+				 modal('错误',"数据错误");
 				 return;
 			 }else if(confirm("确定要删除吗？")){
 				 
@@ -300,7 +300,7 @@ str=str+'</tr>';
 			    	 if(data=='ok'){
 							window.location.reload();
 						}else{
-							balert('danger','删除失败:'+data);
+							modal('错误','删除失败:'+data);
 						}
 			     }
 			 });

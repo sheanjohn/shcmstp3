@@ -8,7 +8,7 @@
 <!--<![endif]-->
 <include file="Public:head" />
 <include file="Public:script" />
-<body onLoad="loadmore()">
+<body onLoad="loadmore();getmod()">
 	<include file="Public:alerts" />
 	<div class="container">
 		<div class="row">
@@ -87,6 +87,16 @@
 								</select>
 							</div>
 						</div>
+						
+						<div class="control-group">
+							<label class="control-label">使用模块</label>
+							<div class="controls">
+								<select id="cmod">
+									<option value="0">不使用模块功能</option>
+								</select>
+							</div>
+						</div>
+						
 
 						<div class="control-group">
 							<label class="control-label">链接</label>
@@ -112,9 +122,22 @@
 											// Bind as an event handler
 											$(document).on('click', '[data-lightbox]', lity);
                                         });
+
+										//猎取所有模块
+										function getmod(){
+											$.post("__CONTROLLER__/getmod",{},function(data){
+												$('#cmod').empty();
+											    for(var i = 0; i < data.length; i++)
+											    {
+												    $('#cmod').append('<option value="'+data[i].id+'">'+data[i].mname+'</option>');
+											    }
+											    $('#cmod').append('<option value="0" selected>不使用模块功能</option>');
+											})
+										}
+										
 										$("#btn_icon_view").click(function(e) {
                                             if($("#icon").val()==''){
-												balert('warning','还没设置图标');
+                                            	modal('提示','还没设置图标');
 											}else{
 												var id=$("#icon").val();
 												var URL='__CONTROLLER__';
@@ -203,6 +226,7 @@
 										$("#orderid").val("");
 										$("#icon").val("");
 										$("#zhuanti").val('0');
+										$("cmod").val('0');
 									}
 									$("#btn-cancel").click(function(e) {
 										clearfm();
@@ -222,8 +246,9 @@
 										var orderid=$("#orderid").val();
 										var icon=$("#icon").val();
 										var zhuanti=$("#zhuanti").val();
+										var cmod=$("#cmod").val();
 										if(id=='' || fid=='' || cont=='' || orderid==''){
-											balert('warning','信息不完整');
+											modal('提示','信息不完整');
 											return;
 										}
                                         var URL='__CONTROLLER__';
@@ -240,7 +265,8 @@
 												isshow:isshow,
 												orderid:orderid,
 												icon:icon,
-												zhuanti:zhuanti
+												zhuanti:zhuanti,
+												cmod:cmod
 												},
 											dataType:"text",
 											beforeSend:function() { 
@@ -254,9 +280,9 @@
 												if(data=='ok'){
 													window.location.reload();
 												}else if(data=='rename'){
-													balert('warning','这个栏目已经有了');
+													modal('提示','这个栏目已经有了');
 												}else{
-													balert('danger','保存失败');
+													modal('错误','保存失败');
 												}
 											}
 										});
@@ -279,7 +305,7 @@
 										var s=$("#curpage").val();
 										var id="{$_GET['id']}";
 										if(id==''){
-											msgbox("数据加载异常，请刷新网页……");
+											modal("错误","数据加载异常，请刷新网页……");
 											return;
 										}
 										$.ajax({
@@ -304,7 +330,7 @@
 													$("#btn_nextpage").slideUp(1000);
 													return;
 												}
-												var show1,show2,show3
+												var show1,show2,show3,show4
 												for (var i=0;i<b.length;i++)
 												{
 /*private*/
@@ -323,13 +349,18 @@ if(b[i].zhuanti=='1'){
 }else{
 	show3="";
 }
+if(b[i].cmod=='0'){
+	show4='';
+}else{
+	show4="<font color='blue'>[模块]</font> ";
+}
 
 str=str+'<tr>';
 str=str+'	<td>';
 str=str+b[i].id;
 str=str+'	</td>';
 str=str+'	<td>';
-str=str+show3+b[i].catetitle;
+str=str+show3+show4+b[i].catetitle;
 str=str+'	</td>';
 str=str+'	<td>';
 str=str+show2;
@@ -391,13 +422,14 @@ str=str+'</tr>';
 							$("#isshow").val(b.isshow);
 							$("#orderid").val(b.orderid);
 							$("#zhuanti").val(b.zhuanti);
+							$("#cmod").val(b.cmod);
 							$("#div_addnew").fadeIn(1000);
 						}
 					});
 			}
 			function del_cate(id){
 				if(id==''){
-					balert('danger','数据错误');
+					modal('错误','数据错误');
 					return;
 				}else if(confirm("确定要删除吗？")){
 					var URL='__CONTROLLER__';
@@ -418,7 +450,7 @@ str=str+'</tr>';
 							if(data=='ok'){
 								window.location.reload();
 							}else{
-								balert('danger','删除失败');
+								modal('错误','删除失败');
 							}
 						}
 					});

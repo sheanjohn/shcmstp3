@@ -137,9 +137,9 @@
 												if(data=='ok'){
 													window.location.reload();
 												}else if(data=='rename'){
-													balert('warning','这个图库已经有了');
+													modal('提示','这个图库已经有了');
 												}else{
-													balert('danger','保存失败');
+													modal('错误','保存失败');
 												}
 											}
 										});
@@ -243,7 +243,7 @@ str=str+'</li>';
 			}
 			function del_cate(id){
 				if(id==''){
-					balert('danger','数据错误');
+					modal('错误','数据错误');
 					return;
 				}else if(confirm("确定要删除吗？")){
 					var URL='__CONTROLLER__';
@@ -264,9 +264,9 @@ str=str+'</li>';
 							if(data=='ok'){
 								window.location.reload();
 							}else if(data=='hasfiles'){
-								balert('warning','图库内还有文件，因此图库不能被删除');
+								modal('提示','图库内还有文件，因此图库不能被删除');
 							}else{
-								balert('danger','删除失败');
+								modal('错误','删除失败');
 							}
 						}
 					});

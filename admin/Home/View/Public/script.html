@@ -110,6 +110,24 @@
 	}
 	
 	/*
+	读取txt文件
+	*/
+	function showinfo(fname){
+		if(fname==''){
+			return;
+		}else{
+			var d="{:C('ROOT_URL')}";
+			$("#txtinfo").load(d+fname+".txt",function(a,b){
+				if(b=='success'){
+					modal('信息',$("#txtinfo").html());
+				}else{
+					modal('错误','读取文档发生错误');
+				}
+			})
+		}
+	}
+	
+	/*
 	获取COOKIE
 	*/
 	function getCookie(c_name)

@@ -161,7 +161,7 @@
 								    var zhuanti=$('#zhuanti').val();
 									var isshow = $("#isshow").val();
 									if(id=='' || fid=='' || acont_top==''||acont==''||atitle==''){
-										balert('warning','信息不完整');
+										modal('提示','信息不完整');
 										return;
 									}
                                     var URL='__CONTROLLER__';
@@ -189,9 +189,9 @@
 											if(data=='ok'){
 												window.location.reload();
 											}else if(data=='rename'){
-												balert('warning','这篇文章已存在');
+												modal('提示','这篇文章已存在');
 											}else{
-												balert('danger','保存失败');
+												modal('错误','保存失败');
 											}
 										}
 									});
@@ -334,7 +334,7 @@ str=str+'</tr>';
 		 //删除一个文章
 		 function del_article(id){
 			 if(id==""){
-				 balert('danger',"数据错误");
+				 modal('错误',"数据错误");
 				 return;
 			 }else if(confirm("确定要删除吗？")){
 				 
@@ -356,7 +356,7 @@ str=str+'</tr>';
 			    	 if(data=='ok'){
 							window.location.reload();
 						}else{
-							balert('danger','删除失败:'+data);
+							modal('错误','删除失败:'+data);
 						}
 			     }
 			 });

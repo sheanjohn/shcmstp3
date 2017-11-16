@@ -8,6 +8,7 @@
 <!--<![endif]-->
 <include file="Public:head" />
 <include file="Public:script" />
+<include file="Public:alerts" />
 <body>
 	<!--登录页面视觉差效果-->
 	<link rel="stylesheet" type="text/css"
@@ -34,7 +35,7 @@
 						type="text" class="" id="verify" style="width: 95%;"
 						placeholder="请输入下面验证码数字" /> <img src="{:U('home/index/verify')}"
 						style="border: solid 1px #999; border-radius: 5px; width: 99%;"
-						onclick="this.src=this.src+'?'" />
+						onclick="this.src=this.src+'?'" id="imgcode" />
 					<div style="margin-top: 10px;"></div>
 					<div style="padding: 5px; color: #999; float: left;">
 						<span id="info"
@@ -79,6 +80,7 @@
 				} else  {
 					//验证码输入错误
 					$("#info").html("<font color='#950000'>验证码错误</font>");
+					$("#imgcode").click();
 					$("#login_sub").removeClass('btn-primary');
 					$("#login_sub").addClass('btn-danger');
 				}
@@ -122,7 +124,9 @@
 				if(data!='err'){
 					window.location.href="{:C('ROOT_DIR')}";
 				}else{
-					alert('登录失败');
+					$("#imgcode").click();
+					modal('啊哦','登录失败了……');
+					$("#info").html('请重试...');
 				}
 			}
 		});

@@ -128,7 +128,7 @@
 										var pictype=$("#pictype").val();
 										var picid=$("#picid").val();
 										if(id=='' || picurl=='' || picid==''){
-											balert('warning','信息不完整');
+											modal('提示','信息不完整');
 											return;
 										}
                                         var URL='__CONTROLLER__';
@@ -153,7 +153,7 @@
 												if(data=='ok'){
 													window.location.reload();
 												}else{
-													balert('danger','保存失败');
+													modal('错误','保存失败');
 												}
 											}
 										});
@@ -175,7 +175,7 @@
 										var s=$("#curpage").val();
 										var picid=$("#picid").val();
 										if(picid==''){
-											balert('danger',"数据错误");
+											modal('错误',"数据错误");
 											return;
 										}
 										$.ajax({
@@ -268,7 +268,7 @@ str=str+'</li>';
 			}
 			function del_pic_file(url){
 				if(id==''){
-					balert('danger','数据错误');
+					modal('错误','数据错误');
 					return;
 				}
 				var URL='__CONTROLLER__';
@@ -293,7 +293,7 @@ str=str+'</li>';
 			
 			function del_pic_item(id){
 				if(id==''){
-					balert('danger','数据错误');
+					modal('错误','数据错误');
 					return;
 				}else if(confirm("确定要删除吗？")){
 					var URL='__CONTROLLER__';
@@ -314,7 +314,7 @@ str=str+'</li>';
 							if(data=='ok'){
 								window.location.reload();
 							}else{
-								balert('danger','删除失败');
+								modal('错误','删除失败');
 							}
 						}
 					});

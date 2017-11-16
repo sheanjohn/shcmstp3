@@ -140,7 +140,7 @@
 										var utype=$("#utype").val();
 										var uleve=$("#uleve").val();
 										if(id=='' || uname=='' || shengri==''){
-											balert('warning','信息不完整');
+											modal('提示','信息不完整');
 											return;
 										}
                                         var URL='__CONTROLLER__';
@@ -168,7 +168,7 @@
 												if(data=='ok'){
 													window.location.reload();
 												}else{
-													balert('danger','保存失败');
+													modal('错误','保存失败');
 												}
 											}
 										});
@@ -208,7 +208,7 @@
 												var b=$.parseJSON(data);
 												var str="";
 												if(b.length<1){
-													balert('info','没找到相关会员');
+													modal('提示','没找到相关会员');
 													return;
 												}
 												var show1,show2,u
@@ -276,7 +276,7 @@ str=str+'</tr>';
 			}
 			function del_users(id){
 				if(id==''){
-					balert('danger','数据错误');
+					modal('错误','数据错误');
 					return;
 				}else if(confirm("确定要删除吗？")){
 					var URL='__CONTROLLER__';
@@ -297,7 +297,7 @@ str=str+'</tr>';
 							if(data=='ok'){
 								window.location.reload();
 							}else{
-								balert('danger','删除失败');
+								modal('错误','删除失败');
 							}
 						}
 					});

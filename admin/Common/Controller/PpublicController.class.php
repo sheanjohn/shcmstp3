@@ -36,15 +36,13 @@ class PpublicController extends Controller {
 		$tabs = array (
 				'article',
 				'category',
-				'comm',
 				'config',
-				'dingdan',
 				'log',
 				'managers',
 				'pic',
-				'pinpai',
 				'users',
-				'active' 
+		        'model',
+		        'model_ctrls'
 		);
 		foreach ( $tabs as $k => $v ) {
 			if ($v == 'category') {
@@ -61,14 +59,8 @@ class PpublicController extends Controller {
 				case 'category' :
 					$reval = '栏目';
 					break;
-				case 'comm' :
-					$reval = '商品';
-					break;
 				case 'config' :
 					$reval = '配置';
-					break;
-				case 'dingdan' :
-					$reval = '订单';
 					break;
 				case 'log' :
 					$reval = '日志';
@@ -79,15 +71,15 @@ class PpublicController extends Controller {
 				case 'pic' :
 					$reval = '图库';
 					break;
-				case 'pinpai' :
-					$reval = '品牌';
-					break;
 				case 'users' :
 					$reval = '会员';
 					break;
-				case 'active' :
-					$reval = '活动';
-					break;
+				case 'model_ctrls' :
+				    $reval= '控件';
+				    break;
+				case 'model' :
+				    $reval ='模块';
+				    break;
 				default :
 					$reval = '未知';
 			}
@@ -169,7 +161,7 @@ class PpublicController extends Controller {
 	public function verify() {
 		$config = array (
 				'fontSize' => 50, // 验证码字体大小
-				'length' => 2, // 验证码位数
+				'length' => C('CFG_CODNUM'), // 验证码位数
 				'useNoise' => False, // 关闭验证码杂点
 				'useCurve ' => True, // 曲线
 				'bg' => array (
@@ -234,6 +226,22 @@ class PpublicController extends Controller {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * 送出所有模块
+	 */
+	public function getmod(){
+	    $d=M('model')->order('id desc')->select();
+	    $this->ajaxReturn($d);
+	}
+	
+	/**
+	 * 获取所有控件
+	 */
+	public function get_ctrls(){
+	    $d=M('model_ctrls')->order('id desc')->select();
+	    $this->ajaxReturn($d);
 	}
 }
 

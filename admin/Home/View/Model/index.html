@@ -8,7 +8,7 @@
 <!--<![endif]-->
 <include file="Public:head" />
 <include file="Public:script" />
-<body onLoad="loadmore()">
+<body onLoad="loadmore();loadctrls()">
 	<include file="Public:alerts" />
 	<div class="container">
 		<include file="Public:header" />
@@ -21,27 +21,27 @@
 
 			<!---开始--->
 			<div class="span9">
-				<h2>在职管理员</h2>
+				<h2>已有模块</h2>
 				<div class="well blank-slate" id="gbodx">
-					<p>点击按钮新建一个管理员账号</p>
-					<a href="javascript:;" class="btn btn-primary" id="btn_addnew"><i
-						class="icon-plus icon-white"></i> 创建账号</a>
+					<p>点击按钮创建模块，了解如何使用模块请点击<a href="javascript:;" onclick="showinfo('textdata_model')">这里</a>。</p>
+					<a href="javascript:;" class="btn btn-primary" id="btn_addnew"><i	class="icon-plus icon-white"></i> 创建模块</a>
 					<script>
 								$("#btn_addnew").click(function(e) {
                                     $("#div_addnew").fadeIn(800);
 									$("#pagebox").fadeOut(800);
 									$("#tcontent").fadeOut(800);
+
+									 moveit2left();
                                 });
 							</script>
 				</div>
-				<table id="tcontent" class="table table-bordered table-striped"
-					style="text-align: center">
+				<table id="tcontent" class="table table-bordered table-striped"style="text-align: left;">
 					<thead>
 						<tr>
-							<th style="text-align: center">ID</th>
-							<th style="text-align: center">登录名</th>
-							<th style="text-align: center">权限标识</th>
-							<th style="text-align: center">操作</th>
+							<th >ID</th>
+							<th >名称</th>
+							<th >是否显示</th>
+							<th >操作</th>
 						</tr>
 					</thead>
 					<tbody id="content"></tbody>
@@ -61,60 +61,84 @@
 				<div class="span9" style="display: none" id="div_addnew">
 					<form class="form-horizontal">
 						<fieldset>
-							<legend>编辑账户</legend>
+							<legend>编辑模块</legend>
 							<div class="control-group">
-								<label class="control-label" for="input01">账户登录名</label>
+								<label class="control-label" for="input01">名称</label>
 								<div class="controls">
-									<input type="text" class="input-xlarge" id="uname"
-										placeholder="请输入登录名..." />
+									<input type="text" class="input-xlarge" id="mname"
+										placeholder="请输入模块名称..." />
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="input01">账户权限</label>
+								<label class="control-label" for="input01">控件</label>
+								<div class="controls" id="mcids">
+									<div>
+										<div style="padding:5px;border-radius:5px; color:#666; width:202px;background:#eee; float:left; background:#ffc; z-index:9999;">全部控件</div>
+										<div style="margin-left:15px;padding:5px;border-radius:5px; color:#666; width:202px;background:#eee; float:left; background:#cff; z-index:9999;">已选控件</div>
+										<div class="clearfix"></div>
+									</div>
+									
+									<div style="margin-top:-30px; margin-right:15px; float:left; border:solid 1px #eee; border-radius:5px; padding:5px; padding-top:35px; width:200px; height:160px; OVERFLOW-Y: auto; OVERFLOW-X:hidden;" id="mclist">
+										<button type="button" style="margin:5px; display:none;" class="btn btn-default btn-sm disabled"><i class="fa fa-minus"></i> 无控件</button>
+									</div>
+									<div style="margin-top:-30px;  float:left; border:solid 1px #eee; border-radius:5px; padding:5px; width:200px;padding-top:35px; height:160px; OVERFLOW-Y: auto; OVERFLOW-X:hidden;" id="hasctrls">
+										<button type="button" style="margin:5px; display:none;" class="btn btn-default btn-sm disabled"><i class="fa fa-minus"></i> 无控件</button>
+									</div>
+									<script>
+										function cmove(id){
+											var c=$("#hasctrls").children("#"+id);
+											var jid=id.replace('c_','');
+											var ctl=$("#mcid");
+											var val=ctl.val();
+											if(c.length && c.length>0){
+												$('#hasctrls').children("#"+id).appendTo("#mclist");
+												ctl.val(ctl.val().replace(jid+',',''));
+											}else{
+												$('#mclist').children("#"+id).appendTo("#hasctrls");
+												ctl.val(val+jid+',');
+											}
+										}
+									</script>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="optionsCheckbox">是否显示</label>
 								<div class="controls">
-									<select id="utype">
-										<option disabled value="0" selected>请选择权限...</option>
-										<option value="9">网站管理员-最高权限</option>
-										<option value="5">网站管理员-次高权限</option>
-										<option disabled>-</option>
-										<option value="4">商城总管理员</option>
-										<option value="3">商城活动管理员</option>
-										<option value="2">商城商品管理员</option>
-										<option disabled>-</option>
-										<option value="1">文章管理员</option>
+									<select id="isshow">
+										<OPTION selected value="0">是</OPTION>
+										<OPTION value="1">否</OPTION>
 									</select>
 								</div>
-							</div>
-							<div class="control-group">
-								<label class="control-label" for="input01">密码</label>
-								<div class="controls">
-									<input type="text" class="input-xlarge" id="upswd"
-										placeholder="请输入密码..." />
-								</div>
-							</div>
-							<div class="control-group">
-								<label class="control-label" for="input01">效验密码</label>
-								<div class="controls">
-									<input type="text" class="input-xlarge" id="upswd1"
-										placeholder="请再次输入密码..." />
-								</div>
-							</div>
-							<div class="control-group">
-								<span style="text-align:right;">可直接设置新的密码，或输入旧的密码(编辑时)，不能留空。</span>
 							</div>
 							<div class="form-actions">
 								<button type="button" class="btn btn-primary" id="btn_save">保存</button>
 								<button type="button" class="btn btn-sm btn-danger"
 									id="btn-cancel">取消并收起</button>
 								<input type="hidden" value="0" id="id" />
+								<input type="hidden" id="mcid" />
 							</div>
 							<script>
+								//把右侧控件全部移到左侧
+								function moveit2left(){
+									$('#hasctrls').children("a").each(function(){
+										$(this).appendTo("#mclist");
+									})
+								}
+								//加载所有控件
+								function loadctrls(){
+									$.getJSON("__CONTROLLER__/get_ctrls", function(data) {
+										$('#mclist').empty();
+									    for(var i = 0; i < data.length; i++)
+									    {
+										    $('#mclist').append('<a id="c_'+data[i].id+'" onclick="cmove(this.id)" type="button" style="margin:5px;" class="btn btn-default btn-sm">'+data[i].cname+'</a>');
+									    }
+									});
+								}
 								function clearinput(){
-									$("#uname").val('');
-									$("#upswd").val('');
-									$("#utype").val('0');
+									$("#isshow").val('0');
 									$("#id").val('0');
-									$("#uname").attr("disabled",false);
+									$("#mname").val('');
+									$("#mcid").val('');
 								}
 								$("#btn-cancel").click(function(e) {
 									clearinput();
@@ -124,34 +148,23 @@
                                 });
 								$("#btn_save").click(function(e) {
 									var id=$("#id").val();
-									var uname=$("#uname").val();
-									var upswd=$("#upswd").val();
-									if(id=='1'){
-										//balert('warning','请注意：你无法修改该管理员的类型，即使你选择了新的权限类型');
-										var utype='9';
-									}else{
-										var utype=$("#utype").val();
-									}
-									
-									var upswd1=$("#upswd1").val();
-									if(id=='' || uname=='' || utype=='' || upswd==''){
+									var mname=$("#mname").val();
+									var mcid=$("#mcid").val();
+									mcid=mcid.substr(0,mcid.length-1);
+									var isshow = $("#isshow").val();
+									if(id=='' || mcid=='' || mname==''){
 										modal('提示','信息不完整');
 										return;
 									}
-									if(upswd!=upswd1){
-										modal('提示','两次输入的密码不同');
-										return;
-									}
-									
                                     var URL='__CONTROLLER__';
 									$.ajax({
 										type:'POST',
-										url:URL + '/save_mgrs',
+										url:URL + '/save_model',
 										data:{
 											id:id,
-											uname:uname,
-											upswd:upswd,
-											utype:utype
+											mname:mname,
+											isshow:isshow,
+											mcid:mcid
 											},
 										dataType:"text",
 											beforeSend:function() { 
@@ -162,11 +175,10 @@
 												}, 
 										success: function(data){
 											clearinput();
-											//alert(data);
 											if(data=='ok'){
 												window.location.reload();
 											}else if(data=='rename'){
-												modal('提示','账号已存在');
+												modal('提示','这篇文章已存在');
 											}else{
 												modal('错误','保存失败');
 											}
@@ -193,7 +205,7 @@
 										var s=$("#curpage").val();
 										$.ajax({
 											type:'POST',
-											url:URL + '/list_mgrs',
+											url:URL + '/list_model',
 											data:{
 												s:s
 												},
@@ -212,22 +224,28 @@
 													$("#btn_nextpage").slideUp(1000);
 													return;
 												}
+
 												for (var i=0;i<b.length;i++)
 												{
+												
 str=str+'<tr>';
-str=str+'	<td style="text-align:center">';
+str=str+'	<td>';
 str=str+b[i].id;
 str=str+'	</td>';
-str=str+'	<td style="text-align:center">';
-str=str+b[i].uname;
+str=str+'	<td>';
+str=str+b[i].mname;
+str=str+'	</td>';
+str=str+'	<td>';
+if (b[i].isshow==0){
+	str=str+"是";	
+}
+else if(b[i].isshow==1){
+	str=str+"否";
+}
 str=str+'	</td>';
 str=str+'	<td style="text-align:center">';
-str=str+b[i].utype;
-str=str+'	</td>';
-
-str=str+'	<td style="text-align:center">';
-str=str+'		<a href="javascript:;" onclick="load_mgrs('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
-str=str+'		<a href="javascript:;" class="view-link" onclick="del_mgrs('+"'"+b[i].id+"'"+')">删除</a>';
+str=str+'		<a href="javascript:;" onclick="load_model('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
+str=str+'		<a href="javascript:;" class="view-link" onclick="del_model('+"'"+b[i].id+"'"+')">删除</a>';
 str=str+'	</td>';
 str=str+'</tr>';
 												}
@@ -241,11 +259,11 @@ str=str+'</tr>';
 			}
 		
 		 //获取
-		 function load_mgrs(id){
+		 function load_model(id){
 			 var URL = '__CONTROLLER__';
 			 $.ajax({
 				 type:'POST',
-				 url :URL+'/load_mgrs',
+				 url :URL+'/load_model',
 				 data :{id:id},
 				 dataType:"text",
 											beforeSend:function() { 
@@ -257,46 +275,42 @@ str=str+'</tr>';
 					success: function(data){
 						var b=$.parseJSON(data);
 						$("#id").val(b.id);
-						$("#uname").val(b.uname);
-						//$("#upswd").val(b.upswd);
-						$("#utype").val(b.utype);
+						$("#mname").val(b.mname);
+						$("#isshow").val(b.isshow);
+						var arr=b.mcid.split(",");
+						for(var i=0;i<arr.length;i++){
+							cmove('c_'+arr[i]);
+						}
 						$("#div_addnew").fadeIn(1000);
-						$("#uname").attr("disabled",true);
 					}
 			 });
 		 } 
-		/*  function load_article(id){
+			//获取栏目名称
+			function getCateName(cateid,id){
 				var URL='__CONTROLLER__';
-					$.ajax({
+				$.ajax({
 						type:'POST',
-						url:URL + '/load_article',
+						url:URL + '/get_path',
 						data:{
-							id:id
+							cateid:cateid
 							},
 						dataType:"text",
 						success: function(data){
-							var b=$.parseJSON(data);
-							$("#id").val(b.id);
-							$("#atitle").val(b.atitle);
-							$("#fid").val(b.fid);
-							$("#acont").val(b.acont);
-							$("#acont_top").val(b.acont_top);
-							$("#isshow").val(b.isshow);
-							$("#div_addnew").fadeIn(1000);
+							$("#list_catename_"+id).html(data);
 						}
 					});
-			} */
-		
-		 //删除一个文章
-		 function del_mgrs(id){
-			 if(id=="" || id=="1"){
-				 modal('错误',"数据错误\r或无法删除网站创始人（ID为1的管理员）");
+			}
+		 //删除
+		 function del_model(id){
+			 if(id==""){
+				 balert('danger',"数据错误");
 				 return;
-			 }else if(confirm("确定要删除吗？\r如果你正在删除自己的账户，那么注销后将无法再次登录")){
+			 }else if(confirm("确定要删除吗？")){
+				 
 				 var URL='__CONTROLLER__';
 				 $.ajax({
 					 type:'POST',
-			     url:URL+'/del_mgrs',
+			     url:URL+'/del_model',
 			     data:{
 			    	 	id:id
 			    	 },

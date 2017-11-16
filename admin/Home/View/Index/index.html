@@ -26,7 +26,7 @@
 					<p>将来的你一定会感谢现在奋斗的你！</p>
 					<p>
 						<a href="{:C('ROOT_DIR')}/home/comm" href="help.htm"
-							class="btn btn-primary"><i class="fa fa-cube"></i> 商品</a> <a
+							class="btn btn-primary"><i class="fa fa-file"></i> 商品</a> <a
 							href="{:C('ROOT_DIR')}/home/article" class="btn btn-info "><i
 							class="fa fa-file"></i> 文章</a> <a href="{:C('ROOT_DIR')}/home/users"
 							class="btn  btn-danger"><i class="fa fa-users"></i> 会员</a> <a
@@ -38,17 +38,21 @@
 					<ul>
 						<li><span class="count" style="margin-bottom: 10px;">
 								<i class="fa fa-users"></i> {$users}
-						</span>注册会员数</li>
+						</span>注册会员</li>
 						<li><span class="count" style="margin-bottom: 10px;">
-								<i class="fa fa-list"></i> {$dingdan}
-						</span>订单数</li>
+								<i class="fa fa-file"></i> {$article}
+						</span>文章</li>
 						<li><span class="count" style="margin-bottom: 10px;">
-								<i class="fa fa-cart-plus"></i> {$active}
-						</span>活动数</li>
+								<i class="fa fa-cart-plus"></i> {$pic}
+						</span>图片库</li>
 						<li class="last"><span class="count"
-							style="margin-bottom: 10px;"> <i class="fa fa-cubes"></i>
-								{$comm}
-						</span>商品数</li>
+							style="margin-bottom: 10px;"> <i class="fa fa-folder-open"></i>
+								{$category}
+						</span>栏目</li>
+						<li class="last"><span class="count"
+							style="margin-bottom: 10px;"> <i class="fa fa-folder-open"></i>
+								{$model}
+						</span>模块</li>
 					</ul>
 				</div>
 				<h2>
