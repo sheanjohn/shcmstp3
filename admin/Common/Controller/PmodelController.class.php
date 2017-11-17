@@ -90,6 +90,8 @@ class PmodelController extends PpublicController {
 	    $d ['cloc'] = $_POST ['cloc'];
 	    $d ['ctype'] = $_POST ['ctype'];
 	    $d ['cinfo'] = $_POST ['cinfo'];
+	    $d ['useor'] = $_POST ['useor'];
+	    $d ['upic'] = $_POST ['upic'];
 	   
 	        if ($id != '0') {
 	            $resu = M ( "model_ctrls" )->where ( 'id=' . $id )->save ( $d );

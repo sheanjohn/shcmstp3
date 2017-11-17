@@ -96,8 +96,8 @@
 							<input type="hidden" value="0" id="id" />
 							<script>
 									//子窗口赋值
-									function getV(v){
-										window.parent.getV(v);
+									function getV(v,cid){
+										window.parent.getV(v,cid);
 									}
 									//清空表单
 									function clearfm(){
@@ -181,8 +181,9 @@
 													$("#btn_nextpage").slideUp(1000);
 													return;
 												}
-												var show1,show2,show3
+												var show1,show2,show3,show4
 												show3="{$_GET['select']}";
+												show4="{$_GET['cid']}";
 												for (var i=0;i<b.length;i++)
 												{
 show1=b[i].pic1
@@ -197,7 +198,7 @@ str=str+'	<div class="thumbnail">';
 str=str+show2;
 str=str+'		<div class="caption">';
 str=str+'			<h5>#'+b[i].id+'&nbsp;'+b[i].pictitle+'</h5>';
-str=str+'			<p><a href="javascript:;" data-lity data-lity-target="'+URL+'/items/id/'+b[i].id+'/select/'+show3+'">进入图库</a> | <a href="javascript:;" onclick="del_cate('+"'"+b[i].id+"'"+')">删除</a> </p>';
+str=str+'			<p><a href="javascript:;" data-lity data-lity-target="'+URL+'/items/id/'+b[i].id+'/select/'+show3+'/cid/'+show4+'">进入图库</a> | <a href="javascript:;" onclick="del_cate('+"'"+b[i].id+"'"+')">删除</a> </p>';
 str=str+'		</div>';
 str=str+'	</div>';
 str=str+'</li>';

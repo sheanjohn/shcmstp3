@@ -8,7 +8,7 @@
 <!--<![endif]-->
 <include file="Public:head" />
 <include file="Public:script" />
-<body onLoad="loadmore()">
+<body>
 	<include file="Public:alerts" />
 	<div class="container">
 		<include file="Public:header" />
@@ -18,13 +18,84 @@
 					<include file="Public:menu" />
 				</div>
 			</div>
+<!-- 模块主控部分开始 -->
+	<script>
+		
+		/**
+		公用变量
+		**/
+		var model_id="{$_GET['id']}";
+		var model;
+		/**
+		自动加载
+		**/
+		$.post("__CONTROLLER__/load_model",{id:model_id},function(data){
+			if(data!='err'){
+				model=data;
+				var el = $('#p1'); 
+				var resu;
+				resu=el.html().replace(/{#title}/g,data.mname);
+				
+				el.html(resu);  
+			}else{
+				modal('错误','数据错误');
+			}
+			settable();
+			loadmore();
+		})
+		/*处理控件*/
+		function settable(){
+			var ctrls=model.ctrls;
+			$("#table_ctrls_title").before("<th>ID</th>");
+			for(var i=0;i<ctrls.length;i++){
+				//处理表格头
+				$("#table_ctrls_title").before("<th>"+ctrls[i].cname+"</th>");
+//表单===============================================
 
+if(ctrls[i].upic=='1'){
+	//使用图片库
+	csstr='<a href="javascript:;" id="btn_selicon" onclick="op('+"'icon"+ctrls[i].id+"'"+')"';
+	csstr+='	class="btn btn-sm btn-success">从图库中选择...</a> <a';
+	csstr+='	href="javascript:;" id="btn_icon_view"';
+	csstr+='class="btn btn-sm btn-info">图标预览</a>';
+	csstr+='<input type="hidden" id="icon'+ctrls[i].id+'" />';
+}else if(ctrls[i].useor=='1'){
+	csstr='';
+}else{
+	//普通表单项
+	csstr='<div class="controls">';
+	csstr+='	<input type="text" class="input-xlarge" id="uc_'+ctrls[i].id+'"';
+	csstr+='		placeholder="请输入'+ctrls[i].cname+'..." maxlength="'+ctrls[i].clen+'" />';
+	csstr+='</div>';
+}
+
+htmlstr="";
+htmlstr+='<div class="control-group">';
+htmlstr+='<label class="control-label">'+ctrls[i].cname+'</label>';
+htmlstr+=csstr;
+htmlstr+='</div>';
+$("#controller_fm").before(htmlstr);
+//表单END===============================================
+
+			}
+			
+		}
+		var lightbox;
+		function op(cid) {
+	        // Open a URL in a lightbox
+			lightbox = lity("{:C('ROOT_DIR')}/home/pic/index/select/yes/cid/"+cid);
+			
+			// Bind as an event handler
+			$(document).on('click', '[data-lightbox]', lity);
+	    }
+	</script>
+<!-- 模块主控部分结束 -->
 			<!---开始--->
-			<div class="span9">
-				<h2>品牌列表</h2>
+			<div class="span9" id="p1">
+				<h2 class="model_name" onclick="alert(model.mname)">{#title}</h2>
 				<div class="well blank-slate" id="gbodx">
 					<p>点击按钮创建新的品牌</p>
-					<span class="btn btn-sm btn-success" id="btn-addnew">新建品牌</span>
+					<span class="btn btn-sm btn-success" id="btn-addnew"><i class="fa fa-plus"></i> 新建</span>
 					<script>
 								$("#btn-addnew").click(function(e) {
                                     $("#div_addnew").fadeIn(800);
@@ -36,11 +107,8 @@
 				<table id="tcontent" class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>名称</th>
-							<th>所在栏目</th>
-							<th>LOGO</th>
-							<th>操作</th>
+							<th id="table_ctrls_title">操作</th>
+							<!-- 这里自动添加控件名 -->
 						</tr>
 					</thead>
 					<tbody id="content"></tbody>
@@ -57,99 +125,21 @@
 				<!--开始-->
 				<div class="span9" id="div_addnew" style="display: none;">
 					<fieldset>
-						<legend>编辑品牌</legend>
-						<div class="control-group">
-							<label class="control-label">品牌名称</label>
-							<div class="controls">
-								<input type="text" class="input-xlarge" id="pinpaititle"
-									placeholder="请输入品牌名称..." />
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">选择栏目</label>
-							<div class="controls">
-								<select id="fid" class="input-xlarge">
-									<volist name="cate_list" id="cate">
-									<option value="{$cate.id}" disabled>---------{$cate.catetitle}---------</option>
-									<volist name="cate['sub']" id="ii">
-									<option value="{$ii.id}">{$ii.catetitle}</option>
-									</volist> </volist>
-								</select>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">品牌LOGO</label>
-							<div class="controls">
-								<a href="javascript:;" id="btn_selicon"
-									class="btn btn-sm btn-success">从图库中选择...</a> <a
-									href="javascript:;" id="btn_icon_view"
-									class="btn btn-sm btn-info">图标预览</a>
-								<script>
-										var lightbox;
-										$("#btn_selicon").click(function(e) {
-                                            // Open a URL in a lightbox
-											lightbox = lity("{:C('ROOT_DIR')}/home/pic/index/select/yes");
-											
-											// Bind as an event handler
-											$(document).on('click', '[data-lightbox]', lity);
-                                        });
-										$("#btn_icon_view").click(function(e) {
-                                            if($("#logo").val()==''){
-												balert('warning','还没设置图标');
-											}else{
-												var id=$("#logo").val();
-												var URL='__CONTROLLER__';
-												$.ajax({
-													type:'POST',
-													url:URL + '/get_iconurl_byid',
-													data:{
-														id:id
-														},
-													dataType:"text",
-											beforeSend:function() { 
-												sh_loading();
-												}, 
-												complete:function(data) { 
-												sh_loading_close();
-												}, 
-													success: function(data){
-														lightbox = lity(data);
-													}
-												});
-
-											}
-                                        });
-									</script>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label">品牌详情</label>
-							<div class="controls">
-								<div id="teditor"></div>
-								<script type="text/javascript"
-									src="__PUBLIC__/editor/wangEditor.js"></script>
-								<script type="text/javascript">
-                                        var E = window.wangEditor
-                                        var editor = new E('#teditor')
-                                        // 或者 var editor = new E( document.getElementById('#editor') )
-                                        editor.create()
-                                    </script>
-							</div>
-						</div>
-
-						<div class="form-actions">
+						<legend>编辑{#title}</legend>
+						
+						<!-- 这里自动添加控表单 -->
+						
+						<div class="form-actions" id="controller_fm">
 							<button type="button" class="btn btn-primary" id="btn_save">保存</button>
 							<button class="btn btn-sm btn-danger" id="btn-cancel">取消并收起</button>
-							<input type="hidden" value="0" id="id" /> <input type="hidden"
-								id="logo" />
+							<input type="hidden" value="0" id="id" />
 							<script>
 									//子窗口赋值
-									function getV(v){
-										$("#logo").val(v);
+									function getV(v,cid){
+										//alert(cid);
+										$("#"+cid).val(v);
 										lightbox.close();
+										//return v;
 									}
 									//清空表单
 									function clearfm(){

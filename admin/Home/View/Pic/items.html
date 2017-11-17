@@ -200,13 +200,14 @@
 													$("#btn_nextpage").slideUp(1000);
 													return;
 												}
-												var show1,show2
+												var show1,show2,show3
 												for (var i=0;i<b.length;i++)
 												{
+													show3="{$_GET['cid']}";
 
 show2="{$_GET['select']}";
 if(show2=='yes'){
-	show2='&nbsp;&nbsp;<a href="javascript:;" onclick="window.parent.getV('+"'"+b[i].id+"'"+')" class="btn btn-sm btn-success">选择</a>';
+	show2='&nbsp;&nbsp;<a href="javascript:;" onclick="window.parent.getV('+"'"+b[i].id+"','"+show3+"'"+')" class="btn btn-sm btn-success">选择</a>';
 }else{
 	show1=b[i].pictype;
 	if(show1=='0'){

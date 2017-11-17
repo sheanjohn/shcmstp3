@@ -105,8 +105,8 @@
 								<label class="control-label" for="optionsCheckbox">是否显示</label>
 								<div class="controls">
 									<select id="isshow">
-										<OPTION selected value="0">是</OPTION>
-										<OPTION value="1">否</OPTION>
+										<OPTION selected value="0">否</OPTION>
+										<OPTION value="1">是</OPTION>
 									</select>
 								</div>
 							</div>
@@ -239,10 +239,10 @@ str=str+'	<td>';
 str=str+b[i].mname;
 str=str+'	</td>';
 str=str+'	<td>';
-if (b[i].isshow==0){
+if (b[i].isshow==1){
 	str=str+"是";	
 }
-else if(b[i].isshow==1){
+else if(b[i].isshow==0){
 	str=str+"否";
 }
 str=str+'	</td>';
