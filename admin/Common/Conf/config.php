@@ -12,7 +12,7 @@ return array (
 		// 网站功能配置
 		'ROOT_DIR' => '/admin.php',//入口
 		'ROOT_URL' => '/',//程序目录，请用’/‘结尾来表示一个完整的目录URL
-		'WEB_NAME' => '网站内容管理系统',//名称
+		'WEB_NAME' => '明远科技CMS系统',//名称
         'CFG_CODNUM' => 6,//登录验证码位数
         // 管理员权限设置
 		'UT_Article' => 1, // 文章系统权限
