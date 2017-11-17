@@ -19,10 +19,8 @@ return array (
 		'UT_Cate' => 2, // 栏目权限
 		'UT_Pic' => 2, // 图库权限
 		'UT_Users' => 2, // 用户权限
-		'UT_Comm' => 2, // 商品权限
-		'UT_Pinpai' => 1, // 品牌权限
-		'UT_Active' => 3, // 活动权限
-		'UT_Dingdan' => 4, // 订单权限
+		'UT_Usermodel' => 3, // 自定义模块权限
+		'UT_Model' => 4, // 模块管理
 		'UT_Log' => 5, // 日志权限
 		'UT_Mgrs' => 6, // 管理员权限
 		'UT_Config' => 5,  // 参数权限

@@ -7,13 +7,10 @@
 			</a> <a class="brand" href="{:C('ROOT_DIR')}">{:C('WEB_NAME')}</a>
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="active"><a href="{:C('ROOT_DIR')}"><i
-							class="fa fa-tachometer"></i> 控制台</a></li>
-					<li><a href="/" target="_blank"><i class="fa fa-eye"></i>
-							预览网站</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <i class="fa fa-wrench"></i> 数据统计 <b
-							class="caret"></b>
+					<li class="active"><a data-toggle="tooltip" title="控制台首页"  href="{:C('ROOT_DIR')}"><i class="fa fa-tachometer" ></i></a></li>
+					<li><a href="/" target="_blank"  data-toggle="tooltip" title="打开网站首页"><i class="fa fa-eye"></i></a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+						<i class="fa fa-wrench"  data-toggle="tooltip" title="查看数据统计"></i> 
 					</a>
 						<ul class="dropdown-menu">
 							<volist name="menu_count" id="i">
@@ -24,11 +21,9 @@
 						</ul></li>
 				</ul>
 				<ul class="nav pull-right">
-					<li><a href="javascript:;"><i class="fa fa-user-circle"></i>
-							{$Think.session.uname}</a></li>
-					<li><a href="javascript:;"><i
-							class="fa fa-exclamation-circle"> {$Think.session.utype}</i></a></li>
-					<li><a id="btn_logout" href="javascript:;"><i class="fa fa-sign-out"></i> 退出登录</a> <script>
+					<li><a href="javascript:;" data-toggle="tooltip" title="当前登录：{$Think.session.uname},权限：{$Think.session.utype}"><i class="fa fa-user-circle"></i></a></li>
+					<li><a href="javascript:;" data-toggle="tooltip" title="查看权限说明"  onclick="showinfo('textdata_premission')"><i class="fa fa-exclamation-circle"></i></a></li>
+					<li><a id="btn_logout" href="javascript:;" data-toggle="tooltip" title="安全退出登录"><i class="fa fa-sign-out"></i></a> <script>
 				$("#btn_logout").click(function(e) {
                 	var res=confirm("是否要退出登录？");
 					if(res){

@@ -112,7 +112,7 @@ class PmodelController extends PpublicController {
 	    if ($num == false) {
 	        $num = 10;
 	    }
-	    $d = M ( 'model_ctrls' )->limit ( $s, intval ( $num ) )->select ();
+	    $d = M ( 'model_ctrls' )->limit ( $s, intval ( $num ) )->order('id desc')->select ();
 	    $this->ajaxReturn ( $d, 'JSON' );
 	}
 	/**

@@ -130,8 +130,11 @@
 										$('#mclist').empty();
 									    for(var i = 0; i < data.length; i++)
 									    {
-										    $('#mclist').append('<a id="c_'+data[i].id+'" onclick="cmove(this.id)" type="button" style="margin:5px;" class="btn btn-default btn-sm">'+data[i].cname+'</a>');
+										    $('#mclist').append('<a data-toggle="tooltip" title="'+data[i].cinfo+'" id="c_'+data[i].id+'" onclick="cmove(this.id)" type="button" style="margin:5px;" class="btn btn-default btn-sm tooltip-show">'+data[i].cname+'</a>');
+											
 									    }
+
+										$(".tooltip-show").tooltip();
 									});
 								}
 								function clearinput(){

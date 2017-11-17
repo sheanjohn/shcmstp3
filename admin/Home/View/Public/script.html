@@ -11,6 +11,10 @@
 
 
 <script type="text/javascript">
+	//自动执行
+	$(function() { 
+		$("[data-toggle='tooltip']").tooltip();
+	})
 	function uploadfile(DIR,CTRL,WCTRL,PICCTRL){
 		//dir,要创建的目录 /uploads/这里创建
 		//CTRL 指定上传文件的控件
