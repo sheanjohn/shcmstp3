@@ -14,7 +14,7 @@
 		<div class="row">
 
 			<!---开始--->
-			<div class="span9">
+			<div class="span12">
 				<h2>子栏目</h2>
 				<div class="well blank-slate" id="gbodx">
 					<p>点击按钮添加栏目</p>
@@ -51,7 +51,7 @@
 				</div>
 
 				<!-- 新建开始 -->
-				<div class="span9" id="div_addnew" style="display: none;">
+				<div class="span12" id="div_addnew" style="display: none;">
 					<fieldset>
 						<legend>编辑栏目</legend>
 						<div class="control-group">
@@ -423,6 +423,9 @@ str=str+'</tr>';
 							$("#orderid").val(b.orderid);
 							$("#zhuanti").val(b.zhuanti);
 							$("#cmod").val(b.cmod);
+
+							$("#tcontent").fadeOut(800);
+							$("#pagebox").fadeOut(800);
 							$("#div_addnew").fadeIn(1000);
 						}
 					});
