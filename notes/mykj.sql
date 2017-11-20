@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-15 09:00:23
+-- Generation Time: 2017-11-20 08:08:56
 -- 服务器版本： 5.7.20-log
 -- PHP Version: 5.6.32
 
@@ -21,38 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `mykj`
 --
-
--- --------------------------------------------------------
-
---
--- 表的结构 `active`
---
-
-CREATE TABLE `active` (
-  `Id` int(11) NOT NULL COMMENT '活动id',
-  `Atitle` varchar(20) NOT NULL COMMENT '积分活动标题',
-  `Acateid` int(10) NOT NULL COMMENT '参加活动的产品栏目ID',
-  `Ayear` int(4) NOT NULL COMMENT '参加活动的年',
-  `Amonth` int(2) NOT NULL COMMENT '参加活动的月',
-  `Aday` int(2) NOT NULL COMMENT '参加活动的日',
-  `Autype` int(10) NOT NULL DEFAULT '0' COMMENT '参加活动的用户类型',
-  `Auid` int(11) NOT NULL COMMENT '参加活动的用户ID',
-  `Ajifen` varchar(10) NOT NULL COMMENT '积分制度',
-  `Adate` varchar(20) NOT NULL COMMENT '活动结束和开始日期',
-  `asta` int(11) NOT NULL DEFAULT '0' COMMENT '活动是否进行'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `address`
---
-
-CREATE TABLE `address` (
-  `Id` int(11) NOT NULL COMMENT '地址id',
-  `Uid` int(11) NOT NULL COMMENT '用户ID',
-  `address` varchar(100) NOT NULL COMMENT '地址串'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -95,46 +63,24 @@ CREATE TABLE `category` (
   `ismenu` int(5) NOT NULL DEFAULT '0' COMMENT '是否显示在导航',
   `isshow` int(5) NOT NULL DEFAULT '0' COMMENT '是否显示在循环列表',
   `orderid` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  `zhuanti` int(2) NOT NULL DEFAULT '0' COMMENT '是否为专题栏目(子栏目)'
+  `zhuanti` int(2) NOT NULL DEFAULT '0' COMMENT '是否为专题栏目(子栏目)',
+  `cmod` int(5) NOT NULL DEFAULT '0' COMMENT '指定模块'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `category`
 --
 
-INSERT INTO `category` (`id`, `catetitle`, `fid`, `url`, `icon`, `cont`, `ismenu`, `isshow`, `orderid`, `zhuanti`) VALUES
-(3, '美家、生活', 0, '', '7', '<b>这里是板块一</b><p><br>', 1, 1, 10, 0),
-(8, '汽车、户外、运动', 3, '', '15', '2', 1, 0, 1, 1),
-(6, '热销导读', 3, '', '7', '33', 1, 0, 10, 1),
-(7, '关于网站', 0, '', '', '', 1, 0, 10, 0),
-(9, '包邮专区', 3, '', '7', '2', 1, 0, 3, 0),
-(10, '文章中心', 0, '', '', '<p>文章中心</p>', 1, 0, 5, 0),
-(11, '其他', 10, '', '', '其他', 1, 0, 10, 0),
-(15, '物联网之家', 10, '', '', '物联网专题栏目', 1, 0, 10, 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `comm`
---
-
-CREATE TABLE `comm` (
-  `Id` int(11) NOT NULL COMMENT '商品id',
-  `comtitle` varchar(20) NOT NULL COMMENT '商品名',
-  `Cateid` int(10) NOT NULL COMMENT '栏目ID',
-  `Kucun` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
-  `Sta` int(5) NOT NULL DEFAULT '0' COMMENT '状态（是否在售）',
-  `Comcont` text NOT NULL COMMENT '商品介绍',
-  `Picid` int(11) NOT NULL COMMENT '商品图库',
-  `Comcont_top` varchar(200) NOT NULL COMMENT '商品摘要',
-  `Ishot` int(5) NOT NULL DEFAULT '0' COMMENT '是否推荐商品',
-  `Isup` int(5) NOT NULL DEFAULT '0' COMMENT '是否置顶商品',
-  `Titletype` int(5) NOT NULL DEFAULT '0' COMMENT '标题样式',
-  `Jiage` float NOT NULL COMMENT '商品价格',
-  `Canshu` varchar(50) NOT NULL COMMENT '商品参数名',
-  `Canshuzhi` varchar(50) NOT NULL COMMENT '商品参数值',
-  `pinpai` int(11) NOT NULL COMMENT '品牌ID'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+INSERT INTO `category` (`id`, `catetitle`, `fid`, `url`, `icon`, `cont`, `ismenu`, `isshow`, `orderid`, `zhuanti`, `cmod`) VALUES
+(3, '美家、生活', 0, '', '7', '<b>这里是板块一</b><p><br>', 1, 1, 10, 0, 0),
+(8, '汽车、户外、运动', 3, '', '15', '2', 1, 0, 1, 1, 0),
+(6, '热销导读', 3, '', '7', '33', 1, 0, 10, 1, 0),
+(7, '关于网站', 0, '', '', '', 1, 0, 10, 0, 0),
+(9, '包邮专区', 3, '', '7', '2', 1, 0, 3, 0, 0),
+(10, '文章中心', 0, '', '', '<p>文章中心</p>', 1, 0, 5, 0, 0),
+(11, '其他', 10, '', '', '其他', 1, 0, 10, 0, 0),
+(15, '物联网之家', 10, '', '', '物联网专题栏目', 1, 0, 10, 1, 0),
+(16, '基于模块栏目', 10, '', '', '123', 1, 1, 10, 0, 5);
 
 -- --------------------------------------------------------
 
@@ -161,27 +107,8 @@ INSERT INTO `config` (`id`, `cname`, `cvalue`, `ccont`) VALUES
 (16, 'sh1_page_listnum1', '10', '后台列表项数量'),
 (17, 'sh1_site_desc', '基于ThinkPHP3开发的小商城', '网站描述'),
 (18, 'sh1_site_copyright', '葫芦岛明远科技提供技术支持，本站基于ThinkPHP开发设计。', '网站底部文字'),
-(21, 'sh1_user_level', '新秀,少侠,大侠,掌门,宗师,盟主,无敌高手', '会员等级'),
-(22, 'sh1_user_type', '普通用户,企业用户,VIP用户,大神用户', '会员类型');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dingdan`
---
-
-CREATE TABLE `dingdan` (
-  `Id` int(11) NOT NULL COMMENT '订单id',
-  `Uid` int(11) NOT NULL COMMENT '用户ID',
-  `Commid` int(11) NOT NULL COMMENT '商品ID',
-  `Ddate` varchar(20) NOT NULL COMMENT '日期',
-  `Dsta` int(5) NOT NULL DEFAULT '0' COMMENT '订单状态',
-  `Dwuliu` varchar(20) NOT NULL COMMENT '物流名称',
-  `Djine` int(3) NOT NULL COMMENT '物流金额',
-  `Dsn` varchar(20) NOT NULL COMMENT '物流单号',
-  `Addid` varchar(100) NOT NULL COMMENT '收货地址ID',
-  `paytype` int(11) NOT NULL DEFAULT '0' COMMENT '支付方式'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+(21, 'sh1_user_level', '新秀,少侠,大侠,掌门,宗师,盟主', '会员等级'),
+(22, 'sh1_user_type', '普通用户,企业用户,VIP用户', '会员类型');
 
 -- --------------------------------------------------------
 
@@ -223,29 +150,72 @@ INSERT INTO `managers` (`id`, `uname`, `upswd`, `utype`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `moneybase`
+-- 表的结构 `model`
 --
 
-CREATE TABLE `moneybase` (
-  `Id` int(11) NOT NULL COMMENT '资金库id',
-  `Yue` float NOT NULL DEFAULT '0' COMMENT '总金额',
-  `uid` int(11) NOT NULL COMMENT '用户ID',
-  `Mtype` int(5) NOT NULL DEFAULT '0' COMMENT '记录类别',
-  `Mconfig` int(5) NOT NULL COMMENT '活动参数',
-  `mdate` varchar(20) NOT NULL COMMENT '日期'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE `model` (
+  `id` int(11) NOT NULL,
+  `mname` varchar(10) NOT NULL COMMENT '模块名',
+  `mcid` varchar(100) NOT NULL COMMENT '需要的控件ID，逗号分开',
+  `isshow` int(1) NOT NULL DEFAULT '1' COMMENT '是否显示'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `model`
+--
+
+INSERT INTO `model` (`id`, `mname`, `mcid`, `isshow`) VALUES
+(8, '小视频', '7,12,13,14', 1),
+(9, '名片', '8,10,9,12', 1),
+(10, '商品', '15,13,12,11,7', 1);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `paycar`
+-- 表的结构 `model_ctrls`
 --
 
-CREATE TABLE `paycar` (
-  `Id` int(11) NOT NULL COMMENT '购物车id',
-  `Uid` int(11) NOT NULL COMMENT '用户ID',
-  `comid` int(11) NOT NULL COMMENT '商品ID'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE `model_ctrls` (
+  `id` int(11) NOT NULL,
+  `cname` varchar(50) NOT NULL COMMENT '名称',
+  `cval` varchar(100) DEFAULT NULL COMMENT '关键值',
+  `ccnt` int(10) NOT NULL DEFAULT '0' COMMENT '数量',
+  `clen` int(10) NOT NULL DEFAULT '0' COMMENT '长度',
+  `ccond` varchar(10) NOT NULL DEFAULT '=' COMMENT '条件（运算）',
+  `cloc` int(10) NOT NULL DEFAULT '0' COMMENT '位置0不计算',
+  `ctype` varchar(10) NOT NULL DEFAULT 'str' COMMENT '数据类型',
+  `cinfo` varchar(60) DEFAULT NULL COMMENT '标记，简要说明',
+  `useor` int(1) NOT NULL DEFAULT '0' COMMENT '是否使用编辑器',
+  `upic` int(1) NOT NULL DEFAULT '0' COMMENT '是否激活图片库选择'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `model_ctrls`
+--
+
+INSERT INTO `model_ctrls` (`id`, `cname`, `cval`, `ccnt`, `clen`, `ccond`, `cloc`, `ctype`, `cinfo`, `useor`, `upic`) VALUES
+(7, '标题', '', 0, 21, '<', 0, 'str', '小于20字的字符串', 0, 0),
+(8, '姓名', '', 0, 1, '>', 0, 'str', '大于1字的字符（姓名）', 0, 0),
+(9, '手机号码', '1', 1, 11, '=', 1, 'int', '手机号码，1开头，11位整数', 0, 0),
+(10, '地址', '', 0, 31, '<', 0, 'str', '最多30字的字符串（地址）', 0, 0),
+(11, '单价', '', 0, 10, '<', 0, 'int', '价格，小于10位的数字', 0, 0),
+(12, '图片', '', 0, 5, '<', 0, 'int', '小于5位的数字（图片库ID）', 0, 1),
+(13, '详细介绍', '', 0, 201, '<', 0, 'str', '使用了编辑器的文本，200长', 1, 0),
+(14, '下载地址', '', 0, 200, '<', 0, 'str', '下载地址200长字符串', 0, 0),
+(15, '品牌', '', 0, 0, '>', 0, 'str', '品牌', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `model_items`
+--
+
+CREATE TABLE `model_items` (
+  `id` int(11) NOT NULL,
+  `model_id` int(10) NOT NULL COMMENT '所属模块',
+  `ctrl_id` int(10) NOT NULL COMMENT '控件或规则id（ctrls）',
+  `strval` text COMMENT '值'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -294,10 +264,112 @@ INSERT INTO `pic_item` (`Id`, `Pictype`, `Picurl`, `picid`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `pinpai`
+-- 表的结构 `shop_active`
 --
 
-CREATE TABLE `pinpai` (
+CREATE TABLE `shop_active` (
+  `Id` int(11) NOT NULL COMMENT '活动id',
+  `Atitle` varchar(20) NOT NULL COMMENT '积分活动标题',
+  `Acateid` int(10) NOT NULL COMMENT '参加活动的产品栏目ID',
+  `Ayear` int(4) NOT NULL COMMENT '参加活动的年',
+  `Amonth` int(2) NOT NULL COMMENT '参加活动的月',
+  `Aday` int(2) NOT NULL COMMENT '参加活动的日',
+  `Autype` int(10) NOT NULL DEFAULT '0' COMMENT '参加活动的用户类型',
+  `Auid` int(11) NOT NULL COMMENT '参加活动的用户ID',
+  `Ajifen` varchar(10) NOT NULL COMMENT '积分制度',
+  `Adate` varchar(20) NOT NULL COMMENT '活动结束和开始日期',
+  `asta` int(11) NOT NULL DEFAULT '0' COMMENT '活动是否进行'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `shop_address`
+--
+
+CREATE TABLE `shop_address` (
+  `Id` int(11) NOT NULL COMMENT '地址id',
+  `Uid` int(11) NOT NULL COMMENT '用户ID',
+  `address` varchar(100) NOT NULL COMMENT '地址串'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `shop_comm`
+--
+
+CREATE TABLE `shop_comm` (
+  `Id` int(11) NOT NULL COMMENT '商品id',
+  `comtitle` varchar(20) NOT NULL COMMENT '商品名',
+  `Cateid` int(10) NOT NULL COMMENT '栏目ID',
+  `Kucun` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
+  `Sta` int(5) NOT NULL DEFAULT '0' COMMENT '状态（是否在售）',
+  `Comcont` text NOT NULL COMMENT '商品介绍',
+  `Picid` int(11) NOT NULL COMMENT '商品图库',
+  `Comcont_top` varchar(200) NOT NULL COMMENT '商品摘要',
+  `Ishot` int(5) NOT NULL DEFAULT '0' COMMENT '是否推荐商品',
+  `Isup` int(5) NOT NULL DEFAULT '0' COMMENT '是否置顶商品',
+  `Titletype` int(5) NOT NULL DEFAULT '0' COMMENT '标题样式',
+  `Jiage` float NOT NULL COMMENT '商品价格',
+  `Canshu` varchar(50) NOT NULL COMMENT '商品参数名',
+  `Canshuzhi` varchar(50) NOT NULL COMMENT '商品参数值',
+  `pinpai` int(11) NOT NULL COMMENT '品牌ID'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `shop_dingdan`
+--
+
+CREATE TABLE `shop_dingdan` (
+  `Id` int(11) NOT NULL COMMENT '订单id',
+  `Uid` int(11) NOT NULL COMMENT '用户ID',
+  `Commid` int(11) NOT NULL COMMENT '商品ID',
+  `Ddate` varchar(20) NOT NULL COMMENT '日期',
+  `Dsta` int(5) NOT NULL DEFAULT '0' COMMENT '订单状态',
+  `Dwuliu` varchar(20) NOT NULL COMMENT '物流名称',
+  `Djine` int(3) NOT NULL COMMENT '物流金额',
+  `Dsn` varchar(20) NOT NULL COMMENT '物流单号',
+  `Addid` varchar(100) NOT NULL COMMENT '收货地址ID',
+  `paytype` int(11) NOT NULL DEFAULT '0' COMMENT '支付方式'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `shop_moneybase`
+--
+
+CREATE TABLE `shop_moneybase` (
+  `Id` int(11) NOT NULL COMMENT '资金库id',
+  `Yue` float NOT NULL DEFAULT '0' COMMENT '总金额',
+  `uid` int(11) NOT NULL COMMENT '用户ID',
+  `Mtype` int(5) NOT NULL DEFAULT '0' COMMENT '记录类别',
+  `Mconfig` int(5) NOT NULL COMMENT '活动参数',
+  `mdate` varchar(20) NOT NULL COMMENT '日期'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `shop_paycar`
+--
+
+CREATE TABLE `shop_paycar` (
+  `Id` int(11) NOT NULL COMMENT '购物车id',
+  `Uid` int(11) NOT NULL COMMENT '用户ID',
+  `comid` int(11) NOT NULL COMMENT '商品ID'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `shop_pinpai`
+--
+
+CREATE TABLE `shop_pinpai` (
   `id` int(11) NOT NULL COMMENT '品牌id',
   `Pinpaititle` varchar(20) NOT NULL COMMENT '品牌名称',
   `Logo` varchar(200) NOT NULL COMMENT '品牌LOGO',
@@ -306,10 +378,10 @@ CREATE TABLE `pinpai` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `pinpai`
+-- 转存表中的数据 `shop_pinpai`
 --
 
-INSERT INTO `pinpai` (`id`, `Pinpaititle`, `Logo`, `fid`, `pcont`) VALUES
+INSERT INTO `shop_pinpai` (`id`, `Pinpaititle`, `Logo`, `fid`, `pcont`) VALUES
 (14, '天王表', '11', 8, '<div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;天王表是香港时计宝集团旗下的腕表品牌，采用皇冠造型作为品牌标志，经过二十多年的发展，现已成为国内腕表行业的著名品牌。更先后荣获了“中国名牌”、“中国驰名商标”、“国家级高新技术企业”等荣誉。</div><div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;天王表逐步成长为国内知名钟表品牌，并连续四年被国内贸易部、中国电子工业部、中国轻工业总会、中国消费者协会、国家技术监督局、中国纺织总会、国家经贸委等七部委评为全国畅销产品“金桥奖”。</div><p><iframe height=\"498\" width=\"510\" src=\"http://player.youku.com/embed/XMzEyMzI5MzE5Mg==\" frameborder=\"0\" \'allowfullscreen\'=\"\"></iframe></p><p><br></p>'),
 (13, '尼桑', '10', 8, '<div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日产（NISSAN ），是日本的一家汽车制造商，由鲇川义介(Aikawa Yoshisuke)于1933年在神奈川县横滨市成立，目前在二十个国家和地区（包括日本）设有汽车制造基地，并在全球160多个国家和地区提供产品和服务。</div><div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司经营范围包括汽车产品和船舶设备的制造、销售和相关业务，现任总裁兼首席执行官为卡洛斯·戈恩（Carlos Ghosn）。1999年，雷诺与日产汽车结成独立的合作伙伴关系，在广泛的领域中展开战略性的合作，日产汽车通过联盟将事业区域拓展至全球，其经济规模大幅增长。</div><div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“NISSAN’（ニッサン）是日语 “日产”两个字的罗马音形式，是日本产业的简称，其含义是 “以人和汽车的明天为目标”。</div><div label-module=\"para\">图形商标是将NISSAN放在一个火红的太阳上，简明扼要地表明了公司名称，突出了所在国家的形象，这在汽车商标文化中独树一帜。</div>');
 
@@ -342,23 +414,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `Jifen`, `Shengri`, `uType`, `weixin`, `Usex`, `Old`, `Umail`, `Phone`, `Qq`, `Realname`, `yue`, `uname`, `upswd`, `uleve`) VALUES
-(1, 0, '19840818', '大神用户', '0', '男', 0, '@', 0, 0, '真实姓名', 690, 'shean', '1c96b09a0f66835d5c372d1e4064e07e', '无敌高手');
+(1, 0, '19840818', '普通用户', '0', '男', 0, '@', 0, 0, '真实姓名', 690, 'shean', '1c96b09a0f66835d5c372d1e4064e07e', '宗师');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `active`
---
-ALTER TABLE `active`
-  ADD PRIMARY KEY (`Id`);
-
---
--- Indexes for table `address`
---
-ALTER TABLE `address`
-  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `article`
@@ -373,22 +433,10 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `comm`
---
-ALTER TABLE `comm`
-  ADD PRIMARY KEY (`Id`);
-
---
 -- Indexes for table `config`
 --
 ALTER TABLE `config`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dingdan`
---
-ALTER TABLE `dingdan`
-  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `managers`
@@ -397,16 +445,22 @@ ALTER TABLE `managers`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `moneybase`
+-- Indexes for table `model`
 --
-ALTER TABLE `moneybase`
-  ADD PRIMARY KEY (`Id`);
+ALTER TABLE `model`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `paycar`
+-- Indexes for table `model_ctrls`
 --
-ALTER TABLE `paycar`
-  ADD PRIMARY KEY (`Id`);
+ALTER TABLE `model_ctrls`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `model_items`
+--
+ALTER TABLE `model_items`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pic`
@@ -421,9 +475,45 @@ ALTER TABLE `pic_item`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `pinpai`
+-- Indexes for table `shop_active`
 --
-ALTER TABLE `pinpai`
+ALTER TABLE `shop_active`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `shop_address`
+--
+ALTER TABLE `shop_address`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `shop_comm`
+--
+ALTER TABLE `shop_comm`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `shop_dingdan`
+--
+ALTER TABLE `shop_dingdan`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `shop_moneybase`
+--
+ALTER TABLE `shop_moneybase`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `shop_paycar`
+--
+ALTER TABLE `shop_paycar`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `shop_pinpai`
+--
+ALTER TABLE `shop_pinpai`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -437,12 +527,6 @@ ALTER TABLE `users`
 --
 
 --
--- 使用表AUTO_INCREMENT `active`
---
-ALTER TABLE `active`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '活动id';
-
---
 -- 使用表AUTO_INCREMENT `article`
 --
 ALTER TABLE `article`
@@ -452,13 +536,7 @@ ALTER TABLE `article`
 -- 使用表AUTO_INCREMENT `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '栏目id', AUTO_INCREMENT=16;
-
---
--- 使用表AUTO_INCREMENT `comm`
---
-ALTER TABLE `comm`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品id';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '栏目id', AUTO_INCREMENT=17;
 
 --
 -- 使用表AUTO_INCREMENT `config`
@@ -467,28 +545,28 @@ ALTER TABLE `config`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- 使用表AUTO_INCREMENT `dingdan`
---
-ALTER TABLE `dingdan`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id';
-
---
 -- 使用表AUTO_INCREMENT `managers`
 --
 ALTER TABLE `managers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=8;
 
 --
--- 使用表AUTO_INCREMENT `moneybase`
+-- 使用表AUTO_INCREMENT `model`
 --
-ALTER TABLE `moneybase`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '资金库id';
+ALTER TABLE `model`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- 使用表AUTO_INCREMENT `paycar`
+-- 使用表AUTO_INCREMENT `model_ctrls`
 --
-ALTER TABLE `paycar`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '购物车id';
+ALTER TABLE `model_ctrls`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- 使用表AUTO_INCREMENT `model_items`
+--
+ALTER TABLE `model_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `pic`
@@ -503,9 +581,39 @@ ALTER TABLE `pic_item`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片表id', AUTO_INCREMENT=18;
 
 --
--- 使用表AUTO_INCREMENT `pinpai`
+-- 使用表AUTO_INCREMENT `shop_active`
 --
-ALTER TABLE `pinpai`
+ALTER TABLE `shop_active`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '活动id';
+
+--
+-- 使用表AUTO_INCREMENT `shop_comm`
+--
+ALTER TABLE `shop_comm`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品id';
+
+--
+-- 使用表AUTO_INCREMENT `shop_dingdan`
+--
+ALTER TABLE `shop_dingdan`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id';
+
+--
+-- 使用表AUTO_INCREMENT `shop_moneybase`
+--
+ALTER TABLE `shop_moneybase`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '资金库id';
+
+--
+-- 使用表AUTO_INCREMENT `shop_paycar`
+--
+ALTER TABLE `shop_paycar`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '购物车id';
+
+--
+-- 使用表AUTO_INCREMENT `shop_pinpai`
+--
+ALTER TABLE `shop_pinpai`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '品牌id', AUTO_INCREMENT=15;
 
 --

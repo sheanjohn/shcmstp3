@@ -57,7 +57,7 @@ if(ctrls[i].upic=='1'){
 	csstr='<a href="javascript:;" id="btn_selicon" onclick="op('+"'icon"+ctrls[i].id+"'"+')"';
 	csstr+='	class="btn btn-sm btn-success">从图库中选择...</a> <a';
 	csstr+='	href="javascript:;" id="btn_icon_view"';
-	csstr+='class="btn btn-sm btn-info">图标预览</a>';
+	csstr+='class="btn btn-sm btn-info" name="icon'+ctrls[i].id+'">图标预览</a>';
 	csstr+='<input type="hidden" id="icon'+ctrls[i].id+'" />';
 }else if(ctrls[i].useor=='1'){
 	csstr='';
@@ -88,6 +88,10 @@ $("#controller_fm").before(htmlstr);
 			// Bind as an event handler
 			$(document).on('click', '[data-lightbox]', lity);
 	    }
+		//预览图片按钮
+		$("#btn_icon_view").click(function(){
+			alert($(this).attr('name'));
+		})
 	</script>
 <!-- 模块主控部分结束 -->
 			<!---开始--->
