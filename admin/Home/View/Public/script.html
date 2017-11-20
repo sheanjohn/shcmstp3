@@ -83,8 +83,8 @@
 	//sw=1只有日期，0全部,2全数字
 	function getNowFormatDate(sw) {
 	    var date = new Date();
-	    var seperator1 = "-";
-	    var seperator2 = ":";
+	    var seperator1 = "";
+	    var seperator2 = "";
 	    var month = date.getMonth() + 1;
 	    var strDate = date.getDate();
 	    if (month >= 1 && month <= 9) {
@@ -100,7 +100,7 @@
 	    if(sw=="1") {
 		    return currentdate1;
 	    }else if(sw=='2'){
-	    	var str=currentdate.replace(' ','-');
+	    	var str=currentdate.replace(' ','');
 	    	return str;
 	    }else{
 	    	return currentdate;

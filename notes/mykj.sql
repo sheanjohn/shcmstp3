@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-20 16:57:40
--- 服务器版本： 5.7.20-log
+-- Generation Time: 2017-11-20 23:52:06
+-- 服务器版本： 5.7.17-log
 -- PHP Version: 5.6.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `article` (
   `Id` int(11) NOT NULL COMMENT '文章id',
-  `Atitle` varchar(20) NOT NULL COMMENT '标题',
+  `Atitle` varchar(60) NOT NULL COMMENT '标题',
   `Acont` text NOT NULL COMMENT '内容',
   `Acont_top` varchar(200) NOT NULL COMMENT '摘要',
   `Fid` int(11) NOT NULL COMMENT '栏目ID',
@@ -44,8 +44,7 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`Id`, `Atitle`, `Acont`, `Acont_top`, `Fid`, `Adate`, `isshow`, `zhuanti`) VALUES
-(3, '自尊', '<p>　　自尊是人思想意识活动的一种本能反映，是一个人做人的起码准则，是思想品德的<br>一个基本要素。自尊是人们自我尊重的心理活动，是在维护自身人格尊严中表现出来的<br>一种行为，往往表现为庄严刚正，神圣不可侵犯。这种心理意识活动，成为挺直人生，<br>书写人生，壮丽人生的精神动力。人们通过自尊坚定理想、信念，勃发昂扬向上精神，<br>保持旺盛士气；通过自尊规范自己的行为，严格道德操守，崇高自己的形象；通过自尊<br>形成和谐的社会氛围，保持良好的社会风尚。<br><br>　　自尊是做人的根本。自古以来，人们就把‘人有脸，树有皮，人活一张脸，书活一张<br>皮。’作为做人的基本要求。要脸就是要自尊，自觉保持自己的良好形象。一个人如果丧<br>失了自尊，不要尊严，其人格就会扭曲，形象就会被贬低，就会没有骨气、志气、锐气、<br>士气。或是唯唯诺诺，奴颜婢膝，一身媚骨；或是庸庸碌碌，醉生梦死；或是泯灭良知，<br>不顾寡廉鲜耻。丧失了自尊就丧失了做人的尊严，丧失了人生的意义。<br><br>　　自尊是人类社会永恒的一道风景。人的各种活动都离不开自尊，在家庭活动中，每个<br>成员的自尊保证了家庭的和睦。在社会活动中，每个人的自尊凝结成国家的尊严，民族的<br>尊严。变成了推动社会进步的巨大力量。<br><br>　　自尊是一种思想道德修养，是良好的思想道德情操。只尊重自己，不尊重别人，那不<br>是自尊，只能是自我欣赏，自我陶醉而已；心高气傲，盛气凌人，不是自尊；固执己见，<br>唯我独尊，也不是自尊。自尊既是主观的内心体察、陶冶，也是客观的心态调整，需要不<br>断地端正自己的人生态度，矫正自己的行为。<br><br>　　自尊需要建设，需要自重、自省、自警。自尊如果失去了自重，就会使自重成为无土<br>之木，无水之鱼；自尊如果失去了自省，就会使自尊变形偏离方向；自尊如果失去了自警，<br>就容易使自尊变质，误入歧途。有人貌似自尊，道貌岸然，实则把自尊践踏；有人顺心了<br>就要自尊，不顺心就不要自尊，把自尊当儿戏，在玩笑自尊中被自尊玩笑。自尊需要心灵<br>的纯洁、质朴，需要秉直刚正的人格。<br><br>　　自尊是一种操守，需要有一个平和的心态。自尊心过强，容易心高气傲，目中无人；容<br>易产生虚荣心理，攀比心理，嫉妒心理。自尊心不强，容易产生卑祛、儒弱心理，不求上进<br>无所作为。要自尊就要不断调整自己的心态，积极上进，适应时代的要求。<br><br>　　自尊是一泓清水，可以洗涤人生；自尊是一座青山，可以苍翠人生；自尊是阳光，可以<br>灿烂人生。把自尊放在怀中，永远挺胸昂首，阔步前进。&nbsp;&nbsp;&nbsp;&nbsp;<br></p>', '自尊是人思想意识活动的一种本能反映', 11, '20171108', 0, 15),
-(4, '智能设备优惠购 智能制造产业发展现状如何', '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“小度小度，我要看邓超老婆的电视剧。” “小度小度，我想听周杰伦的歌”“小度小度，冰箱里哪些食材要过期了?”随着搭载百度DuerOS智能硬件产品的集中亮相，越来越多的用户体验到这样便捷的智能生活。11月1日-11月7日，百度DuerOS携手极米等众多合作伙伴开启“让AI发声——DuerOS智能生活体验GO”活动，通过线上和线下联动，面向用户集中出售搭载DuerOS的各类智能产品，涵盖智能家居、可穿戴等多个场景，是一次智能产品的盛大“集市”。&nbsp;&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此次活动出售的智能硬件产品，均搭载百度对话式人工智能系统DuerOS，产品涵盖电视、冰箱、音箱等智能家居、智能穿戴等。用户可以在线上和线下体验极米无屏电视Z5、DOSS小度版智能音箱、美的冰箱539、海尔馨厨冰箱等产品带来的人工智能体验。那么，这些搭载DuerOS的智能硬件产品究竟会对我们的生活产生怎样具体的影响呢?</p><p>　　下面几个场景你一定不陌生：当你结束一天的工作回到家中，瘫倒在沙发上，只需按住遥控器说“小度小度，我想看最新的电视剧”，搭载DuerOS的极米无屏电视就能立即响应你，你也可以直接向它提问“这位演员是谁呀?”电视立刻就能回答你。你甚至可以直接告诉他，“直接跳到第20分钟”，无屏电视Z5就会将剧情跳转到你想看的地方。如果说看搭载DuerOS的无屏电视是你“动口不收手”的好帮手，那么搭载DuerOS的冰箱或许就是你的贴心营养师了，“小度小度，蛋炒饭怎么做?”“海鲜不能跟什么一起吃?”“牛排的卡路里有多少?”……有了智能冰箱，妈妈再也不用担心你的饮食问题。</p><p>　　搭载百度DuerOS的极米激光无屏电视能让你“动口不用动手”</p><p>　　作为AI时代的安卓系统，DuerOS在构建开放生态方面持续领跑，成为目前中国市场势头强劲且最具活力的人机交互平台。2017年，极米和百度达成合作，引入了百度新一代对话式人工智能系统DuerOS，这是极米无屏电视迈向人工智能时代的第一步，也是百度人工智能第一次运用于无屏电视，让用户可以通过大屏率先享受最自然便捷的智能生活体验。目前旗下极米激光无屏电视系列、极米无屏电视H1S、Z5等多款电视已经搭载了百度DuerOS，不仅能满足用户任何时候用超高清大屏的看电影看电视需求，更能通过智能系统读懂用户需求，让用户体验到人工智能带来的美好生活。</p>', '        “小度小度，我要看邓超老婆的电视剧。” “小度小度，我想听周杰伦的歌”“小度小度，冰箱里哪些食材要过期了?”随着搭载百度DuerOS智能硬件产品的集中亮相，越来越多的用户体验到这样便捷的智能生活。11月1日-11月7日，百度DuerOS携手极米等众多合作伙伴开启“让AI发声——DuerOS智能生活体验GO”活动，通过线上和线下联动，面向用户集中出售搭载DuerOS的各类智能产品，涵', 15, '20171113', 0, 6);
+(1, '共享单车企业或平台拒不退还用户押金，该当何罪？', '<p>2017年2月7日，当时在北京投放的单车品牌及数量还比较少，摩拜、ofo算是比较多的，其他的单车品牌还在踌躇满志要突进该市场。</p><p>　　当时，我在《摩拜299元和ofo99元的押金，离非法集资有多远？》一文提出，共享单车的押金模式，打破了传统<strong>“一个租赁物对应一份押金”</strong>的模式，形成了<strong>“一个人对应一份押金”</strong>的模式，突破了传统押金担保属性，而具有不当募集或占有资金的嫌疑，很可能滑向<strong>“集资诈骗”</strong>犯罪。</p><p>　　如今，在共享单车市场恶性竞争的驱使下，监管尚未干预，众多市场参与者已经“难以为继”，用户押金无法正常退还、供应商欠款无法及时支付，或暂停运营，或濒临破产，甚至有个别中小品牌的共享单车企业已经“跑路”。</p><p>　　那么，类似酷骑单车、小蓝单车，这种明显挪用了用户押金，用于企业经营甚至其他用途的行为，到底该当何罪？</p><p>　　<strong>用户押金资产的所有权归用户所有，平台企业只享有占有权</strong></p><div><img src=\"http://sinastorage.com/storage.caitou.sina.com.cn/products/201711/bea9c22259f72a4ab0245fb43b628d79.jpeg\" alt=\"\"></div><p>　　俗称的<strong>“押金”</strong>即为<strong>“保证金”，按照《物权法》和《担保法》相关法律规定，押金</strong>属于一种特殊的<strong>“动产质权”。</strong>从法律层面讲，缴纳或收取押金，目的在于对双方之间的租赁合同起到一定的担保作用。</p><p>　　简单说，用户向共享单车企业缴纳押金时，其只是转移了押金的占有权，而非转移押金所有权。因此，在用户使用单车期间或未申请退还押金期间，虽然押金被共享单车企业实际占有，但是，其所有权依旧归用户所有。</p><p>　　不论是用户在公司总部排队退押金的酷骑，还是如今小蓝用户申请退押金迟迟不能到账，足以表明当前共享单车企业或平台普遍存在的问题：1）将用户押金、预付资金与企业自有资金完全混同，未作区隔；2）在实际经营过程中，挪走用户押金用作它途，并非例外而是常态。</p><p>　　虽然，包括小蓝单车等在内的多家共享单车或平台曾公开宣称其已对收取的用户押金在银行开立了专门账户，但是，该所为专门账户内的资金流动并非得到有效监管。</p><p>　　那么，对于共享单车企业或平台挪用用户押金的行为，该如何定性？又涉嫌何种犯罪行为？</p><p>　　<strong>挪走用户押金不予退还，共享单车企业到底涉嫌何种罪名？</strong></p><div><img src=\"http://sinastorage.com/storage.caitou.sina.com.cn/products/201711/72000cec33e73d6276dc00c7df716064.jpeg\" alt=\"\"></div><p>　　媒体公开报道显示，在今年2月的一次媒体访谈中，时任小蓝单车副总裁胡宇沸表示，用户押金一部分用于退还用户，另一部分进入运营资金。</p><p>　　事实上，在共享单车企业或平台，自有资金总额足以偿付用户押金且用户申请退还押金，按照约定及时退还的话，那么，共享单车企业或平台临时性挪用的行为，很难说构成违法或犯罪。</p><p>　　但是，当共享单车企业或平台，自有资金总额不足以偿付用户押金时，那么，此时共享单车企业或平台挪走用户押金用作它途的行为，就已经涉嫌犯罪。</p><p>　　按照《刑法》第二百七十条规定，将代为保管的他人财物非法占为己有，数额较大，拒不退还的，处二年以下有期徒刑、拘役或者罚金；数额巨大或者有其他严重情节的，处二年以上五年以下有期徒刑，并处罚金。</p><p>　　因此，当酷骑、小蓝等共享单车企业或平台，财务状况恶化，明知自有资金已不足以偿付用户押金，当用户申请退还而无法依约退还时，这些共享单车企业或平台已经涉嫌构成“侵占罪”。</p><p>　　<strong>只投放车辆、不予以管理维护，共享单车企业就是在集资诈骗</strong></p><div><img src=\"http://sinastorage.com/storage.caitou.sina.com.cn/products/201711/2eca696c01752314a2838e3107449c75.jpeg\" alt=\"\"></div><p>　　在类似酷骑、小蓝等共享单车企业财务状况恶化之后，部分共享单车企业为了归集用户押金，不断加大车辆投放范围及数量，且不对线下车辆予以管理维护。</p><p>　　那么，这个阶段的行为，就具有的违法特征。因为这种“只投放不管理”的行为，其目的就是为了归集用户押金，具有明显的非法占有倾向，则涉嫌集资诈骗罪。</p><p>　　按照《刑法》第一百九十二条规定，以非法占有为目的，使用诈骗方法非法集资，数额较大的，处五年以下有期徒刑或者拘役，并处二万元以上二十万元以下罚金；数额巨大或者有其他严重情节的，处五年以上十年以下有期徒刑，并处五万元以上五十万元以下罚金；数额特别巨大或者有其他特别严重情节的，处十年以上有期徒刑或者无期徒刑，并处五万元以上五十万元以下罚金或者没收财产。</p><p>　　令人吊诡的是，不论是此前的酷骑、还是如今的小蓝，这些濒临倒闭且无法及时退还用户押金的企业或平台CEO，还主动接受媒体采访，或是反思经营策略不当，或是向用户深表歉意，完全未意识到企业的经营行为或自己的决策行为已经涉嫌犯罪。</p><p>　　如今，共享单车恶性竞争的苦果已经陆续，暂不讨论它们倒闭后可能留给各地部门大量车辆需清理，也不谈它们之前无偿使用公共资源从事经营性活动，也不说它们盲目激进给自行车行业上下游留下的一堆“烂账”，仅就用户缴纳的押金被挪用且不予退换的问题，其可能涉嫌的犯罪行为及可能被追究刑事责任的风险，亟需引起其他尚未倒闭的共享单车企业及其负责人的重视和警惕。</p><p>　　毕竟，不是说句“对不起”就可以赎罪的。</p>', '“辜负了各位，对不起”。\n\n　　当小蓝单车CEO李刚面对媒体说出这句话时，不禁想起了年初写的《摩拜299元和ofo99元的押金，离非法集资有多远？》一文。', 2, '20171120', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -64,7 +63,7 @@ CREATE TABLE `category` (
   `isshow` int(5) NOT NULL DEFAULT '0' COMMENT '是否显示在循环列表',
   `orderid` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `zhuanti` int(2) NOT NULL DEFAULT '0' COMMENT '是否为专题栏目(子栏目)',
-  `cmod` int(5) NOT NULL DEFAULT '0' COMMENT '指定模块'
+  `cmod` int(5) DEFAULT '0' COMMENT '指定模块'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -72,15 +71,10 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `catetitle`, `fid`, `url`, `icon`, `cont`, `ismenu`, `isshow`, `orderid`, `zhuanti`, `cmod`) VALUES
-(3, '美家、生活', 0, '', '7', '<b>这里是板块一</b><p><br>', 1, 1, 10, 0, 0),
-(8, '汽车、户外、运动', 3, '', '15', '2', 1, 0, 1, 1, 0),
-(6, '热销导读', 3, '', '7', '33', 1, 0, 10, 1, 0),
-(7, '关于网站', 0, '', '', '', 1, 0, 10, 0, 0),
-(9, '包邮专区', 3, '', '7', '2', 1, 0, 3, 0, 0),
-(10, '文章中心', 0, '', '', '<p>文章中心</p>', 1, 0, 5, 0, 0),
-(11, '其他', 10, '', '', '其他', 1, 0, 10, 0, 0),
-(15, '物联网之家', 10, '', '', '物联网专题栏目', 1, 0, 10, 1, 0),
-(16, '基于模块栏目', 10, '', '', '123', 1, 1, 10, 0, 11);
+(1, '文章中心', 0, '', '1', '<p>无</p>', 1, 0, 10, 0, NULL),
+(2, '业界新闻', 1, '', '1', '无', 1, 0, 10, 0, 0),
+(3, '商品', 0, '', '3', '<p>无</p>', 1, 0, 10, 0, NULL),
+(4, '附属产品', 3, '', '', '无', 1, 0, 10, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -100,12 +94,12 @@ CREATE TABLE `config` (
 --
 
 INSERT INTO `config` (`id`, `cname`, `cvalue`, `ccont`) VALUES
-(12, 'sh1_site_name0', '小商城', '网站名称'),
+(12, 'sh1_site_name0', '网站名', '网站名称'),
 (13, 'sh1_site_name1', '基于ThinkPHP3开发', '网站标题'),
-(14, 'sh1_site_key', '基于ThinkPHP3开发的小商城', '网站关键字'),
+(14, 'sh1_site_key', '基于ThinkPHP3开发', '网站关键字'),
 (15, 'sh1_page_listnum0', '10', '前台列表项数量'),
 (16, 'sh1_page_listnum1', '10', '后台列表项数量'),
-(17, 'sh1_site_desc', '基于ThinkPHP3开发的小商城', '网站描述'),
+(17, 'sh1_site_desc', '基于ThinkPHP3开发', '网站描述'),
 (18, 'sh1_site_copyright', '葫芦岛明远科技提供技术支持，本站基于ThinkPHP开发设计。', '网站底部文字'),
 (21, 'sh1_user_level', '新秀,少侠,大侠,掌门,宗师,盟主', '会员等级'),
 (22, 'sh1_user_type', '普通用户,企业用户,VIP用户', '会员类型');
@@ -165,7 +159,7 @@ CREATE TABLE `model` (
 --
 
 INSERT INTO `model` (`id`, `mname`, `mcid`, `isshow`) VALUES
-(11, '产品', '16,17,18,19,20', 1);
+(1, '附属产品', '1,2,5,4,3', 1);
 
 -- --------------------------------------------------------
 
@@ -191,11 +185,11 @@ CREATE TABLE `model_ctrls` (
 --
 
 INSERT INTO `model_ctrls` (`id`, `cname`, `cval`, `ccnt`, `clen`, `ccond`, `cloc`, `ctype`, `cinfo`, `cui`) VALUES
-(16, '标题', '', 0, 10, '>', 0, 'str', '标题，大于0', 0),
-(17, '介绍', '', 0, 201, '<', 0, 'str', '详情，文本编辑，长度200以内', 3),
-(18, '图片', '', 0, 5, '<', 0, 'str', '图片', 1),
-(19, '是否显示', '', 0, 2, '<', 0, 'int', '是否显示，下拉列表', 2),
-(20, '图片库', '', 0, 3, '<', 0, 'int', '1', 4);
+(1, '名称', '', 0, 60, '<', 0, 'str', '标题60', 0),
+(2, '相册', '', 0, 10, '<', 0, 'int', '图库ID', 4),
+(3, '内容', '', 0, 200, '<', 0, 'str', '内容200', 3),
+(4, '是否显示', '', 0, 2, '<', 0, 'str', '是否', 2),
+(5, '设为推荐', '', 0, 2, '<', 0, 'str', '是否', 2);
 
 -- --------------------------------------------------------
 
@@ -208,26 +202,20 @@ CREATE TABLE `model_items` (
   `model_id` int(10) NOT NULL COMMENT '所属模块',
   `ctrl_id` int(10) NOT NULL COMMENT '控件或规则id（ctrls）',
   `strval` text COMMENT '值',
-  `sessc` varchar(100) NOT NULL COMMENT '整条数据标识'
+  `sessc` varchar(100) NOT NULL COMMENT '整条数据标识',
+  `orderid` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `model_items`
 --
 
-INSERT INTO `model_items` (`id`, `model_id`, `ctrl_id`, `strval`, `sessc`) VALUES
-(39, 11, 18, '9', '2017-11-20-14:41:13'),
-(40, 11, 17, '<p>阿道夫</p>', '2017-11-20-14:41:13'),
-(41, 11, 20, '6', '2017-11-20-14:41:13'),
-(42, 11, 19, '1', '2017-11-20-14:41:13'),
-(43, 11, 16, '手机VIVO', '2017-11-20-14:41:13'),
-(44, 11, 16, 'PHPDATA', '2017-11-20-14:45:3'),
-(45, 11, 17, '<p>date() 函数的格式参数是必需的，它们规定如何格式化日期或时间。</p><p>下面列出了一些常用于日期的字符：</p><ul><li>d - 表示月里的某天（01-31）</li><li>m - 表示月（01-12）</li><li>Y - 表示年（四位数）</li><li>1 - 表示周里的某天</li></ul><p>其他字符，比如 \"/\", \".\" 或 \"-\" 也可被插入字符中，以增加其他格式。</p><p>下面的例子用三种不同方法格式今天的日期：</p>', '2017-11-20-14:45:3'),
-(46, 11, 19, '0', '2017-11-20-14:45:3'),
-(47, 11, 16, '标题1', '2017-11-20-15:17:29'),
-(48, 11, 19, '1', '2017-11-20-15:17:29'),
-(49, 11, 18, '7', '2017-11-20-15:17:29'),
-(50, 11, 17, '<p>123123123123</p>', '2017-11-20-15:17:29');
+INSERT INTO `model_items` (`id`, `model_id`, `ctrl_id`, `strval`, `sessc`, `orderid`) VALUES
+(1, 1, 2, '1', '20171120234522', 1),
+(2, 1, 1, '商品1', '20171120234522', 0),
+(3, 1, 5, '是', '20171120234522', 2),
+(4, 1, 4, '是', '20171120234522', 3),
+(5, 1, 3, '<p>商品介绍……</p>', '20171120234522', 4);
 
 -- --------------------------------------------------------
 
@@ -245,8 +233,7 @@ CREATE TABLE `pic` (
 --
 
 INSERT INTO `pic` (`Id`, `pictitle`) VALUES
-(6, '品牌图库_2017-11-01'),
-(5, '图库1');
+(1, '图库_20171120');
 
 -- --------------------------------------------------------
 
@@ -266,12 +253,9 @@ CREATE TABLE `pic_item` (
 --
 
 INSERT INTO `pic_item` (`Id`, `Pictype`, `Picurl`, `picid`) VALUES
-(9, 1, '/uploads/pic_5/2017-10-31_a.png', 5),
-(10, 1, '/uploads/pic_6/2017-11-01_timg (2).jpg', 6),
-(7, 1, '/uploads/pic_5/2017-10-27_1c3e6709c93d70cf96673798f0dcd100bba12b82.jpg', 5),
-(11, 1, '/uploads/pic_6/2017-11-01_tw.jpg', 6),
-(15, 1, '/uploads/pic_6/2017-11-03_124021102_1c3e6709c93d70cf96673798f0dcd100bba12b82.jpg', 6),
-(17, 1, '/uploads/pic_5/2017-11-03_143625208_timg.jpg', 5);
+(1, 1, '/uploads/pic_1/20171120_233351389_1.jpg', 1),
+(2, 1, '/uploads/pic_1/20171120_23359904_2.jpg', 1),
+(3, 1, '/uploads/pic_1/20171120_233517825_3.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -388,14 +372,6 @@ CREATE TABLE `shop_pinpai` (
   `fid` int(10) NOT NULL COMMENT '所在栏目',
   `pcont` text NOT NULL COMMENT '品牌详情'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `shop_pinpai`
---
-
-INSERT INTO `shop_pinpai` (`id`, `Pinpaititle`, `Logo`, `fid`, `pcont`) VALUES
-(14, '天王表', '11', 8, '<div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;天王表是香港时计宝集团旗下的腕表品牌，采用皇冠造型作为品牌标志，经过二十多年的发展，现已成为国内腕表行业的著名品牌。更先后荣获了“中国名牌”、“中国驰名商标”、“国家级高新技术企业”等荣誉。</div><div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;天王表逐步成长为国内知名钟表品牌，并连续四年被国内贸易部、中国电子工业部、中国轻工业总会、中国消费者协会、国家技术监督局、中国纺织总会、国家经贸委等七部委评为全国畅销产品“金桥奖”。</div><p><iframe height=\"498\" width=\"510\" src=\"http://player.youku.com/embed/XMzEyMzI5MzE5Mg==\" frameborder=\"0\" \'allowfullscreen\'=\"\"></iframe></p><p><br></p>'),
-(13, '尼桑', '10', 8, '<div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日产（NISSAN ），是日本的一家汽车制造商，由鲇川义介(Aikawa Yoshisuke)于1933年在神奈川县横滨市成立，目前在二十个国家和地区（包括日本）设有汽车制造基地，并在全球160多个国家和地区提供产品和服务。</div><div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司经营范围包括汽车产品和船舶设备的制造、销售和相关业务，现任总裁兼首席执行官为卡洛斯·戈恩（Carlos Ghosn）。1999年，雷诺与日产汽车结成独立的合作伙伴关系，在广泛的领域中展开战略性的合作，日产汽车通过联盟将事业区域拓展至全球，其经济规模大幅增长。</div><div label-module=\"para\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“NISSAN’（ニッサン）是日语 “日产”两个字的罗马音形式，是日本产业的简称，其含义是 “以人和汽车的明天为目标”。</div><div label-module=\"para\">图形商标是将NISSAN放在一个火红的太阳上，简明扼要地表明了公司名称，突出了所在国家的形象，这在汽车商标文化中独树一帜。</div>');
 
 -- --------------------------------------------------------
 
@@ -542,13 +518,13 @@ ALTER TABLE `users`
 -- 使用表AUTO_INCREMENT `article`
 --
 ALTER TABLE `article`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文章id', AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文章id', AUTO_INCREMENT=2;
 
 --
 -- 使用表AUTO_INCREMENT `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '栏目id', AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '栏目id', AUTO_INCREMENT=5;
 
 --
 -- 使用表AUTO_INCREMENT `config`
@@ -566,31 +542,31 @@ ALTER TABLE `managers`
 -- 使用表AUTO_INCREMENT `model`
 --
 ALTER TABLE `model`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- 使用表AUTO_INCREMENT `model_ctrls`
 --
 ALTER TABLE `model_ctrls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用表AUTO_INCREMENT `model_items`
 --
 ALTER TABLE `model_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用表AUTO_INCREMENT `pic`
 --
 ALTER TABLE `pic`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片库id', AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片库id', AUTO_INCREMENT=2;
 
 --
 -- 使用表AUTO_INCREMENT `pic_item`
 --
 ALTER TABLE `pic_item`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片表id', AUTO_INCREMENT=18;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片表id', AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `shop_active`
@@ -626,7 +602,7 @@ ALTER TABLE `shop_paycar`
 -- 使用表AUTO_INCREMENT `shop_pinpai`
 --
 ALTER TABLE `shop_pinpai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '品牌id', AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '品牌id';
 
 --
 -- 使用表AUTO_INCREMENT `users`

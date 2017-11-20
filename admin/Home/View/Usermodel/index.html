@@ -31,7 +31,7 @@
 		/**
 		自动加载
 		**/
-		$.post("__CONTROLLER__/load_model",{id:model_id},function(data){
+		$.post("__CONTROLLER__/int_model",{id:model_id},function(data){
 			if(data!='err'){
 				model=data;
 				var el = $('#p1'); 
@@ -69,8 +69,8 @@
 				}else if(ctrls[i].cui=='2'){
 					//下拉选择是否
 					csstr='<select id="cui_'+ctrls[i].id+'">';
-					csstr+='<option value="0">否</option>';
-					csstr+='<option value="1">是</option>';
+					csstr+='<option value="否">否</option>';
+					csstr+='<option value="是">是</option>';
 					csstr+='</select>';
 				}else if(ctrls[i].cui=='4'){
 					//使用图片库
@@ -221,8 +221,17 @@
 									}
 									//清空表单
 									function clearfm(){
-										$("#id").val("0");
+										$("#sessc").val("");
 										$("#isedit").val('0');
+										for(var i=0;i<model.ctrls.length;i++){
+											if(model.ctrls[i].cui=='3'){
+												eval("edit_"+model.ctrls[i].id+".txt.html('');");
+											}else if(model.ctrls[i].cui=='2'){
+												$("#cui_"+model.ctrls[i].id).val('0');
+											}else{
+												$("#cui_"+model.ctrls[i].id).val('');
+											}
+										}
 									}
 									$("#btn-cancel").click(function(e) {
 										clearfm();
@@ -243,6 +252,10 @@
 											}else{
 												cts[i]['val']=$("#cui_"+ctrls[i].id).val();
 											}
+											if(cts[i]['val']=="" || cts[i]['val']==null){
+												modal('错误','在自定义模块中，所有字段必须有值');
+												return;
+											}
 										}
 										var URL='__CONTROLLER__';
 										var isedit=$("#isedit").val();
@@ -256,7 +269,7 @@
 										for(var i=0;i<cts.length;i++){
 											id=cts[i].id;
 											val=cts[i].val;
-											if(id!='' && val!=''){
+											if(id!=''){
 												$.ajax({
 													type:'POST',
 													url:URL + '/save_model',
@@ -265,7 +278,8 @@
 														val:val,
 														mid:mid,
 														sessc:sessc,
-														isedit:isedit
+														isedit:isedit,
+														orderid:i
 													},
 													dataType:"text",
 													beforeSend:function() { 
@@ -273,6 +287,9 @@
 													}, 
 													complete:function(data) { 
 														sh_loading_close();
+													},
+													success:function(data){
+														//alert(data);
 													}
 												});
 											}
@@ -310,15 +327,35 @@
 												sh_loading_close();
 												}, 
 											success: function(data){
+												if(data==null || data=='null'){
+													//sh_loading_close();
+													$("#btn_nextpage").html('我也是有底线的');
+													$("#btn_nextpage").slideUp(1000);
+													return;
+												}
 												var b=$.parseJSON(data);
-												alert(b.length);
 												var str="";
+												
 												if(b.length<1){
 													$("#btn_nextpage").html('我也是有底线的');
 													$("#btn_nextpage").slideUp(1000);
 													return;
 												}
-												$("#content").append(str);
+												
+												for(var i=0;i<b.length;i++){
+													str="<tr>";
+													str+="<td>"+b[i]['sessc']+"</td>";
+													for(var a=0;a<b[i]['list'].length;a++){
+														if(b[i]['list'][a].cui=='1' || b[i]['list'][a].cui=='3' || b[i]['list'][a].cui=='4'){
+														//	str+="<td>-</td>";
+														}else{
+															str+="<td>"+b[i]['list'][a].strval+"</td>";
+														}
+													}
+													str+='<td><a href="javascript:;" onclick="load_model('+"'"+b[i]['sessc']+"'"+')">编辑</a> | <a href="javascript:;" onclick="del_model('+"'"+b[i]['sessc']+"'"+')">删除</a></td>';
+													str+="</tr>";
+													$("#content").append(str);
+												}
 												var pgn="{$sh1_page_listnum1}";
 												$("#curpage").val(parseInt(s)+parseInt(pgn));
 												$("#btn_nextpage").html('>>> 继续加载{$sh1_page_listnum1}条数据');
@@ -354,14 +391,16 @@
 											}
 			}
 			
-			//读取一个品牌
-			function load_pinpai(id){
+			//读取
+			function load_model(id){
 				var URL='__CONTROLLER__';
+				var mid="{$_GET['id']}";
 					$.ajax({
 						type:'POST',
-						url:URL + '/load_pinpai',
+						url:URL + '/load_model',
 						data:{
-							id:id
+							sessc:id,
+							mid:mid
 							},
 						dataType:"text",
 											beforeSend:function() { 
@@ -372,31 +411,23 @@
 												}, 
 						success: function(data){
 							var b=$.parseJSON(data);
-							$("#id").val(b.sessc);
-							$("#pinpaititle").val(b.pinpaititle);
-							$("#logo").val(b.logo);
-							editor.txt.html(b.pcont);
-							$("#fid").val(b.fid);
+							$("#sessc").val(id);
+							$("#isedit").val('1');
+							for(var i=0;i<b.length;i++){
+								if(b[i].cui=='3'){
+									eval("edit_"+b[i].ctrl_id+".txt.html('"+b[i].strval+"');");
+								}else{
+									$("#cui_"+b[i].ctrl_id).val(b[i].strval);
+								}
+							}
+
+							$("#pagebox").fadeOut(800);
+							$("#tcontent").fadeOut(800);
 							$("#div_addnew").fadeIn(1000);
 						}
 					});
 			}
-			//获取栏目名称
-			function getCateName(cateid,id){
-				var URL='__CONTROLLER__';
-				$.ajax({
-						type:'POST',
-						url:URL + '/get_path',
-						data:{
-							cateid:cateid
-							},
-						dataType:"text",
-						success: function(data){
-							$("#list_catename_"+id).html(data);
-						}
-					});
-			}
-			function del_pinpai(id){
+			function del_model(id){
 				if(id==''){
 					balert('danger','数据错误');
 					return;
@@ -404,7 +435,7 @@
 					var URL='__CONTROLLER__';
 					$.ajax({
 						type:'POST',
-						url:URL + '/del_pinpai',
+						url:URL + '/del_model',
 						data:{
 							id:id
 							},

@@ -15,7 +15,7 @@ class PusermodelController extends PpublicController {
     /**
      * 猎取(加载)模块,合并加入模块使用的控件
      */
-    public function load_model(){
+    public function int_model(){
         $id=$_POST['id'];
         $resu=M('model')->where('id='.$id.' and isshow=1')->order('id desc')->find();
         if($resu!=false){
@@ -30,6 +30,21 @@ class PusermodelController extends PpublicController {
             echo 'err';
         }
     }
+    public function int_model1(){
+        $id=$_GET['id'];
+        $resu=M('model')->where('id='.$id.' and isshow=1')->order('id desc')->find();
+        if($resu!=false){
+            $mcid=explode(',',$resu['mcid']);
+            foreach($mcid as $k => $v){
+                $ctrl=M('model_ctrls')->where('id='.$v)->order('id desc')->find();
+                $resu['ctrls'][$k]=$ctrl;
+            }
+            dump($resu);
+            //$this->ajaxReturn($resu);
+        }else{
+            echo 'err';
+        }
+    }
     
     /**
      * 列表
@@ -39,23 +54,22 @@ class PusermodelController extends PpublicController {
         $modelid=$_POST['modelid'];
         $num = $this->get_conf_byname ( 'sh1_page_listnum1' );
         if ($num == false) {
-            $num = 10;
+            $num =10;
         }
-        $d1=M('model_items')->where('model_id='.$modelid)->distinct(true)->field('sessc,ctrl_id')->select();
+        $d1=M('model_items')->where('model_id='.$modelid)->distinct(true)->group('sessc')->field('sessc')->order('orderid')->select();
         
-       
-        foreach($d1 as $k => $v){            
-            $d2[$k]=M('model_items')->field('id,strval,ctrl_id')->where("sessc='".$v['sessc']."' and ctrl_id=".$v['ctrl_id'])->limit($s,intval($num))->order("id desc")->select();
-            $cui=M('model_ctrls')->where('id='.$v['ctrl_id'])->getField('cui');
-            if($cui=='1' || $cui=='3' || $cui=='4'){    
-            }else{
-                
-                $d3[$k]['list']=$d2[$k];
+        foreach($d1 as $k => $v){
+            $d2[$k]=$v;
+            $d2[$k]['list']=M('model_items')->where("sessc='".$v['sessc']."'")->field('id,ctrl_id,strval')->order('orderid')->select();
+            foreach($d2[$k]['list'] as $kk => $vv){
+                $tcid=$d2[$k]['list'][$kk]['ctrl_id'];
+                $d2[$k]['list'][$kk]['cui']=M('model_ctrls')->where('id='.$tcid)->getField('cui');
             }
         }
-        $this->ajaxReturn ( $d3, 'JSON' );
-        //dump($d2);
+        $resu=array_slice($d2,$s,$num);
+        $this->ajaxReturn($resu);
     }
+    
     
     /**
      * 保存
@@ -65,10 +79,11 @@ class PusermodelController extends PpublicController {
         $id=$_POST['id'];
         $mid=$_POST['mid'];
         $d['strval']=$val;
-        $d['ctrl_id']=$id;
         $sessc=$_POST['sessc'];
         $isedit=$_POST['isedit'];
         if($isedit=='0'){
+            $d['orderid']=$_POST['orderid'];
+            $d['ctrl_id']=$id;
             $d['model_id']=$mid;
             $d['sessc']=$sessc;
             $resu=M('model_items')->add($d);
@@ -78,18 +93,40 @@ class PusermodelController extends PpublicController {
                 echo 'err1';
             }
         }else{
-            $c=M('model_items')->where('model_id='.$mid." and sessc='".$sessc."'")->count();
-            if($c>0){
-                echo 'rename';
-            }else{
-                $d['model_id']=$mid;
-                $resu=M("model_items")->where("sessc='".$sessc."'")->save($d);
+            $resu=M("model_items")->where("model_id=".$mid.' and ctrl_id='.$id." and sessc='".$sessc."' and orderid=".$_POST['orderid'])->save($d);
                 if($resu!=false){
                     echo 'ok';
                 }else{
                     echo 'err';
                 }
-            }
         }
+    }
+    
+    /**
+     * 删除
+     */
+    public function del_model(){
+        $id = $_POST ['id'];
+        $d = M ( 'model_items' )->where ( "sessc='" . $id ."'" )->delete ();
+        if ($d != 0 && $d != false) {
+            echo 'ok';
+        } else {
+            echo 'err';
+        }
+    }
+    
+    /**
+     * 读取
+     */
+    
+    public function load_model(){
+        $id = $_POST ['sessc'];
+        $mid=$_POST['mid'];
+        $d = M ( 'model_items' )->field('ctrl_id,strval')->where ( "sessc='".$id."' and model_id=".$mid )->select ();
+        foreach($d as $kk => $vv){
+            $tcid=$d[$kk]['ctrl_id'];
+            $d[$kk]['cui']=M('model_ctrls')->where('id='.$tcid)->getField('cui');
+        }
+        $this->ajaxReturn ( $d, 'JSON' );
     }
 }

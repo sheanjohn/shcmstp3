@@ -85,7 +85,12 @@
 										<button type="button" style="margin:5px; display:none;" class="btn btn-default btn-sm disabled"><i class="fa fa-minus"></i> 无控件</button>
 									</div>
 									<script>
-										function cmove(id){
+										function cmove(id,thr){
+											var tid=$("#id").val();
+											if (tid!='0' && thr!='pass'){
+												modal('提示','编辑模型时，无法更改控件');
+												return;
+											}
 											var c=$("#hasctrls").children("#"+id);
 											var jid=id.replace('c_','');
 											var ctl=$("#mcid");
@@ -282,10 +287,10 @@ str=str+'</tr>';
 						$("#isshow").val(b.isshow);
 						var arr=b.mcid.split(",");
 						for(var i=0;i<arr.length;i++){
-							cmove('c_'+arr[i]);
+							cmove('c_'+arr[i],'pass');
 						}
 						
-
+						
 						$("#pagebox").fadeOut(800);
 						$("#tcontent").fadeOut(800);
 						$("#div_addnew").fadeIn(1000);
