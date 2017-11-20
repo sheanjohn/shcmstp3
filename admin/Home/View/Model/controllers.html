@@ -119,19 +119,12 @@
 						<div class="control-group">
 							<label class="control-label">使用文本编辑器</label>
 							<div class="controls">
-								<select id="useor">
-									<option value="0"> 不使用 </option>
-									<option value="1"> 使用 </option>
-								</select>
-							</div>
-						</div>
-						
-						<div class="control-group">
-							<label class="control-label">激活图片库选择</label>
-							<div class="controls">
-								<select id="upic">
-									<option value="0"> 不使用 </option>
-									<option value="1"> 使用 </option>
+								<select id="cui">
+									<option value="0"> 输入框 </option>
+									<option value="1"> 从图片库中选择图片</option>
+									<option value="2"> 下拉列表(是/否)</option>
+									<option value="3"> 文本编辑器 </option>
+									<option value="4"> 选择一个图片库</option>
 								</select>
 							</div>
 						</div>
@@ -161,8 +154,7 @@
 										$("#cloc").val("");
 										$("#ctype").val("");
 										$("#cinfo").val("");
-										$("#useor").val("0");
-										$("#upic").val('0');
+										$("#cui").val("0");
 									}
 									$("#btn-cancel").click(function(e) {
 										clearfm();
@@ -180,8 +172,7 @@
 										var cloc=$("#cloc").val();
 										var ctype=$("#ctype").val();
 										var cinfo=$("#cinfo").val();
-										var useor=$("#useor").val();
-										var upic=$("#upic").val();
+										var cui=$("#cui").val();
 										if(id=='' || cname=='' || ccnt=='' || clen=='' || ccond=='' || cloc=='' || ctype==''){
 											modal('提示','信息不完整');
 											return;
@@ -200,8 +191,7 @@
 												cloc:cloc,
 												ctype:ctype,
 												cinfo:cinfo,
-												useor:useor,
-												upic:upic
+												cui:cui
 												},
 											dataType:"text",
 											beforeSend:function() { 
@@ -328,8 +318,7 @@ str=str+'</tr>';
 							$("#cloc").val(b.cloc);
 							$("#ctype").val(b.ctype);
 							$("#cinfo").val(b.cinfo);
-							$("#useor").val(b.useor);
-							$("#upic").val(b.upic);
+							$("#cui").val(b.cui);
 							
 							$("#div_addnew").fadeIn(1000);
 							$("#tcontent").fadeOut(800);

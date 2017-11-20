@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-20 08:08:56
+-- Generation Time: 2017-11-20 16:57:40
 -- 服务器版本： 5.7.20-log
 -- PHP Version: 5.6.32
 
@@ -80,7 +80,7 @@ INSERT INTO `category` (`id`, `catetitle`, `fid`, `url`, `icon`, `cont`, `ismenu
 (10, '文章中心', 0, '', '', '<p>文章中心</p>', 1, 0, 5, 0, 0),
 (11, '其他', 10, '', '', '其他', 1, 0, 10, 0, 0),
 (15, '物联网之家', 10, '', '', '物联网专题栏目', 1, 0, 10, 1, 0),
-(16, '基于模块栏目', 10, '', '', '123', 1, 1, 10, 0, 5);
+(16, '基于模块栏目', 10, '', '', '123', 1, 1, 10, 0, 11);
 
 -- --------------------------------------------------------
 
@@ -165,9 +165,7 @@ CREATE TABLE `model` (
 --
 
 INSERT INTO `model` (`id`, `mname`, `mcid`, `isshow`) VALUES
-(8, '小视频', '7,12,13,14', 1),
-(9, '名片', '8,10,9,12', 1),
-(10, '商品', '15,13,12,11,7', 1);
+(11, '产品', '16,17,18,19,20', 1);
 
 -- --------------------------------------------------------
 
@@ -185,24 +183,19 @@ CREATE TABLE `model_ctrls` (
   `cloc` int(10) NOT NULL DEFAULT '0' COMMENT '位置0不计算',
   `ctype` varchar(10) NOT NULL DEFAULT 'str' COMMENT '数据类型',
   `cinfo` varchar(60) DEFAULT NULL COMMENT '标记，简要说明',
-  `useor` int(1) NOT NULL DEFAULT '0' COMMENT '是否使用编辑器',
-  `upic` int(1) NOT NULL DEFAULT '0' COMMENT '是否激活图片库选择'
+  `cui` int(1) NOT NULL DEFAULT '0' COMMENT '0普通输入框，1激活图片库选择，2下拉列表，3启用编辑器,4选择图片库'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `model_ctrls`
 --
 
-INSERT INTO `model_ctrls` (`id`, `cname`, `cval`, `ccnt`, `clen`, `ccond`, `cloc`, `ctype`, `cinfo`, `useor`, `upic`) VALUES
-(7, '标题', '', 0, 21, '<', 0, 'str', '小于20字的字符串', 0, 0),
-(8, '姓名', '', 0, 1, '>', 0, 'str', '大于1字的字符（姓名）', 0, 0),
-(9, '手机号码', '1', 1, 11, '=', 1, 'int', '手机号码，1开头，11位整数', 0, 0),
-(10, '地址', '', 0, 31, '<', 0, 'str', '最多30字的字符串（地址）', 0, 0),
-(11, '单价', '', 0, 10, '<', 0, 'int', '价格，小于10位的数字', 0, 0),
-(12, '图片', '', 0, 5, '<', 0, 'int', '小于5位的数字（图片库ID）', 0, 1),
-(13, '详细介绍', '', 0, 201, '<', 0, 'str', '使用了编辑器的文本，200长', 1, 0),
-(14, '下载地址', '', 0, 200, '<', 0, 'str', '下载地址200长字符串', 0, 0),
-(15, '品牌', '', 0, 0, '>', 0, 'str', '品牌', 0, 0);
+INSERT INTO `model_ctrls` (`id`, `cname`, `cval`, `ccnt`, `clen`, `ccond`, `cloc`, `ctype`, `cinfo`, `cui`) VALUES
+(16, '标题', '', 0, 10, '>', 0, 'str', '标题，大于0', 0),
+(17, '介绍', '', 0, 201, '<', 0, 'str', '详情，文本编辑，长度200以内', 3),
+(18, '图片', '', 0, 5, '<', 0, 'str', '图片', 1),
+(19, '是否显示', '', 0, 2, '<', 0, 'int', '是否显示，下拉列表', 2),
+(20, '图片库', '', 0, 3, '<', 0, 'int', '1', 4);
 
 -- --------------------------------------------------------
 
@@ -214,8 +207,27 @@ CREATE TABLE `model_items` (
   `id` int(11) NOT NULL,
   `model_id` int(10) NOT NULL COMMENT '所属模块',
   `ctrl_id` int(10) NOT NULL COMMENT '控件或规则id（ctrls）',
-  `strval` text COMMENT '值'
+  `strval` text COMMENT '值',
+  `sessc` varchar(100) NOT NULL COMMENT '整条数据标识'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `model_items`
+--
+
+INSERT INTO `model_items` (`id`, `model_id`, `ctrl_id`, `strval`, `sessc`) VALUES
+(39, 11, 18, '9', '2017-11-20-14:41:13'),
+(40, 11, 17, '<p>阿道夫</p>', '2017-11-20-14:41:13'),
+(41, 11, 20, '6', '2017-11-20-14:41:13'),
+(42, 11, 19, '1', '2017-11-20-14:41:13'),
+(43, 11, 16, '手机VIVO', '2017-11-20-14:41:13'),
+(44, 11, 16, 'PHPDATA', '2017-11-20-14:45:3'),
+(45, 11, 17, '<p>date() 函数的格式参数是必需的，它们规定如何格式化日期或时间。</p><p>下面列出了一些常用于日期的字符：</p><ul><li>d - 表示月里的某天（01-31）</li><li>m - 表示月（01-12）</li><li>Y - 表示年（四位数）</li><li>1 - 表示周里的某天</li></ul><p>其他字符，比如 \"/\", \".\" 或 \"-\" 也可被插入字符中，以增加其他格式。</p><p>下面的例子用三种不同方法格式今天的日期：</p>', '2017-11-20-14:45:3'),
+(46, 11, 19, '0', '2017-11-20-14:45:3'),
+(47, 11, 16, '标题1', '2017-11-20-15:17:29'),
+(48, 11, 19, '1', '2017-11-20-15:17:29'),
+(49, 11, 18, '7', '2017-11-20-15:17:29'),
+(50, 11, 17, '<p>123123123123</p>', '2017-11-20-15:17:29');
 
 -- --------------------------------------------------------
 
@@ -554,19 +566,19 @@ ALTER TABLE `managers`
 -- 使用表AUTO_INCREMENT `model`
 --
 ALTER TABLE `model`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- 使用表AUTO_INCREMENT `model_ctrls`
 --
 ALTER TABLE `model_ctrls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- 使用表AUTO_INCREMENT `model_items`
 --
 ALTER TABLE `model_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- 使用表AUTO_INCREMENT `pic`

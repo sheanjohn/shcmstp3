@@ -14,6 +14,8 @@
 	//自动执行
 	$(function() { 
 		$("[data-toggle='tooltip']").tooltip();
+		console.log('现在是'+getNowFormatDate(1)+',天气：未知；')
+		console.log('这位看代码的同学，不要再看了……');
 	})
 	function uploadfile(DIR,CTRL,WCTRL,PICCTRL){
 		//dir,要创建的目录 /uploads/这里创建
@@ -78,7 +80,7 @@
 	});
 	}
 	//日期
-	//sw=1只有日期，0全部
+	//sw=1只有日期，0全部,2全数字
 	function getNowFormatDate(sw) {
 	    var date = new Date();
 	    var seperator1 = "-";
@@ -97,6 +99,9 @@
 	    var currentdate1=date.getFullYear() + seperator1 + month + seperator1 + strDate;
 	    if(sw=="1") {
 		    return currentdate1;
+	    }else if(sw=='2'){
+	    	var str=currentdate.replace(' ','-');
+	    	return str;
 	    }else{
 	    	return currentdate;
 	    }

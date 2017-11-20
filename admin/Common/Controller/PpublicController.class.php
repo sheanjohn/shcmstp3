@@ -243,6 +243,13 @@ class PpublicController extends Controller {
 	    $d=M('model_ctrls')->order('id desc')->select();
 	    $this->ajaxReturn($d);
 	}
+	
+	/**
+	 * 日期
+	 */
+	public function get_dt(){
+	    return date("Ymdhis");
+	}
 }
 
 

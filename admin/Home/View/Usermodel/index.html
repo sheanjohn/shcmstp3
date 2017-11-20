@@ -18,6 +18,7 @@
 					<include file="Public:menu" />
 				</div>
 			</div>
+	<script type="text/javascript" src="__PUBLIC__/editor/wangEditor.js"></script>
 <!-- 模块主控部分开始 -->
 	<script>
 		
@@ -26,6 +27,7 @@
 		**/
 		var model_id="{$_GET['id']}";
 		var model;
+	    var E = window.wangEditor;
 		/**
 		自动加载
 		**/
@@ -48,63 +50,133 @@
 			var ctrls=model.ctrls;
 			$("#table_ctrls_title").before("<th>ID</th>");
 			for(var i=0;i<ctrls.length;i++){
-				//处理表格头
-				$("#table_ctrls_title").before("<th>"+ctrls[i].cname+"</th>");
-//表单===============================================
-
-if(ctrls[i].upic=='1'){
-	//使用图片库
-	csstr='<a href="javascript:;" id="btn_selicon" onclick="op('+"'icon"+ctrls[i].id+"'"+')"';
-	csstr+='	class="btn btn-sm btn-success">从图库中选择...</a> <a';
-	csstr+='	href="javascript:;" id="btn_icon_view"';
-	csstr+='class="btn btn-sm btn-info" name="icon'+ctrls[i].id+'">图标预览</a>';
-	csstr+='<input type="hidden" id="icon'+ctrls[i].id+'" />';
-}else if(ctrls[i].useor=='1'){
-	csstr='';
-}else{
-	//普通表单项
-	csstr='<div class="controls">';
-	csstr+='	<input type="text" class="input-xlarge" id="uc_'+ctrls[i].id+'"';
-	csstr+='		placeholder="请输入'+ctrls[i].cname+'..." maxlength="'+ctrls[i].clen+'" />';
-	csstr+='</div>';
-}
-
-htmlstr="";
-htmlstr+='<div class="control-group">';
-htmlstr+='<label class="control-label">'+ctrls[i].cname+'</label>';
-htmlstr+=csstr;
-htmlstr+='</div>';
-$("#controller_fm").before(htmlstr);
-//表单END===============================================
+				//处理表格头,编辑器、图片、图片库类型不显示
+				if(ctrls[i].cui!='3' && ctrls[i].cui!='4' && ctrls[i].cui!='1'){
+					$("#table_ctrls_title").before("<th>"+ctrls[i].cname+"</th>");
+				}
+				//表单===============================================
+				
+				if(ctrls[i].cui=='1'){
+					//使用图片
+					csstr='<a href="javascript:;" onclick="op('+"'cui_"+ctrls[i].id+"','0'"+')"';
+					csstr+='	class="btn btn-sm btn-success"><i class="fa fa-check"></i> 从图库中选择...</a> <a';
+					csstr+='	href="javascript:;" ';
+					csstr+='class="btn btn-sm btn-info btn_pics" onclick="imgsw('+"'"+ctrls[i].id+"'"+')" name="'+ctrls[i].id+'"><i class="fa fa-search"></i> 图标预览</a>';
+					csstr+='<input type="hidden" id="cui_'+ctrls[i].id+'" />';
+				}else if(ctrls[i].cui=='3'){
+					//文本编辑器
+					csstr='<div id="teditor'+ctrls[i].id+'" style="z-index:-100;"></div>';
+				}else if(ctrls[i].cui=='2'){
+					//下拉选择是否
+					csstr='<select id="cui_'+ctrls[i].id+'">';
+					csstr+='<option value="0">否</option>';
+					csstr+='<option value="1">是</option>';
+					csstr+='</select>';
+				}else if(ctrls[i].cui=='4'){
+					//使用图片库
+					csstr='<a href="javascript:;" onclick="op('+"'cui_"+ctrls[i].id+"','1'"+')"';
+					csstr+='	class="btn btn-sm btn-success"><i class="fa fa-check"></i> 选择一个图片库</a> <a';
+					csstr+='	href="javascript:;" ';
+					csstr+='class="btn btn-sm btn-info btn_pics" onclick="imgku('+"'"+ctrls[i].id+"'"+')" name="'+ctrls[i].id+'"><i class="fa fa-search"></i> 查看图片库</a>';
+					csstr+='<input type="hidden" id="cui_'+ctrls[i].id+'" />';
+				}else{
+					//普通表单项
+					csstr='<div class="controls">';
+					csstr+='	<input type="text" class="input-xlarge" id="cui_'+ctrls[i].id+'"';
+					csstr+='		placeholder="请输入'+ctrls[i].cname+'..." maxlength="'+ctrls[i].clen+'" />';
+					csstr+='</div>';
+				}
+				
+				htmlstr='';
+				htmlstr+='<div class="control-group">';
+				htmlstr+='<label class="control-label">'+ctrls[i].cname+'</label>';
+				htmlstr+=csstr;
+				htmlstr+='</div>';
+				$("#controller_fm").before(htmlstr);
+				
+				if(ctrls[i].cui=='3'){
+					eval("edit_" + ctrls[i].id+" = new E('#teditor"+ctrls[i].id+"');");
+					eval("edit_" + ctrls[i].id+".create();");
+					//eval("var set_" + i + "=" + i);
+					//为编辑器create
+					//edit_ + ctrls[i].id = new E('#teditor'+ctrls[i].id);
+					//editor.create()
+				}
+				//表单END===============================================
 
 			}
 			
 		}
 		var lightbox;
-		function op(cid) {
+		function op(cid,ku) {
+			var v;
+			if(ku=='1'){
+				v="selku";
+			}else{
+				v="yes";
+			}
 	        // Open a URL in a lightbox
-			lightbox = lity("{:C('ROOT_DIR')}/home/pic/index/select/yes/cid/"+cid);
+			lightbox = lity("{:C('ROOT_DIR')}/home/pic/index/select/"+v+"/cid/"+cid);
 			
 			// Bind as an event handler
 			$(document).on('click', '[data-lightbox]', lity);
 	    }
+		
+		//预览图片库
+		function imgku(id){
+			var imgv=$("#cui_"+id).val();
+			if(imgv==''){
+				modal('提示','尚未选择图库');
+				return;
+			}else{
+				var url="{:C('ROOT_DIR')}/home/pic/items/id/"+imgv;
+				lightbox = lity(url);
+			}
+		}
+		
 		//预览图片按钮
-		$("#btn_icon_view").click(function(){
-			alert($(this).attr('name'));
-		})
+		function imgsw(id){
+
+			var imgv=$("#cui_"+id).val();
+			if(imgv==''){
+            	modal('提示','还没设置图标');
+			}else{
+				var URL='__CONTROLLER__';
+				$.ajax({
+					type:'POST',
+					url:URL + '/get_iconurl_byid',
+					data:{
+						id:imgv
+						},
+					dataType:"text",
+			beforeSend:function() { 
+				sh_loading();
+				}, 
+				complete:function(data) { 
+				sh_loading_close();
+				}, 
+					success: function(data){
+						lightbox = lity(data);
+					}
+				});
+
+			}
+		}
 	</script>
 <!-- 模块主控部分结束 -->
 			<!---开始--->
 			<div class="span9" id="p1">
 				<h2 class="model_name" onclick="alert(model.mname)">{#title}</h2>
 				<div class="well blank-slate" id="gbodx">
-					<p>点击按钮创建新的品牌</p>
+					<p>点击按钮创建新的{#title}</p>
 					<span class="btn btn-sm btn-success" id="btn-addnew"><i class="fa fa-plus"></i> 新建</span>
 					<script>
 								$("#btn-addnew").click(function(e) {
                                     $("#div_addnew").fadeIn(800);
 									$("#tcontent").fadeOut(800);
 									$("#pagebox").fadeOut(800);
+									$("#isedit").val('0');
+									$("#sessc").val(getNowFormatDate(2));
                                 });
 							</script>
 				</div>
@@ -131,16 +203,18 @@ $("#controller_fm").before(htmlstr);
 					<fieldset>
 						<legend>编辑{#title}</legend>
 						
-						<!-- 这里自动添加控表单 -->
+						<!-- 这里自动添加表单控件 -->
 						
 						<div class="form-actions" id="controller_fm">
 							<button type="button" class="btn btn-primary" id="btn_save">保存</button>
 							<button class="btn btn-sm btn-danger" id="btn-cancel">取消并收起</button>
-							<input type="hidden" value="0" id="id" />
+							
+							<input type="hidden" value="" id="sessc" />
+							<input type="hidden" value="0" id="isedit"/>
 							<script>
 									//子窗口赋值
 									function getV(v,cid){
-										//alert(cid);
+										//alert(cid+'+'+v);
 										$("#"+cid).val(v);
 										lightbox.close();
 										//return v;
@@ -148,8 +222,7 @@ $("#controller_fm").before(htmlstr);
 									//清空表单
 									function clearfm(){
 										$("#id").val("0");
-										$("#pinpaititle").val("");
-										$("#logo").val("");
+										$("#isedit").val('0');
 									}
 									$("#btn-cancel").click(function(e) {
 										clearfm();
@@ -157,47 +230,54 @@ $("#controller_fm").before(htmlstr);
 										$("#tcontent").fadeIn(800);
 										$("#pagebox").fadeIn(800);
                                     });
+									//更新数据
 									$("#btn_save").click(function(e) {
-										var id=$("#id").val();
-										var pinpaititle=$("#pinpaititle").val();
-										var logo=$("#logo").val();
-										var fid=$("#fid").val();
-										var pcont;
-										pcont=editor.txt.html();
-										if(id=='' || pinpaititle=='' || logo==''){
-											balert('warning','信息不完整');
+										var ctrls=model.ctrls;
+										var cts=new Array(ctrls.length);
+										for(var i=0;i<ctrls.length;i++){
+											cts[i] = new Array(2);
+											cts[i]['id']=ctrls[i].id;
+											if(ctrls[i].cui=='3'){
+												eval("var val=edit_"+ctrls[i].id+".txt.html();");
+												cts[i]['val']=val;
+											}else{
+												cts[i]['val']=$("#cui_"+ctrls[i].id).val();
+											}
+										}
+										var URL='__CONTROLLER__';
+										var isedit=$("#isedit").val();
+										var id,val,mid,sessc;
+										mid="{$_GET['id']}";
+										sessc=$("#sessc").val();
+										if(sessc==''){
+											modal('错误','识别码数据错误');
 											return;
 										}
-                                        var URL='__CONTROLLER__';
-										$.ajax({
-											type:'POST',
-											url:URL + '/save_pinpai',
-											data:{
-												id:id,
-												pinpaititle:pinpaititle,
-												logo:logo,
-												fid:fid,
-												pcont:pcont
-												},
-											dataType:"text",
-											beforeSend:function() { 
-												sh_loading();
-												}, 
-												complete:function(data) { 
-												sh_loading_close();
-												}, 
-											success: function(data){
-												clearfm();
-												if(data=='ok'){
-													window.location.reload();
-												}else if(data=='rename'){
-													balert('warning','这个品牌已经有了');
-												}else{
-													balert('danger','保存失败');
-												}
+										for(var i=0;i<cts.length;i++){
+											id=cts[i].id;
+											val=cts[i].val;
+											if(id!='' && val!=''){
+												$.ajax({
+													type:'POST',
+													url:URL + '/save_model',
+													data:{
+														id:id,
+														val:val,
+														mid:mid,
+														sessc:sessc,
+														isedit:isedit
+													},
+													dataType:"text",
+													beforeSend:function() { 
+														sh_loading();
+													}, 
+													complete:function(data) { 
+														sh_loading_close();
+													}
+												});
 											}
-										});
-
+										}
+										window.location.reload();
                                     });
 								</script>
 						</div>
@@ -208,17 +288,19 @@ $("#controller_fm").before(htmlstr);
 		</div>
 	</div>
 	<script>
-			//记载品牌列表
+			//
 			function loadmore(){
 										$("#btn_nextpage").html('请稍后...');
 										$("#btn_nextpage").removeClass("btn-info");
 										var URL='__CONTROLLER__';
 										var s=$("#curpage").val();
+										var modelid="{$_GET['id']}";
 										$.ajax({
 											type:'POST',
-											url:URL + '/list_pinpai',
+											url:URL + '/list_model',
 											data:{
-												s:s
+												s:s,
+												modelid:modelid
 												},
 											dataType:"text",
 											beforeSend:function() { 
@@ -229,44 +311,18 @@ $("#controller_fm").before(htmlstr);
 												}, 
 											success: function(data){
 												var b=$.parseJSON(data);
+												alert(b.length);
 												var str="";
-												var catename="";
 												if(b.length<1){
 													$("#btn_nextpage").html('我也是有底线的');
 													$("#btn_nextpage").slideUp(1000);
 													return;
 												}
-												for (var i=0;i<b.length;i++)
-												{
-													/*
-													获取栏目名字
-													*/
-													catename=getCateName(b[i].fid,b[i].id);
-													
-str=str+'<tr>';
-str=str+'	<td>';
-str=str+b[i].id;
-str=str+'	</td>';
-str=str+'	<td>';
-str=str+b[i].pinpaititle;
-str=str+'	</td>';
-str=str+'	<td id="list_catename_'+b[i].id+'">';
-str=str+'读取中...';
-str=str+'	</td>';
-str=str+'	<td>';
-str=str+'<a href="javascript:;" onclick="viewicon('+"'"+b[i].logo+"'"+')">查看</a>';
-str=str+'	</td>';
-str=str+'	<td>';
-str=str+'		<a href="javascript:;" onclick="load_pinpai('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
-str=str+'		<a href="javascript:;" class="view-link" onclick="del_pinpai('+"'"+b[i].id+"'"+')">删除</a>';
-str=str+'	</td>';
-str=str+'</tr>';
-												}
-											var pgn="{$sh1_page_listnum1}";
-											$("#curpage").val(parseInt(s)+parseInt(pgn));
-											$("#content").append(str);
-											$("#btn_nextpage").html('>>> 继续加载{$sh1_page_listnum1}条数据');
-											$("#btn_nextpage").addClass("btn-info");
+												$("#content").append(str);
+												var pgn="{$sh1_page_listnum1}";
+												$("#curpage").val(parseInt(s)+parseInt(pgn));
+												$("#btn_nextpage").html('>>> 继续加载{$sh1_page_listnum1}条数据');
+												$("#btn_nextpage").addClass("btn-info");
 											}
 										});
 			}
@@ -316,7 +372,7 @@ str=str+'</tr>';
 												}, 
 						success: function(data){
 							var b=$.parseJSON(data);
-							$("#id").val(b.id);
+							$("#id").val(b.sessc);
 							$("#pinpaititle").val(b.pinpaititle);
 							$("#logo").val(b.logo);
 							editor.txt.html(b.pcont);

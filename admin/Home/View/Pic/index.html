@@ -11,10 +11,10 @@
 <body onLoad="loadmore()">
 	<include file="Public:alerts" />
 	<div class="container">
-		<if condition="$_GET['select'] neq 'yes'"> <include
+		<if condition="$_GET['select'] neq 'yes'  and $_GET['select'] neq 'selku'"> <include
 			file="Public:header" /> </if>
 		<div class="row">
-			<if condition="$_GET['select'] neq 'yes'">
+			<if condition="$_GET['select'] neq 'yes' and $_GET['select'] neq 'selku'">
 			<div class="span3">
 				<div class="well" style="padding: 8px 0;">
 					<include file="Public:menu" />
@@ -181,7 +181,7 @@
 													$("#btn_nextpage").slideUp(1000);
 													return;
 												}
-												var show1,show2,show3,show4
+												var show1,show2,show3,show4,show5
 												show3="{$_GET['select']}";
 												show4="{$_GET['cid']}";
 												for (var i=0;i<b.length;i++)
@@ -192,13 +192,18 @@ if(show1!='0'){
 }else{
 	show2='<img src="__PUBLIC__/admin/img/noimg.gif"/>';
 }
+if(show3=='selku'){
+	show5='&nbsp;&nbsp;<a href="javascript:;" onclick="window.parent.getV('+"'"+b[i].id+"','"+show4+"'"+')" class="btn btn-sm btn-success">选择</a> | ';
+}else{
+	show5='<a href="javascript:;" data-lity data-lity-target="'+URL+'/items/id/'+b[i].id+'/select/'+show3+'/cid/'+show4+'">进入图库</a> | ';
+}
 
 str=str+'<li class="span3">';
 str=str+'	<div class="thumbnail">';
 str=str+show2;
 str=str+'		<div class="caption">';
 str=str+'			<h5>#'+b[i].id+'&nbsp;'+b[i].pictitle+'</h5>';
-str=str+'			<p><a href="javascript:;" data-lity data-lity-target="'+URL+'/items/id/'+b[i].id+'/select/'+show3+'/cid/'+show4+'">进入图库</a> | <a href="javascript:;" onclick="del_cate('+"'"+b[i].id+"'"+')">删除</a> </p>';
+str=str+'			<p>'+show5+'<a href="javascript:;" onclick="del_cate('+"'"+b[i].id+"'"+')">删除</a> </p>';
 str=str+'		</div>';
 str=str+'	</div>';
 str=str+'</li>';
