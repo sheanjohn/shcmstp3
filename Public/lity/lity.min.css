@@ -10,12 +10,12 @@
 	left: 0;
 	white-space: nowrap;
 	background: #0b0b0b;
-	background: rgba(0, 0, 0, 0.9);
+	background: rgba(0, 0, 0, 0.7);
 	outline: none !important;
 	opacity: 0;
 	-webkit-transition: opacity .3s ease;
 	-o-transition: opacity .3s ease;
-	transition: opacity .3s ease
+	transition: opacity .3s ease;
 }
 
 .lity.lity-opened {
@@ -29,7 +29,7 @@
 .lity * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	box-sizing: border-box
+	box-sizing: border-box;
 }
 
 .lity-wrap {
@@ -183,7 +183,7 @@
 	.lity-facebookvideo .lity-container, .lity-googlemaps .lity-container {
 	width: 100%;
 	/*max-width: 964px*/
-	max-width:80%;
+	max-width:85%;
 }
 
 .lity-iframe-container {
@@ -194,7 +194,8 @@
 	pointer-events: auto;
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
-	-webkit-overflow-scrolling: touch
+	-webkit-overflow-scrolling: touch;
+	border:solid 3px #2894ff;
 }
 
 .lity-iframe-container iframe {
@@ -206,7 +207,7 @@
 	height: 100%;
 	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-	background: #000
+	background: #000;
 }
 
 .lity-hide {
