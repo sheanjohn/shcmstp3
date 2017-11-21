@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-20 23:52:06
--- 服务器版本： 5.7.17-log
+-- Generation Time: 2017-11-21 16:58:55
+-- 服务器版本： 5.7.20-log
 -- PHP Version: 5.6.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -71,8 +71,8 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `catetitle`, `fid`, `url`, `icon`, `cont`, `ismenu`, `isshow`, `orderid`, `zhuanti`, `cmod`) VALUES
-(1, '文章中心', 0, '', '1', '<p>无</p>', 1, 0, 10, 0, NULL),
-(2, '业界新闻', 1, '', '1', '无', 1, 0, 10, 0, 0),
+(1, '文章中心', 0, '', '4', '<p>无</p>', 1, 0, 10, 0, NULL),
+(2, '业界新闻', 1, '', '4', '无', 1, 0, 10, 0, 0),
 (3, '商品', 0, '', '3', '<p>无</p>', 1, 0, 10, 0, NULL),
 (4, '附属产品', 3, '', '', '无', 1, 0, 10, 1, 1);
 
@@ -102,7 +102,9 @@ INSERT INTO `config` (`id`, `cname`, `cvalue`, `ccont`) VALUES
 (17, 'sh1_site_desc', '基于ThinkPHP3开发', '网站描述'),
 (18, 'sh1_site_copyright', '葫芦岛明远科技提供技术支持，本站基于ThinkPHP开发设计。', '网站底部文字'),
 (21, 'sh1_user_level', '新秀,少侠,大侠,掌门,宗师,盟主', '会员等级'),
-(22, 'sh1_user_type', '普通用户,企业用户,VIP用户', '会员类型');
+(22, 'sh1_user_type', '普通用户,企业用户,VIP用户', '会员类型'),
+(23, 'sh1_page_bkg', 'bkg30', '指定背景（bkg1,bkg2,bkg3,bkg4）'),
+(24, 'sh1_page_bkc', '#fff', '指定背景颜色');
 
 -- --------------------------------------------------------
 
@@ -233,7 +235,7 @@ CREATE TABLE `pic` (
 --
 
 INSERT INTO `pic` (`Id`, `pictitle`) VALUES
-(1, '图库_20171120');
+(14, '图库_20171121');
 
 -- --------------------------------------------------------
 
@@ -253,9 +255,7 @@ CREATE TABLE `pic_item` (
 --
 
 INSERT INTO `pic_item` (`Id`, `Pictype`, `Picurl`, `picid`) VALUES
-(1, 1, '/uploads/pic_1/20171120_233351389_1.jpg', 1),
-(2, 1, '/uploads/pic_1/20171120_23359904_2.jpg', 1),
-(3, 1, '/uploads/pic_1/20171120_233517825_3.jpg', 1);
+(25, 1, 'uploads/pic_14/20171121_10392389_timg.jpg', 14);
 
 -- --------------------------------------------------------
 
@@ -530,7 +530,7 @@ ALTER TABLE `category`
 -- 使用表AUTO_INCREMENT `config`
 --
 ALTER TABLE `config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- 使用表AUTO_INCREMENT `managers`
@@ -560,13 +560,13 @@ ALTER TABLE `model_items`
 -- 使用表AUTO_INCREMENT `pic`
 --
 ALTER TABLE `pic`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片库id', AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片库id', AUTO_INCREMENT=15;
 
 --
 -- 使用表AUTO_INCREMENT `pic_item`
 --
 ALTER TABLE `pic_item`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片表id', AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片表id', AUTO_INCREMENT=26;
 
 --
 -- 使用表AUTO_INCREMENT `shop_active`
