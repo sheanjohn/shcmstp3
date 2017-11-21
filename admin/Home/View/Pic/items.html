@@ -201,6 +201,8 @@
 													return;
 												}
 												var show1,show2,show3
+												var rp="{:C('ROOT_URL')}";
+												//alert(rp);
 												for (var i=0;i<b.length;i++)
 												{
 													show3="{$_GET['cid']}";
@@ -208,6 +210,7 @@
 show2="{$_GET['select']}";
 if(show2=='yes'){
 	show2='&nbsp;&nbsp;<a href="javascript:;" onclick="window.parent.getV('+"'"+b[i].id+"','"+show3+"'"+')" class="btn btn-sm btn-success">选择</a>';
+	show1=show2;
 }else{
 	show1=b[i].pictype;
 	if(show1=='0'){
@@ -216,14 +219,13 @@ if(show2=='yes'){
 		show1='&nbsp;&nbsp;(普通图)';
 	}
 }
-show1=show2;
 
 str=str+'<li class="span3">';
 str=str+'	<div class="thumbnail">';
-str=str+'		<img src="'+b[i].picurl+'"/>';
+str=str+'		<img src="'+rp+b[i].picurl+'"/>';
 str=str+'		<div class="caption">';
 str=str+'			<h5>#'+b[i].id+show1+'</h5>';
-str=str+'			<p><a href="'+b[i].picurl+'" target="_blank">看大图</a> | <a href="javascript:;" onclick="del_pic_item('+"'"+b[i].id+"'"+')">删除</a> </p>';
+str=str+'			<p><a href="'+rp+b[i].picurl+'" target="_blank">看大图</a> | <a href="javascript:;" onclick="del_pic_item('+"'"+b[i].id+"'"+')">删除</a> </p>';
 str=str+'		</div>';
 str=str+'	</div>';
 str=str+'</li>';
@@ -315,7 +317,7 @@ str=str+'</li>';
 							if(data=='ok'){
 								window.location.reload();
 							}else{
-								modal('错误','删除失败');
+								modal('错误','删除失败\n'+data);
 							}
 						}
 					});

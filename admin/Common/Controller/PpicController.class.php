@@ -147,10 +147,10 @@ class PpicController extends PpublicController {
 		$path = M ( 'pic_item' )->where ( 'Id=' . $id )->getField ( 'Picurl' );
 		$d = M ( 'pic_item' )->where ( 'Id=' . $id )->delete ();
 		if ($d != 0 && $d != false) {
-			if (unlink ( '.' . $path )) {
+			if (unlink ( './' . $path )) {
 				echo 'ok';
 			} else {
-				echo 'delerr_' . $path;
+			    echo 'delerr_' . './' . $path;
 			}
 		} else {
 			echo 'err';

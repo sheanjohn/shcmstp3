@@ -22,19 +22,23 @@
 		//CTRL 指定上传文件的控件
 		//WCTRL将上传好的图片地址写进去这个控件
 		//PICCTRL 将上传好的图片地址写进去这个图片控件，并显示
-		
 		//$(PICCTRL).slideUp(800);
 		<?php $timestamp = time();?>
 		var SWF="__PUBLIC__/uploadify/uploadify.swf";
 		var UPDER="__PUBLIC__/uploadify/uploadify.php";
 		var myDate = new Date();
+		var rp="{:C('ROOT_URL')}";
+
+		//alert(rp+'-'+DIR);
+		
 		var DT=getNowFormatDate("1")+'_'+myDate.getHours()+myDate.getMinutes()+myDate.getSeconds()+myDate.getMilliseconds();
 		$(CTRL).uploadify({
 			'formData'     : {
 				'timestamp' : '<?php echo $timestamp;?>',
 				'token'     : "<?php echo md5('unique_salt' . $timestamp);?>",
 				'subpath':DIR,
-				'date':DT
+				'date':DT,
+				'rootpath':rp
 			},
 		    //是否自动上传
 		    //'auto': false,
@@ -71,7 +75,9 @@
 		     'onUploadSuccess': function (fileObj, data, response) {
 				if(data!='0'){
 			 		$(WCTRL).val(data);
-					$(PICCTRL).attr('src',data);
+					var rp="{:C('ROOT_URL')}";
+					//alert(rp);
+					$(PICCTRL).attr('src',rp+data);
 				}else{
 					alert('上传图片失败，请重试');
 				}

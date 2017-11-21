@@ -184,11 +184,13 @@
 												var show1,show2,show3,show4,show5
 												show3="{$_GET['select']}";
 												show4="{$_GET['cid']}";
+												var rp="{:C('ROOT_URL')}";
 												for (var i=0;i<b.length;i++)
 												{
+
 show1=b[i].pic1
 if(show1!='0'){
-	show2='<img src="'+show1+'"/>';
+	show2='<img src="'+rp+show1+'"/>';
 }else{
 	show2='<img src="__PUBLIC__/admin/img/noimg.gif"/>';
 }

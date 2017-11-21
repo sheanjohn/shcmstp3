@@ -10,8 +10,8 @@ return array (
 		'DB_PREFIX' => '', // 数据库表前缀
 		'DB_CHARSET' => 'utf8', // 字符集
 		// 网站功能配置
-		'ROOT_DIR' => '/admin.php',//入口
-		'ROOT_URL' => '/',//程序目录，请用’/‘结尾来表示一个完整的目录URL
+		'ROOT_DIR' => '/shcmstp3/admin.php',//入口
+		'ROOT_URL' => '/shcmstp3/',//程序目录，请用’/‘结尾来表示一个完整的目录URL
 		'WEB_NAME' => '明远科技CMS系统',//名称
         'CFG_CODNUM' => 6,//登录验证码位数
         // 管理员权限设置
