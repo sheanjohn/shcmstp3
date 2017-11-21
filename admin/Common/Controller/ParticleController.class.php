@@ -6,7 +6,7 @@ use Common\Controller\PpublicController;
 
 class ParticleController extends PpublicController {
 	
-	//
+	//装入……
 	public function _initialize() {
 		$this->page_chk_login ();
 		$this->page_vals ();
