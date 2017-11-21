@@ -16,6 +16,17 @@
 		$("[data-toggle='tooltip']").tooltip();
 		console.log('现在是'+getNowFormatDate(1)+',天气：未知；')
 		console.log('这位看代码的同学，不要再看了……');
+		var bkgtheme="{$sh1_page_bkg}";
+		var bkctheme="{$sh1_page_bkc}";
+		if (bkgtheme==''){
+			bkgtheme='bkg3';
+		}
+		var bkgthemev='__PUBLIC__/admin/img/'+bkgtheme+'.jpg';
+		$("body").css("background","url("+bkgthemev+")");
+		if (bkctheme==''){
+			bkctheme='#fff';
+		}
+		$("body").css("background",bkctheme);
 	})
 	function uploadfile(DIR,CTRL,WCTRL,PICCTRL){
 		//dir,要创建的目录 /uploads/这里创建

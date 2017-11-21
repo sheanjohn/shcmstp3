@@ -4,6 +4,13 @@
 body {
 	padding-top: 20px;
 	padding-bottom: 20px;
+	/*background-image: url(“/shcmstp3/Public/admin/img/bkg.jpg”);*/
+	
+}
+
+.hero-unit{
+	/*background:url(../img/bkg.jpg);*/
+	/*background:#eee;*/
 }
 
 h1 {
