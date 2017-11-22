@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-22 15:54:57
+-- Generation Time: 2017-11-22 16:55:05
 -- 服务器版本： 5.7.20-log
 -- PHP Version: 5.6.32
 
@@ -74,7 +74,9 @@ INSERT INTO `category` (`id`, `catetitle`, `fid`, `url`, `icon`, `cont`, `ismenu
 (1, '文章中心', 0, '', '4', '<p>无</p>', 1, 0, 10, 0, NULL),
 (2, '业界新闻', 1, '', '4', '无', 1, 0, 10, 0, 0),
 (3, '商品', 0, '', '3', '<p>无</p>', 1, 0, 10, 0, NULL),
-(4, '附属产品', 3, '', '', '无', 1, 0, 10, 1, 1);
+(4, '附属产品', 3, '', '', '无', 1, 0, 10, 1, 1),
+(5, '哈哈', 0, '', '27', '<p>我就。。。你猜</p>', 1, 0, 1, 0, NULL),
+(6, '哈哈的儿子', 5, '', '25', '喜欢', 1, 0, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -131,7 +133,47 @@ INSERT INTO `logmgr` (`Id`, `uname`, `Logdate`, `Action`, `actcont`) VALUES
 (6, 'sheanjohn', '20171122023935', '不幸被挡在门外', '试图进入没有权限的管理页面'),
 (7, 'sheanjohn', '20171122023946', '不幸被挡在门外', '试图进入没有权限的管理页面'),
 (8, 'sheanjohn', '20171122034217', '风尘仆仆的来了', '成功登录系统'),
-(9, 'sheanjohn', '20171122034604', '不幸被挡在门外', '试图进入没有权限的管理页面');
+(9, 'sheanjohn', '20171122034604', '不幸被挡在门外', '试图进入没有权限的管理页面'),
+(10, 'admin1', '20171122041338', '风尘仆仆的来了', '成功登录系统'),
+(11, 'admin1', '20171122041623', '干得漂亮！', '成功的编辑/创建了一个图片库'),
+(12, 'admin1', '20171122041802', '干得漂亮！', '成功的编辑/上传了一张图片'),
+(13, 'admin1', '20171122041859', '干得漂亮！', '成功的编辑/上传了一张图片'),
+(14, 'admin1', '20171122041910', '从坚固的长城上成功的取下一块砖', '成功删除一张图片'),
+(15, 'admin1', '20171122042129', '干得漂亮！', '成功的编辑/创建了栏目'),
+(16, 'admin1', '20171122042339', '干得漂亮！', '成功的编辑/创建了栏目'),
+(17, 'admin1', '20171122042807', '干得漂亮！', '成功的编辑/创建了一篇文章'),
+(18, 'admin1', '20171122042834', '干得漂亮！', '成功的编辑/创建了一篇文章'),
+(19, 'admin1', '20171122042925', '手法欠妥', '在试图创建/编辑文章的时候发生错误'),
+(20, 'admin1', '20171122042939', '从坚固的长城上成功的取下一块砖', '成功删除一篇文章'),
+(21, 'admin1', '20171122043111', '干得漂亮！', '成功的编辑/创建了一个管理员账号'),
+(22, 'admin1', '20171122043221', '干得漂亮！', '成功的编辑/创建了一个管理员账号'),
+(23, 'admin1', '20171122043235', '从坚固的长城上成功的取下一块砖', '成功删除一名管理员'),
+(24, 'admin1', '20171122043453', '干得漂亮！', '成功的编辑/创建了一个控件'),
+(25, 'admin1', '20171122043540', '干得漂亮！', '成功的编辑/创建了一个模块'),
+(26, 'admin1', '20171122043551', '手法欠妥', '在试图创建/编辑模块的时候发生错误'),
+(27, 'admin1', '20171122043605', '手法欠妥', '在试图创建/编辑模块的时候发生错误'),
+(28, 'admin1', '20171122043706', '干得漂亮！', '成功的编辑/创建了一个模块'),
+(29, 'admin1', '20171122043810', '干得漂亮！', '成功的编辑/创建了一条参数'),
+(30, 'admin1', '20171122043833', '干得漂亮！', '成功的编辑/创建了一条参数'),
+(31, 'admin1', '20171122043918', '干得漂亮！', '成功的编辑/创建了一条参数'),
+(32, 'admin1', '20171122044022', '干得漂亮！', '成功在模块中创建了一条数据'),
+(33, 'admin1', '20171122044022', '干得漂亮！', '成功在模块中创建了一条数据'),
+(34, 'admin1', '20171122044022', '干得漂亮！', '成功在模块中创建了一条数据'),
+(35, 'admin1', '20171122044042', '手法很棒！', '成功在模块中删除一条数据'),
+(36, 'admin1', '20171122044123', '干得漂亮！', '成功的编辑/创建了一个模块'),
+(37, 'admin1', '20171122044425', '头也不回的走了', '成功退出系统'),
+(38, 'sheanjohn', '20171122044500', '风尘仆仆的来了', '成功登录系统'),
+(39, 'admin1', '20171122044533', '风尘仆仆的来了', '成功登录系统'),
+(40, 'sheanjohn', '20171122044732', '不幸被挡在门外', '试图进入没有权限的管理页面'),
+(41, 'sheanjohn', '20171122044738', '不幸被挡在门外', '试图进入没有权限的管理页面'),
+(42, 'admin1', '20171122044837', '干得漂亮！', '成功的编辑/创建了一个模块'),
+(43, 'admin1', '20171122044844', '干得漂亮！', '成功的编辑/创建了一个模块'),
+(44, 'admin1', '20171122044924', '手法欠妥', '在试图创建/编辑模块的时候发生错误'),
+(45, 'admin1', '20171122045005', '干得漂亮！', '成功的编辑/创建了一个模块'),
+(46, 'admin1', '20171122045208', '干得漂亮！', '成功的编辑/创建了一个模块'),
+(47, 'sheanjohn', '20171122045400', '改造失败', '试图修改一名会员的参数，但失败了'),
+(48, 'sheanjohn', '20171122045408', '手法欠妥', '在试图创建/编辑栏目的时候发生错误'),
+(49, 'sheanjohn', '20171122045431', '手法欠妥', '在试图创建/编辑栏目的时候发生错误');
 
 -- --------------------------------------------------------
 
@@ -172,7 +214,9 @@ CREATE TABLE `model` (
 --
 
 INSERT INTO `model` (`id`, `mname`, `mcid`, `isshow`) VALUES
-(1, '附属产品', '1,2,5,4,3', 1);
+(1, '附属产品', '1,2,5,4,3', 1),
+(2, 'haha', '6,1,2', 1),
+(3, '3333', '6,4,2,3', 0);
 
 -- --------------------------------------------------------
 
@@ -202,7 +246,8 @@ INSERT INTO `model_ctrls` (`id`, `cname`, `cval`, `ccnt`, `clen`, `ccond`, `cloc
 (2, '相册', '', 0, 10, '<', 0, 'int', '图库ID', 4),
 (3, '内容', '', 0, 200, '<', 0, 'str', '内容200', 3),
 (4, '是否显示', '', 0, 2, '<', 0, 'str', '是否', 2),
-(5, '设为推荐', '', 0, 2, '<', 0, 'str', '是否', 2);
+(5, '设为推荐', '', 0, 2, '<', 0, 'str', '是否', 2),
+(6, '标题', '123', 1, 1, '>', 1, 'int', '测试一下啦', 2);
 
 -- --------------------------------------------------------
 
@@ -246,7 +291,8 @@ CREATE TABLE `pic` (
 --
 
 INSERT INTO `pic` (`Id`, `pictitle`) VALUES
-(14, '图库_20171121');
+(14, '图库_20171121'),
+(15, '图库_2017112333');
 
 -- --------------------------------------------------------
 
@@ -266,7 +312,8 @@ CREATE TABLE `pic_item` (
 --
 
 INSERT INTO `pic_item` (`Id`, `Pictype`, `Picurl`, `picid`) VALUES
-(25, 1, 'uploads/pic_14/20171121_10392389_timg.jpg', 14);
+(25, 1, 'uploads/pic_14/20171121_10392389_timg.jpg', 14),
+(27, 0, 'uploads/pic_15/20171122_161754618_timg.jpg', 15);
 
 -- --------------------------------------------------------
 
@@ -535,13 +582,13 @@ ALTER TABLE `users`
 -- 使用表AUTO_INCREMENT `article`
 --
 ALTER TABLE `article`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文章id', AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文章id', AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '栏目id', AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '栏目id', AUTO_INCREMENT=7;
 
 --
 -- 使用表AUTO_INCREMENT `config`
@@ -553,43 +600,43 @@ ALTER TABLE `config`
 -- 使用表AUTO_INCREMENT `logmgr`
 --
 ALTER TABLE `logmgr`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '日志id', AUTO_INCREMENT=10;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '日志id', AUTO_INCREMENT=50;
 
 --
 -- 使用表AUTO_INCREMENT `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=9;
 
 --
 -- 使用表AUTO_INCREMENT `model`
 --
 ALTER TABLE `model`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `model_ctrls`
 --
 ALTER TABLE `model_ctrls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用表AUTO_INCREMENT `model_items`
 --
 ALTER TABLE `model_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 使用表AUTO_INCREMENT `pic`
 --
 ALTER TABLE `pic`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片库id', AUTO_INCREMENT=15;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片库id', AUTO_INCREMENT=16;
 
 --
 -- 使用表AUTO_INCREMENT `pic_item`
 --
 ALTER TABLE `pic_item`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片表id', AUTO_INCREMENT=26;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图片表id', AUTO_INCREMENT=28;
 
 --
 -- 使用表AUTO_INCREMENT `shop_active`

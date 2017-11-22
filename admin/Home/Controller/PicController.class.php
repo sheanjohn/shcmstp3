@@ -10,7 +10,6 @@ class PicController extends PpicController {
 	 * 图库首页
 	 */
 	public function index() {
-		$this->Carousel_list ( 5 );
 		$this->display ();
 	}
 	

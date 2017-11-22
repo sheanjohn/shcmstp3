@@ -69,7 +69,7 @@ class PpublicController extends Controller
                 case 'config':
                     $reval = '配置';
                     break;
-                case 'log':
+                case 'logmgr':
                     $reval = '日志';
                     break;
                 case 'managers':

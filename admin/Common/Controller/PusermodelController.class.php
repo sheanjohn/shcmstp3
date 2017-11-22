@@ -17,7 +17,7 @@ class PusermodelController extends PpublicController {
      */
     public function int_model(){
         $id=$_POST['id'];
-        $resu=M('model')->where('id='.$id.' and isshow=1')->order('id desc')->find();
+        $resu=M('model')->where('id='.$id)->order('id desc')->find();
         if($resu!=false){
             $mcid=explode(',',$resu['mcid']);
             foreach($mcid as $k => $v){
