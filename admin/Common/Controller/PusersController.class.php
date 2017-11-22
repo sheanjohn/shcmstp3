@@ -49,8 +49,10 @@ class PusersController extends PpublicController {
 				$resu=false;
 			}
 			if ($resu != false) {
+			    $this->write_log(session('uname'),'成功改造人……','成功编辑了一名会员的参数');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'改造失败','试图修改一名会员的参数，但失败了');
 				echo 'err';
 			}
 	}
@@ -89,8 +91,10 @@ class PusersController extends PpublicController {
 		$id = $_POST ['id'];
 		$d = M ( 'users' )->where ( 'id=' . $id )->delete ();
 		if ($d != 0 && $d != false) {
+		    $this->write_log(session('uname'),'让一名会员在人间蒸发了','成功删除一名会员');
 			echo 'ok';
 		} else {
+		    $this->write_log(session('uname'),'需要职业杀手……','试图删除一名会员，但失败了');
 			echo 'err';
 		}
 	}

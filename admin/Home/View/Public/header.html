@@ -4,11 +4,11 @@
 			<a class="btn btn-navbar" data-toggle="collapse"
 				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 				class="icon-bar"></span> <span class="icon-bar"></span>
-			</a> <a class="brand" href="{:C('ROOT_DIR')}">{:C('WEB_NAME')}</a>
+			</a> <a class="brand" href="{:C('ROOT_DIR')}"><i class="fa fa-globe fa-lg fa-spin"></i> {:C('WEB_NAME')}</a>
 			<div class="nav-collapse">
 				<ul class="nav">
 					<li class="active"><a data-toggle="tooltip" title="控制台首页"  href="{:C('ROOT_DIR')}"><i class="fa fa-tachometer" ></i></a></li>
-					<li><a href="{:C('ROOT_URL')}" target="_blank"  data-toggle="tooltip" title="打开网站首页"><i class="fa fa-eye"></i></a></li>
+					<li><a href="{:C('ROOT_URL')}" target="_blank"  data-toggle="tooltip" title="打开网站首页"><i class="fa fa-home"></i></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" >
 						<i class="fa fa-wrench"  data-toggle="tooltip" title="查看数据统计"></i> 
 					</a>
@@ -19,6 +19,9 @@
 							<li class="divider" style="display: none;"></li>
 							</volist>
 						</ul></li>
+						
+					<li><a data-toggle="tooltip" title="GitHUB"  href="https://github.com/sheanjohn/shcmstp3" target="_blank"><i class="fa fa-github" ></i></a></li>
+					<li><a data-toggle="tooltip" title="Gitee"  href="https://gitee.com/codejohn-pro/shcmstp3" target="_blank"><i class="fa fa-git-square " ></i></a></li>
 				</ul>
 				<ul class="nav pull-right">
 					<li><a href="javascript:;" data-toggle="tooltip" title="当前登录：{$Think.session.uname},权限：{$Think.session.utype}"><i class="fa fa-user-circle"></i></a></li>

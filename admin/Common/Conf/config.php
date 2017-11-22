@@ -21,7 +21,7 @@ return array (
 		'UT_Users' => 2, // 用户权限
 		'UT_Usermodel' => 3, // 自定义模块权限
 		'UT_Model' => 4, // 模块管理
-		'UT_Log' => 5, // 日志权限
+		'UT_Logmgr' => 1, // 日志权限
 		'UT_Mgrs' => 6, // 管理员权限
 		'UT_Config' => 5,  // 参数权限
 		'UT_Index' =>1,//控制台首页

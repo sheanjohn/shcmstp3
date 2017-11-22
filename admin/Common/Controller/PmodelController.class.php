@@ -24,7 +24,8 @@ class PmodelController extends PpublicController {
 	    $d ['mcid'] = $_POST ['mcid'];
 	    $d ['isshow'] = $_POST ['isshow'];
 	    $c = M ( "model" )->where ( "mname='" . $_POST ['mname'] . "'" )->count ();
-	    if ($c > 0 && $id == '0') {
+	    if ($c >1) {
+	        $this->write_log(session('uname'),'被无情拒绝了','试图创建一个已经存在的模块');
 	        echo "rename";
 	    } else {
 	        if ($id != '0') {
@@ -33,8 +34,10 @@ class PmodelController extends PpublicController {
 	            $resu = M ( "model" )->add ( $d );
 	        }
 	        if ($resu != false) {
+	            $this->write_log(session('uname'),'干得漂亮！','成功的编辑/创建了一个模块');
 	            echo 'ok';
 	        } else {
+	            $this->write_log(session('uname'),'手法欠妥','在试图创建/编辑模块的时候发生错误');
 	            echo 'err';
 	        }
 	    }
@@ -68,8 +71,10 @@ class PmodelController extends PpublicController {
 	    $d = M ( 'model' )->where ( 'id=' . $id )->delete ();
 	    if ($d != 0 && $d != false) {
 	        $dd=M('model_items')->where('model_id='.$id)->delete();
+	        $this->write_log(session('uname'),'从坚固的长城上成功的取下一块砖','成功删除一个模块');
 	        echo 'ok';
 	    } else {
+	        $this->write_log(session('uname'),'手法欠妥','试图删除一个模块，但失败了');
 	        echo 'err';
 	    }
 	}
@@ -98,8 +103,10 @@ class PmodelController extends PpublicController {
 	            $resu = M ( "model_ctrls" )->add ( $d );
 	        }
 	        if ($resu != false) {
+	            $this->write_log(session('uname'),'干得漂亮！','成功的编辑/创建了一个控件');
 	            echo 'ok';
 	        } else {
+	            $this->write_log(session('uname'),'手法欠妥','在试图创建/编辑控件的时候发生错误');
 	            echo 'err';
 	        }
 	}
@@ -136,8 +143,10 @@ class PmodelController extends PpublicController {
 	    }else{
     	    $d = M ( 'model_ctrls' )->where ( 'id=' . $id )->delete ();
     	    if ($d != 0 && $d != false) {
+    	        $this->write_log(session('uname'),'从坚固的长城上成功的取下一块砖','成功删除一个控件');
     	        echo 'ok';
     	    } else {
+    	        $this->write_log(session('uname'),'手法欠妥','试图删除一个控件，但失败了');
     	        echo 'err';
     	    }
 	    }

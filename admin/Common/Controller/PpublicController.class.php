@@ -18,15 +18,16 @@ class PpublicController extends Controller
         $value = session('uname');
         if (ACTION_NAME != 'login' && ACTION_NAME != 'chk_login' && ACTION_NAME != 'verify' && ACTION_NAME != 'check_verify') {
             if ($value == null) {
-                $this->error('请登录', C('ROOT_DIR') . '/home/index/login');
+                $this->error('请稍等……', C('ROOT_DIR') . '/home/index/login',1);
             } else if ($value == '') {
-                $this->error('请登录', C('ROOT_DIR') . '/home/index/login');
+                $this->error('请稍等……', C('ROOT_DIR') . '/home/index/login',1);
             } else {
                 // 权限
                 $s = session("utype");
                 $ut = C('UT_' . CONTROLLER_NAME);
                 if ($s < $ut) {
-                    $this->error('无权限操作');
+                    $this->write_log(session('uname'),'不幸被挡在门外','试图进入没有权限的管理页面');
+                    $this->error('无权限操作','',1);
                 }
                 // dump('UT_'.CONTROLLER_NAME);
             }
@@ -133,6 +134,7 @@ class PpublicController extends Controller
      */
     public function logout()
     {
+        $this->write_log(session('uname'),'头也不回的走了','成功退出系统');
         session('uname', null);
         redirect(C('ROOT_DIR') . '/home/index/login');
     }
@@ -149,9 +151,11 @@ class PpublicController extends Controller
         if ($res == false) {
             echo 'err';
             session('uname', null);
+            $this->write_log('外来者','被轰了出去','登录失败');
         } else {
             session('uname', $uname);
             session('utype', $res['utype']);
+            $this->write_log(session('uname'),'风尘仆仆的来了','成功登录系统');
             echo $res;
         }
     }
@@ -384,6 +388,29 @@ class PpublicController extends Controller
         }
         
         p($c);
+    }
+    
+    /**
+     * 写入一条LOG
+     * 参数，用户名，动作，详情
+     */
+    public function write_log($uname,$action,$actcont){
+        $d['uname']=$uname;
+        $d['Action']=$action;
+        $d['actcont']=$actcont;
+        $d['Logdate']=$this->get_dt();
+        $resu=M('logmgr')->add($d);
+        if($resu==false || $resu==0){
+            $this->error('有一个小状况，程序在写入日志的时候发生了问题。不过不用担心，只是日志写入错误，这不会影响你刚才的操作。','',10);
+        }
+    }
+    
+    /**
+     * 最新10条日志
+     */
+    public function log_top10(){
+        $d=M('logmgr')->limit(10)->order('id desc')->select();
+        $this->ajaxReturn($d);
     }
 }
 

@@ -41,7 +41,8 @@ class PmgrsController extends PpublicController {
 		$d ['upswd'] = md5 ( $_POST ['upswd'] );
 		$d ['utype'] = $_POST ['utype'];
 		$c = M ( "managers" )->where ( "uname='" . $_POST ['uname'] . "'" )->count ();
-		if ($c > 0 && $id == '0') {
+		if ($c >1) {
+		    $this->write_log(session('uname'),'被无情拒绝了','试图创建一个已经存在管理员账号');
 			echo "rename";
 		} else {
 			if ($id != '0') {
@@ -50,8 +51,10 @@ class PmgrsController extends PpublicController {
 				$resu = M ( "managers" )->add ( $d );
 			}
 			if ($resu != false) {
+			    $this->write_log(session('uname'),'干得漂亮！','成功的编辑/创建了一个管理员账号');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'手法欠妥','在试图创建/编辑管理员账号的时候发生错误');
 				echo 'err';
 			}
 		}
@@ -63,8 +66,10 @@ class PmgrsController extends PpublicController {
 		$id = $_POST ['id'];
 		$d = M ( 'managers' )->where ( 'id=' . $id )->delete ();
 		if ($d != 0 && $d != false) {
+		    $this->write_log(session('uname'),'从坚固的长城上成功的取下一块砖','成功删除一名管理员');
 			echo 'ok';
 		} else {
+		    $this->write_log(session('uname'),'手法欠妥','试图删除一名管理员，但失败了');
 			echo 'err';
 		}
 	}

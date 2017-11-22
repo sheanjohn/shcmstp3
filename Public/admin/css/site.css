@@ -8,6 +8,10 @@ body {
 	
 }
 
+.osc_star_widget,.osc_fork_widget{
+	margin:10px;
+}
+
 .hero-unit{
 	/*background:url(../img/bkg.jpg);*/
 	/*background:#eee;*/

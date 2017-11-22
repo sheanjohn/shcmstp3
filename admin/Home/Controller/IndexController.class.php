@@ -18,4 +18,11 @@ class IndexController extends PhomeController {
 	public function login() {
 		$this->display ();
 	}
+	
+	/**
+	 * git
+	 */
+	public function git(){
+	    $this->display();
+	}
 }

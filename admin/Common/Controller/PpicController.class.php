@@ -20,7 +20,8 @@ class PpicController extends PpublicController {
 		$pictitle = $_POST ['pictitle'];
 		
 		$c = M ( "pic" )->where ( "pictitle='" . $pictitle . "'" )->count ();
-		if ($c > 0 && $id == '0') {
+		if ($c > 1) {
+		    $this->write_log(session('uname'),'笨到家了','试图创建一个已经存在的图片库，这当然行不通');
 			echo "rename";
 		} else {
 			$d ['pictitle'] = $pictitle;
@@ -31,8 +32,10 @@ class PpicController extends PpublicController {
 				$resu = M ( "pic" )->add ( $d );
 			}
 			if ($resu != false) {
+			    $this->write_log(session('uname'),'干得漂亮！','成功的编辑/创建了一个图片库');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'手法欠妥','试图创建一个图片库，但失败了');
 				echo 'err';
 			}
 		}
@@ -76,12 +79,15 @@ class PpicController extends PpublicController {
 		$id = $_POST ['id'];
 		$c = M ( 'pic_item' )->where ( 'picid=' . $id )->count ();
 		if ($c > 0) {
+		    $this->write_log(session('uname'),'笨的可以','试图删除一个含有图片的图库，结果当然失败了');
 			echo 'hasfiles';
 		} else {
 			$d = M ( 'pic' )->where ( 'Id=' . $id )->delete ();
 			if ($d != 0 && $d != false) {
+			    $this->write_log(session('uname'),'从坚固的长城上成功的取下一块砖','成功删除个图片库');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'手法欠妥','试图删除一个图片库，但失败了');
 				echo 'err';
 			}
 		}
@@ -105,7 +111,8 @@ class PpicController extends PpublicController {
 		$picid = $_POST ['picid'];
 		
 		$c = M ( "pic_item" )->where ( "Picurl='" . $picurl . "'" )->count ();
-		if ($c > 0 && $id == '0') {
+		if ($c > 1) {
+		    $this->write_log(session('uname'),'被无情拒绝了','试图上传一张已经存在的图片');
 			echo "rename";
 		} else {
 			$d ['Picurl'] = $picurl;
@@ -118,8 +125,10 @@ class PpicController extends PpublicController {
 				$resu = M ( "pic_item" )->add ( $d );
 			}
 			if ($resu != false) {
+			    $this->write_log(session('uname'),'干得漂亮！','成功的编辑/上传了一张图片');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'手法欠妥','在试图创建/上传图片的时候发生错误');
 				echo 'err';
 			}
 		}
@@ -147,9 +156,11 @@ class PpicController extends PpublicController {
 		$path = M ( 'pic_item' )->where ( 'Id=' . $id )->getField ( 'Picurl' );
 		$d = M ( 'pic_item' )->where ( 'Id=' . $id )->delete ();
 		if ($d != 0 && $d != false) {
-			if (unlink ( './' . $path )) {
+		    if (unlink ( './' . $path )) {
+		        $this->write_log(session('uname'),'从坚固的长城上成功的取下一块砖','成功删除一张图片');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'手法欠妥','试图删除一张图片，但失败了');
 			    echo 'delerr_' . './' . $path;
 			}
 		} else {
@@ -167,16 +178,6 @@ class PpicController extends PpublicController {
 		} else {
 			echo 'err';
 		}
-	}
-	
-	/**
-	 * 需要在控制器调用
-	 * 幻灯片
-	 * top显示数量
-	 */
-	public function Carousel_list($top) {
-		$d = M ( 'pic_item' )->field ( 'Picurl,picid' )->limit ( $top )->order ( 'id desc' )->select ();
-		$this->assign ( 'carousel_list', $d );
 	}
 }
 

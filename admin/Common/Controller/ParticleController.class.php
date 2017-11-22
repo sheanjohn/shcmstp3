@@ -25,7 +25,8 @@ class ParticleController extends PpublicController {
 		$d ['Adate'] = date ( "Ymd" );
 		$d['zhuanti']=$_POST['zhuanti'];
 		$c = M ( "article" )->where ( "Atitle='" . $_POST ['atitle'] . "'" )->count ();
-		if ($c > 0 && $id == '0') {
+		if ($c > 1) {
+		    $this->write_log(session('uname'),'被无情拒绝了','试图创建一个已经存在的文章');
 			echo "rename";
 		} else {
 			if ($id != '0') {
@@ -34,8 +35,10 @@ class ParticleController extends PpublicController {
 				$resu = M ( "article" )->add ( $d );
 			}
 			if ($resu != false) {
+			    $this->write_log(session('uname'),'干得漂亮！','成功的编辑/创建了一篇文章');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'手法欠妥','在试图创建/编辑文章的时候发生错误');
 				echo 'err';
 			}
 		}
@@ -68,8 +71,10 @@ class ParticleController extends PpublicController {
 		$id = $_POST ['id'];
 		$d = M ( 'article' )->where ( 'Id=' . $id )->delete ();
 		if ($d != 0 && $d != false) {
+		    $this->write_log(session('uname'),'从坚固的长城上成功的取下一块砖','成功删除一篇文章');
 			echo 'ok';
 		} else {
+		    $this->write_log(session('uname'),'手法欠妥','试图删除一篇文章，但失败了');
 			echo 'err';
 		}
 	}

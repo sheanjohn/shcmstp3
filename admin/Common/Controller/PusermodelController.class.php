@@ -30,21 +30,6 @@ class PusermodelController extends PpublicController {
             echo 'err';
         }
     }
-    public function int_model1(){
-        $id=$_GET['id'];
-        $resu=M('model')->where('id='.$id.' and isshow=1')->order('id desc')->find();
-        if($resu!=false){
-            $mcid=explode(',',$resu['mcid']);
-            foreach($mcid as $k => $v){
-                $ctrl=M('model_ctrls')->where('id='.$v)->order('id desc')->find();
-                $resu['ctrls'][$k]=$ctrl;
-            }
-            dump($resu);
-            //$this->ajaxReturn($resu);
-        }else{
-            echo 'err';
-        }
-    }
     
     /**
      * 列表
@@ -88,16 +73,20 @@ class PusermodelController extends PpublicController {
             $d['sessc']=$sessc;
             $resu=M('model_items')->add($d);
             if($resu!=false){
+                $this->write_log(session('uname'),'干得漂亮！','成功在模块中创建了一条数据');
                 echo 'ok';
             }else{
+                $this->write_log(session('uname'),'手法不行！','试图在模块中创建一条数据，但失败了');
                 echo 'err1';
             }
         }else{
             $resu=M("model_items")->where("model_id=".$mid.' and ctrl_id='.$id." and sessc='".$sessc."' and orderid=".$_POST['orderid'])->save($d);
-                if($resu!=false){
-                    echo 'ok';
-                }else{
-                    echo 'err';
+            if($resu!=false){
+                 $this->write_log(session('uname'),'干得漂亮！','成功在模块中修改了一条数据');
+                 echo 'ok';
+            }else{
+                 $this->write_log(session('uname'),'手法不行！','试图在模块中修改一条数据，但失败了');
+                 echo 'err';
                 }
         }
     }
@@ -109,8 +98,10 @@ class PusermodelController extends PpublicController {
         $id = $_POST ['id'];
         $d = M ( 'model_items' )->where ( "sessc='" . $id ."'" )->delete ();
         if ($d != 0 && $d != false) {
+            $this->write_log(session('uname'),'手法很棒！','成功在模块中删除一条数据');
             echo 'ok';
         } else {
+            $this->write_log(session('uname'),'手法不行！','试图在模块中删除一条数据，但失败了');
             echo 'err';
         }
     }

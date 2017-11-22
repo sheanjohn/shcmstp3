@@ -22,16 +22,10 @@
 			<!---开始--->
 			<div class="span9">
 				<div class="hero-unit">
-					<h1>Welcome!</h1>
+					<h1>shcmstp3</h1>
 					<p>将来的你一定会感谢现在奋斗的你！</p>
 					<p>
-						<a href="{:C('ROOT_DIR')}/home/comm" href="help.htm"
-							class="btn btn-primary"><i class="fa fa-file"></i> 商品</a> <a
-							href="{:C('ROOT_DIR')}/home/article" class="btn btn-info "><i
-							class="fa fa-file"></i> 文章</a> <a href="{:C('ROOT_DIR')}/home/users"
-							class="btn  btn-danger"><i class="fa fa-users"></i> 会员</a> <a
-							href="{:C('ROOT_DIR')}/home/pic" class="btn  btn-success"><i
-							class="fa fa-file-image-o"></i> 图库</a>
+						<a href="{:C('ROOT_DIR')}/home/index/git" class="btn btn-lg btn-success"><i class="fa fa-download fa-lg"></i> 获取源码</a>
 					</p>
 				</div>
 				<h2>{$CNAME}</h2>
@@ -44,7 +38,7 @@
 								<i class="fa fa-file"></i> {$article}
 						</span>文章</li>
 						<li><span class="count" style="margin-bottom: 10px;">
-								<i class="fa fa-cart-plus"></i> {$pic}
+								<i class="fa fa-image"></i> {$pic}
 						</span>图片库</li>
 						<li class="last"><span class="count"
 							style="margin-bottom: 10px;"> <i class="fa fa-folder-open"></i>
@@ -57,30 +51,24 @@
 					</ul>
 				</div>
 				<h2>
-					<i class="fa fa-list-ol"></i> 最新订单预览
+					<i class="fa fa-list-ol"></i> 最新发生的事儿
 				</h2>
 				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th>订单号</th>
-							<th>消费用户</th>
-							<th>消费金额</th>
-							<th>订单状态</th>
-							<th>操作</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Nike.com Redesign</td>
-							<td>Monsters Inc</td>
-							<td>New Task</td>
-							<td>4 days ago</td>
-							<td><a href="#" class="view-link">查看</a></td>
-						</tr>
-					</tbody>
+					<tbody id="logtab"><!-- 这里自动加载日志列表 --></tbody>
 				</table>
+				<script>
+					$(function(){
+						$.post("__CONTROLLER__/log_top10",{},function(data){
+							var n=1;
+							for(var i=0;i<data.length;i++){
+								n=i+1;
+								$("#logtab").append("<tr><td>"+n+"</td><td>"+data[i].logdate+' <font color=red>'+data[i].uname+'</font>,'+data[i].action+',  '+data[i].actcont+"</td></tr>");
+							}
+						})
+					})
+				</script>
 				<ul class="pager">
-					<li class="next"><a href="activity.htm">更多 &rarr;</a></li>
+					<li class="next"><a href="{:C('ROOT_DIR')}/home/logmgr"><i class="fa fa-list"></i> 更多 </a></li>
 				</ul>
 				<include file="Public:foot" />
 			</div>

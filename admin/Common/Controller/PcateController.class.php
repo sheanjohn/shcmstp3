@@ -29,7 +29,8 @@ class PcateController extends PpublicController {
 		$cmod=$_POST['cmod'];
 		
 		$c = M ( "category" )->where ( "catetitle='" . $catetitle . "' and fid=" . $fid )->count ();
-		if ($c > 0 && $id == '0') {
+		if ($c >1) {
+		    $this->write_log(session('uname'),'被无情拒绝了','试图创建一个已经存在的栏目');
 			echo "rename";
 		} else {
 			$d ['catetitle'] = $catetitle;
@@ -50,8 +51,10 @@ class PcateController extends PpublicController {
 				$resu = M ( "category" )->add ( $d );
 			}
 			if ($resu != false) {
+			    $this->write_log(session('uname'),'干得漂亮！','成功的编辑/创建了栏目');
 				echo 'ok';
 			} else {
+			    $this->write_log(session('uname'),'手法欠妥','在试图创建/编辑栏目的时候发生错误');
 				echo 'err';
 			}
 		}
@@ -99,8 +102,10 @@ class PcateController extends PpublicController {
 		$id = $_POST ['id'];
 		$d = M ( 'category' )->where ( 'id=' . $id )->delete ();
 		if ($d != 0 && $d != false) {
+		    $this->write_log(session('uname'),'从坚固的长城上成功的取下一块砖','成功删除栏目');
 			echo 'ok';
 		} else {
+		    $this->write_log(session('uname'),'手法欠妥','试图删除栏目，但失败了');
 			echo 'err';
 		}
 	}
