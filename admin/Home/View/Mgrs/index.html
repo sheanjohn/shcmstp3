@@ -8,7 +8,7 @@
 <!--<![endif]-->
 <include file="Public:head" />
 <include file="Public:script" />
-<body onLoad="loadmore()">
+<body onLoad="typelist();loadmore()">
 	<include file="Public:alerts" />
 	<div class="container">
 		<include file="Public:header" />
@@ -21,7 +21,7 @@
 
 			<!---开始--->
 			<div class="span9">
-				<h2>在职管理员</h2>
+				<h2>{$CNAME}</h2>
 				<div class="well blank-slate" id="gbodx">
 					<p>点击按钮新建一个管理员账号</p>
 					<a href="javascript:;" class="btn btn-primary" id="btn_addnew"><i
@@ -73,16 +73,9 @@
 								<label class="control-label" for="input01">账户权限</label>
 								<div class="controls">
 									<select id="utype">
-										<option disabled value="0" selected>请选择权限...</option>
-										<option value="9">网站管理员-最高权限</option>
-										<option value="5">网站管理员-次高权限</option>
-										<option disabled>-</option>
-										<option value="4">商城总管理员</option>
-										<option value="3">商城活动管理员</option>
-										<option value="2">商城商品管理员</option>
-										<option disabled>-</option>
-										<option value="1">文章管理员</option>
-									</select>
+										<!-- 这里将动态添加(typelist) -->
+									</select><br/>
+									<font color="#999" style="margin-top:10px;">数字越大，权限越高，同时继承下属权限</font>
 								</div>
 							</div>
 							<div class="control-group">
@@ -109,6 +102,22 @@
 								<input type="hidden" value="0" id="id" />
 							</div>
 							<script>
+								/*
+								加载所有管理员类型（权限）
+								*/
+								function typelist(){
+									$.post("__CONTROLLER__/list_type",{},function(data){
+										$("#utype").append('<option selected disabled>请选择权限...</option>');
+										for(var i=0;i<data.length;i++){
+											if(data[i].con_val=='' || data[i].con_val==null){
+												$("#utype").append('<option value="0">'+data[i].con_name+' : 未设置权限(请到config.php设置)</option>');
+											}else{
+												$("#utype").append('<option value="'+data[i].con_val+'">'+data[i].con_name+' : '+data[i].con_val+'</option>');
+											}
+										}
+										$("#utype").append('<option value="9">所有权限 : 9</option>');
+									})
+								}
 								function clearinput(){
 									$("#uname").val('');
 									$("#upswd").val('');

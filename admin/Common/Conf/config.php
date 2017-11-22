@@ -24,15 +24,5 @@ return array (
 		'UT_Log' => 5, // 日志权限
 		'UT_Mgrs' => 6, // 管理员权限
 		'UT_Config' => 5,  // 参数权限
-		// 模块设置
-		'MD_CTRTYPE' => array(
-		                      array(
-		                          'tit'=>'数字',
-		                          'val'=>'int'
-		                      ),
-		                      array(
-		                          'tit'=>'字符串',
-		                          'var'=>'str'
-		                      )
-		                  ),//数据类型
+		'UT_Index' =>1,//控制台首页
 );

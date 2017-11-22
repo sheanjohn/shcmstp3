@@ -68,6 +68,18 @@ class PmgrsController extends PpublicController {
 			echo 'err';
 		}
 	}
+	/**
+	 * 下拉菜单，所有权限（根据所有控制器加载）
+	 */
+	public function list_type(){
+	    $Clist=$this->getController('home');
+	    foreach($Clist as $k => $v){
+	        $arr[$k]['con_name']=A($v)->cname;
+	        $arr[$k]['con_val']=C('UT_'.$v);
+	    }
+	    //Rsort($arr);
+	    $this->ajaxReturn($arr);
+	}
 }
 
 

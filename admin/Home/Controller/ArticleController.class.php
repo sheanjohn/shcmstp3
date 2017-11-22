@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Controller\ParticleController;
 
 class ArticleController extends ParticleController {
+    public $cname="文章管理";
 	/**
 	 * 文章首页
 	 */

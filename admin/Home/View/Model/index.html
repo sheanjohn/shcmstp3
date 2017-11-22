@@ -21,7 +21,7 @@
 
 			<!---开始--->
 			<div class="span9">
-				<h2>已有模块</h2>
+				<h2>{$CNAME}</h2>
 				<div class="well blank-slate" id="gbodx">
 					<p>点击按钮创建模块，了解如何使用模块请点击<a href="javascript:;" onclick="showinfo('textdata_model')">这里</a>。</p>
 					<a href="javascript:;" class="btn btn-primary" id="btn_addnew"><i	class="icon-plus icon-white"></i> 创建模块</a>
@@ -88,7 +88,7 @@
 										function cmove(id,thr){
 											var tid=$("#id").val();
 											if (tid!='0' && thr!='pass'){
-												modal('提示','编辑模型时，无法更改控件');
+												modal('提示','编辑模块时，无法更改控件');
 												return;
 											}
 											var c=$("#hasctrls").children("#"+id);

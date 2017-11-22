@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Controller\PhomeController;
 
 class IndexController extends PhomeController {
+    public $cname="控制台首页";
 	/**
 	 * 控制台首页
 	 */

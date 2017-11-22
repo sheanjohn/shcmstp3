@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Controller\PusersController;
 
 class UsersController extends PusersController {
+    public $cname="会员管理";
 	/**
 	 * 会员首页
 	 */

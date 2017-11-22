@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Controller\PpicController;
 
 class PicController extends PpicController {
+    public $cname="图库管理";
 	/**
 	 * 图库首页
 	 */

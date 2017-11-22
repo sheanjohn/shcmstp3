@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Controller\PconfigController;
 
 class ConfigController extends PconfigController {
+    public $cname="网站参数配置与管理";
 	/**
 	 * 首页
 	 */

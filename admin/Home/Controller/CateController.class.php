@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Controller\PcateController;
 
 class CateController extends PcateController {
+    public $cname="网站栏目管理";
 	/**
 	 * 栏目首页
 	 */
