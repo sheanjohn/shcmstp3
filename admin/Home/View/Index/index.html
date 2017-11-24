@@ -58,6 +58,7 @@
 				</table>
 				<script>
 					$(function(){
+						sh_loading();
 						$.post("__CONTROLLER__/log_top10",{},function(data){
 							var n=1;
 							for(var i=0;i<data.length;i++){
@@ -65,6 +66,7 @@
 								$("#logtab").append("<tr><td>"+n+"</td><td>"+data[i].logdate+' <font color=red>'+data[i].uname+'</font>,'+data[i].action+',  '+data[i].actcont+"</td></tr>");
 							}
 						})
+						sh_loading_close();
 					})
 				</script>
 				<ul class="pager">

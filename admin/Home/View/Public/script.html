@@ -81,7 +81,7 @@
 		     },
 		     //检测FLASH失败调用
 		     'onFallback': function () {
-		     	alert("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试。");
+		     	modal('发现问题','程序发现您的浏览器的Flash功能未开启，请将该功能打开再刷新页面。</br>如果你不知道怎么打开，请百度一下吧。');
 		     },
 		     //上传到服务器，服务器返回相应信息到data里
 		     'onUploadSuccess': function (fileObj, data, response) {

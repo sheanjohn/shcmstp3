@@ -41,7 +41,7 @@
 		}
 		//禁止滚动
 		$("body").addClass("scroll-off");
-		var mask = '<div class="mask" ele="full_screen"><div>数据加载中...</div></div>';
+		var mask = '<div class="mask" ele="full_screen"><div>请等待，正在和数据库沟通</div></div>';
 		$("body").append(mask);
 		clearTimeout(cache["full_screen"]);
 		if(timeout && timeout > 0){
