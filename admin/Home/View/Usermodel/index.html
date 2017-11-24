@@ -239,63 +239,50 @@
 										$("#tcontent").fadeIn(800);
 										$("#pagebox").fadeIn(800);
                                     });
-									//更新数据
-									$("#btn_save").click(function(e) {
-										var ctrls=model.ctrls;
-										var cts=new Array(ctrls.length);
-										for(var i=0;i<ctrls.length;i++){
-											cts[i] = new Array(2);
-											cts[i]['id']=ctrls[i].id;
-											if(ctrls[i].cui=='3'){
-												eval("var val=edit_"+ctrls[i].id+".txt.html();");
-												cts[i]['val']=val;
-											}else{
-												cts[i]['val']=$("#cui_"+ctrls[i].id).val();
-											}
-											if(cts[i]['val']=="" || cts[i]['val']==null){
-												modal('错误','在自定义模块中，所有字段必须有值');
-												return;
-											}
-										}
-										var URL='__CONTROLLER__';
+									//更新数据，新的数组法
+									$("#btn_save").click(function(e){
+
 										var isedit=$("#isedit").val();
 										var id,val,mid,sessc;
 										mid="{$_GET['id']}";
 										sessc=$("#sessc").val();
+										
+										var ctrls=model.ctrls;
+										var cts=new Array(ctrls.length);
+										for(var i=0;i<ctrls.length;i++){
+											cts[i] = new Array(6);
+											cts[i][0]=ctrls[i].id;
+											if(ctrls[i].cui=='3'){
+												eval("var val=edit_"+ctrls[i].id+".txt.html();");
+												cts[i][1]=val;
+											}else{
+												cts[i][1]=$("#cui_"+ctrls[i].id).val();
+											}
+											cts[i][2]=i;
+											cts[i][3]=mid;
+											cts[i][4]=sessc;
+											cts[i][5]=isedit;
+											if(cts[i][1]=="" || cts[i][1]==null){
+												modal('错误','在自定义模块中，所有字段必须有值');
+												return;
+											}
+										}
+										//console.log(cts);
+										
+
+										var URL='__CONTROLLER__';
 										if(sessc==''){
 											modal('错误','识别码数据错误');
 											return;
 										}
-										for(var i=0;i<cts.length;i++){
-											id=cts[i].id;
-											val=cts[i].val;
-											if(id!=''){
-												$.ajax({
-													type:'POST',
-													url:URL + '/save_model',
-													data:{
-														id:id,
-														val:val,
-														mid:mid,
-														sessc:sessc,
-														isedit:isedit,
-														orderid:i
-													},
-													dataType:"text",
-													beforeSend:function() { 
-														sh_loading();
-													}, 
-													complete:function(data) { 
-														sh_loading_close();
-													},
-													success:function(data){
-														//alert(data);
-													}
-												});
-											}
-										}
-										window.location.reload();
-                                    });
+										$.post(URL+"/save_model",
+												{cts:JSON.stringify(cts)},
+												function(data){
+													window.location.reload();
+												})
+									})
+									
+									
 								</script>
 						</div>
 					</fieldset>

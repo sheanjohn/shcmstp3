@@ -55,41 +55,34 @@ class PusermodelController extends PpublicController {
         $this->ajaxReturn($resu);
     }
     
-    
     /**
      * 保存
      */
     public function save_model(){
-        $val=$_POST['val'];
-        $id=$_POST['id'];
-        $mid=$_POST['mid'];
-        $d['strval']=$val;
-        $sessc=$_POST['sessc'];
-        $isedit=$_POST['isedit'];
-        if($isedit=='0'){
-            $d['orderid']=$_POST['orderid'];
-            $d['ctrl_id']=$id;
-            $d['model_id']=$mid;
-            $d['sessc']=$sessc;
-            $resu=M('model_items')->add($d);
-            if($resu!=false){
-                $this->write_log(session('uname'),'干得漂亮！','成功在模块中创建了一条数据');
-                echo 'ok';
+        //0id1val2orderid3mid4sessc5isedit
+        $data = $_POST['cts'];
+        $arr = json_decode($data);
+        foreach($arr as $k => $v){
+            $d['strval']=$v[1];
+            if($v[5]=='0'){
+                $d['orderid']=$v[2];
+                $d['ctrl_id']=$v[0];
+                $d['model_id']=$v[3];
+                $d['sessc']=$v[4];
+                $resu[$k]=M('model_items')->add($d);
             }else{
-                $this->write_log(session('uname'),'手法不行！','试图在模块中创建一条数据，但失败了');
-                echo 'err1';
+                $resu[$k]=M("model_items")->where("model_id=".$v[3].' and ctrl_id='.$v[0]." and sessc='".$v[4]."' and orderid=".$v[2])->save($d);
             }
-        }else{
-            $resu=M("model_items")->where("model_id=".$mid.' and ctrl_id='.$id." and sessc='".$sessc."' and orderid=".$_POST['orderid'])->save($d);
-            if($resu!=false){
-                 $this->write_log(session('uname'),'干得漂亮！','成功在模块中修改了一条数据');
-                 echo 'ok';
-            }else{
-                 $this->write_log(session('uname'),'手法不行！','试图在模块中修改一条数据，但失败了');
-                 echo 'err';
-                }
         }
+        foreach($resu as $i => $val){
+            if($val==false || $val==0){
+                echo 'err';
+                break;
+            }
+        }
+        echo 'ok';
     }
+    
     
     /**
      * 删除
