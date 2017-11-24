@@ -113,13 +113,6 @@ class PpublicController extends Controller
                 } else {
                     $this->assign('sh1_page_listnum1', 10);
                 }
-            // -背景图片
-                $sh1_page_bkg = $this->get_conf_byname('sh1_page_bkg');
-                if ($sh1_page_bkg != false) {
-                    $this->assign('sh1_page_bkg', $sh1_page_bkg);
-                } else {
-                    $this->assign('sh1_page_bkg', 'bkg3');
-                }
             // -背景颜色
                 $sh1_page_bkc = $this->get_conf_byname('sh1_page_bkc');
                 if ($sh1_page_bkc != false) {
