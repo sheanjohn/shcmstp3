@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<include file="Public:head" />
+		<include file="Public:script" />
+	</head>
+	
+	<body>
+		<main>
+			<div id="overlay"></div>
+			<ul id="scene">
+				<li class="layer" data-depth="0.2">
+					<div class="layer1"></div>
+				</li>
+			</ul>
+			<div id="h" class="wrapper" style="display:none;">
+				<h1 style="color:#eee;">Shean John</h1>
+                <div class="input-group">
+                    <input type="text" class="form-control" style="width:300px;"  placeholder="找到你想要的……">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success btn-sm" type="button">Go!</button>
+                    </span>
+                </div>
+                <div style="color:#999; display:block; margin-top:20px; font-aligh:right;">shcmstp3</div>
+			</div>
+		</main>
+	</body>
+	
+	<!--视觉差效果-->
+	<script type="text/javascript" src="__PUBLIC__/eff/js/jquery.parallax.min.js"></script> 	
+	<script>
+			$(document).ready(function () {
+			    $('#scene').parallax();
+			    setTimeout($('#h').slideDown(1800));
+			});   
+	</script>
+</html>

@@ -168,7 +168,7 @@ class PpublicController extends Controller
         $id = $_POST['id'];
         $strurl = M('pic_item')->where('Id=' . $id)->getField('Picurl');
         if ($strurl != '' && $strurl != null) {
-            echo $strurl;
+            echo C('ROOT_URL').$strurl;
         } else {
             echo 'err';
         }
