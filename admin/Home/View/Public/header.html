@@ -24,6 +24,7 @@
 					<li><a data-toggle="tooltip" title="Gitee"  href="https://gitee.com/codejohn-pro/shcmstp3" target="_blank"><i class="fa fa-git-square " ></i></a></li>
 				</ul>
 				<ul class="nav pull-right">
+					<li><a href="javascript:;" data-toggle="tooltip" title="进入全屏模式" onclick="requestFullScreen()"><i class="fa fa-window-maximize "></i></a></li>
 					<li><a href="javascript:;" data-toggle="tooltip" title="当前登录：{$Think.session.uname},权限：{$Think.session.utype}"><i class="fa fa-user-circle"></i></a></li>
 					<li><a href="javascript:;" data-toggle="tooltip" title="查看权限说明"  onclick="showinfo('textdata_premission')"><i class="fa fa-exclamation-circle"></i></a></li>
 					<li><a id="btn_logout" href="javascript:;" data-toggle="tooltip" title="安全退出登录"><i class="fa fa-sign-out"></i></a> <script>
@@ -33,6 +34,28 @@
 						window.location.href="__CONTROLLER__/logout"
 					}
            		});
+				//进入全屏
+				function requestFullScreen() {
+				    var de = document.documentElement;
+				    if (de.requestFullscreen) {
+				        de.requestFullscreen();
+				    } else if (de.mozRequestFullScreen) {
+				        de.mozRequestFullScreen();
+				    } else if (de.webkitRequestFullScreen) {
+				        de.webkitRequestFullScreen();
+				    }
+				}
+				//退出全屏
+				function exitFullscreen() {
+				    var de = document;
+				    if (de.exitFullscreen) {
+				        de.exitFullscreen();
+				    } else if (de.mozCancelFullScreen) {
+				        de.mozCancelFullScreen();
+				    } else if (de.webkitCancelFullScreen) {
+				        de.webkitCancelFullScreen();
+				    }
+				}
 			</script></li>
 				</ul>
 			</div>

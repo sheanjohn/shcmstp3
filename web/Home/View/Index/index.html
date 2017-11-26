@@ -13,14 +13,14 @@
 				</li>
 			</ul>
 			<div id="h" class="wrapper" style="display:none;">
-				<h1 style="color:#eee;">Shean John</h1>
+				<h1 style="color:#eee; margin-bottom:15px;">Shean John</h1>
                 <div class="input-group">
                     <input type="text" class="form-control" style="width:300px;"  placeholder="找到你想要的……">
                     <span class="input-group-btn">
-                        <button class="btn btn-success btn-sm" type="button">Go!</button>
+                        <button onclick="requestFullScreen()" class="btn btn-success btn-sm" type="button">Go!</button>
                     </span>
                 </div>
-                <div style="color:#999; display:block; margin-top:20px; font-aligh:right;">shcmstp3</div>
+                <a style="color:#999; display:block; margin-top:20px; font-aligh:right;" href="admin.php">管理员登录</a>
 			</div>
 		</main>
 	</body>
@@ -31,6 +31,6 @@
 			$(document).ready(function () {
 			    $('#scene').parallax();
 			    setTimeout($('#h').slideDown(1800));
-			});   
+			}); 
 	</script>
 </html>
