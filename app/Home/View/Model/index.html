@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body class="cbp-spmenu-push" onload="loadmore();loadctrls()">
+	<include file="Public:alerts" />
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="__MODULE__">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">{$CNAME}</h3>
+				<div class="blank-page widget-shadow scroll" id="gbodx">
+					<p>
+						点击按钮创建模块，了解如何使用模块请点击<a href="javascript:;"
+							onclick="showinfo('textdata_model')">这里</a>。
+					</p>
+					<a href="javascript:;" class="btn btn-primary" id="btn_addnew"><i
+						class="fa fa-file"></i> 创建模块</a> <a href="javascript:;"
+						class="btn btn-danger" data-lity
+						data-lity-target="__CONTROLLER__/controllers"><i
+						class="fa fa-check-square-o"></i> 管理控件</a>
+					<script>
+								$("#btn_addnew").click(function(e) {
+                                    $("#div_addnew").fadeIn(800);
+									$("#pagebox").fadeOut(800);
+									$("#tcontent").fadeOut(800);
+									moveit2left();
+                                });
+							</script>
+				</div>
+
+				<div class="bs-example widget-shadow">
+					<table id="tcontent" class="table table-hover"
+						style="text-align: left;">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>名称</th>
+								<th>是否显示</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="content"></tbody>
+						<tbody>
+						</tbody>
+					</table>
+					<div id="pagebox" style="padding: 5px; text-align: center;">
+						<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+							class="fa fa-arrow-circle-right fa-lg"></i>
+							继续加载{$sh1_page_listnum1}条数据</span>
+						<script>
+									$("#btn_nextpage").click(function(e) {
+										loadmore();
+	                                 
+	                                });
+								</script>
+					</div>
+				</div>
+
+
+				<div class="bs-example blank-page widget-shadow"
+					data-example-id="hoverable-table" style="display: none"
+					id="div_addnew">
+					<form class="form-horizontal">
+						<fieldset>
+							<legend>编辑模块</legend>
+							<div class="control-group">
+								<label class="control-label" for="input01">名称</label>
+								<div class="controls">
+									<input type="text" class="form-control1" id="mname"
+										placeholder="请输入模块名称..." />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="input01">控件</label>
+								<div class="controls" id="mcids">
+									<div>
+										<div
+											style="padding: 5px; border-radius: 5px; color: #666; width: 202px; float: left; background: #ffc; z-index: 9999;">全部控件</div>
+										<div
+											style="margin-left: 15px; padding: 5px; border-radius: 5px; color: #666; width: 202px; float: left; background: #cff; z-index: 9999;">已选控件</div>
+										<div class="clearfix"></div>
+									</div>
+
+									<div
+										style="margin-top: -30px; margin-right: 15px; float: left; border: solid 1px #eee; border-radius: 5px; padding: 5px; padding-top: 35px; width: 200px; height: 160px; OVERFLOW-Y: auto; OVERFLOW-X: hidden;"
+										id="mclist">
+										<button type="button" style="margin: 5px; display: none;"
+											class="btn btn-default btn-sm disabled">
+											<i class="fa fa-minus"></i> 无控件
+										</button>
+									</div>
+									<div
+										style="margin-top: -30px; float: left; border: solid 1px #eee; border-radius: 5px; padding: 5px; width: 200px; padding-top: 35px; height: 160px; OVERFLOW-Y: auto; OVERFLOW-X: hidden;"
+										id="hasctrls">
+										<button type="button" style="margin: 5px; display: none;"
+											class="btn btn-default btn-sm disabled">
+											<i class="fa fa-minus"></i> 无控件
+										</button>
+									</div>
+									<script>
+										function cmove(id,thr){
+											var tid=$("#id").val();
+											if (tid!='0' && thr!='pass'){
+												modal('提示','编辑模块时，无法更改控件');
+												return;
+											}
+											var c=$("#hasctrls").children("#"+id);
+											var jid=id.replace('c_','');
+											var ctl=$("#mcid");
+											var val=ctl.val();
+											if(c.length && c.length>0){
+												$('#hasctrls').children("#"+id).appendTo("#mclist");
+												ctl.val(ctl.val().replace(jid+',',''));
+											}else{
+												$('#mclist').children("#"+id).appendTo("#hasctrls");
+												ctl.val(val+jid+',');
+											}
+										}
+									</script>
+									<div class="clearfix"></div>
+									<div style="display: block; width: 100%;">
+										<font color="#999" style="margin-top: 10px;">创建后，控件无法修改</font>
+									</div>
+
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="optionsCheckbox">是否显示</label>
+								<div class="controls">
+									<select id="isshow" class="form-control1">
+										<OPTION selected value="0">否</OPTION>
+										<OPTION value="1">是</OPTION>
+									</select>
+								</div>
+							</div>
+							<div style="margin-top: 10px;">
+								<button type="button" class="btn btn-primary" id="btn_save">
+									<i class="fa fa-save"></i> 保存
+								</button>
+								<button type="button" class="btn btn-danger" id="btn-cancel">
+									<i class="fa fa-arrow-circle-left"></i> 取消并收起
+								</button>
+								<input type="hidden" value="0" id="id" /> <input type="hidden"
+									id="mcid" />
+							</div>
+							<script>
+								//把右侧控件全部移到左侧
+								function moveit2left(){
+									$('#hasctrls').children("a").each(function(){
+										$(this).appendTo("#mclist");
+									})
+								}
+								//加载所有控件
+								function loadctrls(){
+									$.getJSON("__CONTROLLER__/get_ctrls", function(data) {
+										$('#mclist').empty();
+									    for(var i = 0; i < data.length; i++)
+									    {
+										    $('#mclist').append('<a data-toggle="tooltip" title="'+data[i].cinfo+'" id="c_'+data[i].id+'" onclick="cmove(this.id)" type="button" style="margin:5px;" class="btn btn-default btn-sm tooltip-show">'+data[i].cname+'</a>');
+											
+									    }
+
+										$(".tooltip-show").tooltip();
+									});
+								}
+								function clearinput(){
+									$("#isshow").val('0');
+									$("#id").val('0');
+									$("#mname").val('');
+									$("#mcid").val('');
+								}
+								$("#btn-cancel").click(function(e) {
+									clearinput();
+                                    $("#div_addnew").fadeOut(800);
+									$("#pagebox").fadeIn(800);
+									$("#tcontent").fadeIn(800);
+                                });
+								$("#btn_save").click(function(e) {
+									var id=$("#id").val();
+									var mname=$("#mname").val();
+									var mcid=$("#mcid").val();
+									mcid=mcid.substr(0,mcid.length-1);
+									var isshow = $("#isshow").val();
+									if(id=='' || mcid=='' || mname==''){
+										modal('提示','信息不完整');
+										return;
+									}
+                                    var URL='__CONTROLLER__';
+									$.ajax({
+										type:'POST',
+										url:URL + '/save_model',
+										data:{
+											id:id,
+											mname:mname,
+											isshow:isshow,
+											mcid:mcid
+											},
+										dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+										success: function(data){
+											clearinput();
+											if(data=='ok'){
+												window.location.reload();
+											}else if(data=='rename'){
+												modal('提示','数据已存在');
+											}else{
+												modal('错误','保存失败');
+												$("#btn-cancel").click();
+											}
+										}
+									});
+
+                                });
+							
+							</script>
+
+						</fieldset>
+					</form>
+				</div>
+
+			</div>
+
+			<script>
+		//加载文章列表
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_model',
+											data:{
+												s:s
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+
+												for (var i=0;i<b.length;i++)
+												{
+												
+str=str+'<tr>';
+str=str+'	<td>';
+str=str+b[i].id;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].mname;
+str=str+'	</td>';
+str=str+'	<td>';
+if (b[i].isshow==1){
+	str=str+"是";	
+}
+else if(b[i].isshow==0){
+	str=str+"否";
+}
+str=str+'	</td>';
+str=str+'	<td style="text-align:center">';
+str=str+'		<a href="javascript:;" onclick="load_model('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
+str=str+'		<a href="javascript:;" class="view-link" onclick="del_model('+"'"+b[i].id+"'"+')">删除</a>';
+str=str+'	</td>';
+str=str+'</tr>';
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str);
+											$("#btn_nextpage").html(
+											'<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+									$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+		
+		 //获取
+		 function load_model(id){
+			 var URL = '__CONTROLLER__';
+			 $.ajax({
+				 type:'POST',
+				 url :URL+'/load_model',
+				 data :{id:id},
+				 dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+					success: function(data){
+						var b=$.parseJSON(data);
+						$("#id").val(b.id);
+						$("#mname").val(b.mname);
+						$("#isshow").val(b.isshow);
+						var arr=b.mcid.split(",");
+						for(var i=0;i<arr.length;i++){
+							cmove('c_'+arr[i],'pass');
+						}
+						
+						
+						$("#pagebox").fadeOut(800);
+						$("#tcontent").fadeOut(800);
+						$("#div_addnew").fadeIn(1000);
+					}
+			 });
+		 } 
+		 //删除
+		 function del_model(id){
+			 if(id==""){
+				 balert('danger',"数据错误");
+				 return;
+			 }else if(confirm("确定要删除吗？")){
+				 
+				 var URL='__CONTROLLER__';
+				 $.ajax({
+					 type:'POST',
+			     url:URL+'/del_model',
+			     data:{
+			    	 	id:id
+			    	 },
+			     datatype:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												},  
+			     success:function(data){
+			    	 if(data=='ok'){
+							window.location.reload();
+						}else{
+							modal('错误','删除失败:'+data);
+						}
+			     }
+			 });
+				 
+			 }
+		 }
+		 </SCRIPT>
+			<input type="hidden" id="curpage" value="0" />
+		</div>
+	</div>
+	<!--footer-->
+	<include file="Public:foot" />
+	<!--//footer-->
+	</div>
+</body>
+</html>

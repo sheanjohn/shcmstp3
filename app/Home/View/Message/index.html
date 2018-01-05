@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body onLoad="loadmore()">
+	<include file="Public:alerts" /><body class="cbp-spmenu-push">
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="index.html">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">{$CNAME}</h3>
+				<div class="blank-page widget-shadow scroll" id="gbodx">
+					<div class="col-md-4">
+						<div class="input-group">
+							<span class="input-group-addon"> <i class="fa fa-folder-o"></i></span>
+							<select id="sys" class="form-control1">
+								<option value="0" selected>站内会员消息</option>
+								<option value="1">系统消息</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<button type="button" id="btn-sys" style="margin-bottom: 10px;"
+							class="btn btn-primary">
+							<i class="fa fa-check"></i> 筛选
+						</button>
+						<a href="javascript:;" class="btn btn-default" id="btn_addnew"
+							style="margin-bottom: 10px;"><i class="fa fa-send"></i> 群发消息</a>
+						<script>
+							$("#btn_addnew").click(function(e) {
+								$("#div_addnew").fadeIn(800);
+								$("#pagebox").fadeOut(800);
+								$("#tcontent").fadeOut(800);
+							});
+							$("#btn-sys").click(function() {
+								$("#curpage").val('0');
+								$("#content").empty();
+								loadmore();
+							})
+						</script>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="bs-example widget-shadow">
+					<table id="tcontent" class="table table-hover"
+						style="text-align: left;">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>标题</th>
+								<th>发信人</th>
+								<th>收信人</th>
+								<th>日期</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="content"></tbody>
+						<tbody>
+						</tbody>
+					</table>
+					<div id="pagebox" style="padding: 5px; text-align: center;">
+						<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+							class="fa fa-arrow-circle-right fa-lg"></i>
+							继续加载{$sh1_page_listnum1}条数据</span>
+						<script>
+							$("#btn_nextpage").click(function(e) {
+								loadmore();
+	
+							});
+						</script>
+					</div>
+				</div>
+				<div class="bs-example blank-page widget-shadow"
+					data-example-id="hoverable-table" style="display: none"
+					id="div_addnew">
+					<form class="form-horizontal">
+						<fieldset>
+							<legend>群发消息</legend>
+
+							<div class="control-group">
+								<label class="control-label">限定类型</label>
+								<div class="controls">
+									<select id="utype" class="form-control1">
+										<option selected value="#">不限定</option>
+										<volist name="sh1_user_type" id='e1'>
+										<option value="{$e1}">{$e1}</option>
+										</volist>
+									</select>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label">限定等级</label>
+								<div class="controls">
+									<select id="uleve" class="form-control1">
+										<option selected value="#">不限定</option>
+										<volist name="sh1_user_level" id='e2'>
+										<option value="{$e2}">{$e2}</option>
+										</volist>
+									</select>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="input01">消息标题</label>
+								<div class="controls">
+									<input type="text" class="form-control1" id="tit"
+										placeholder="请输入文章标题..." />
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="textarea">消息内容(200字符)</label>
+								<div class="controls">
+									<textarea class="form-control1" id="msg" rows="4"
+										placeholder="请输入摘要..."></textarea>
+								</div>
+							</div>
+
+							<div style="margin-top: 10px;">
+								<button type="button" class="btn btn-primary" id="btn_save">
+									<i class="fa fa-send"></i> 发送
+								</button>
+								<button type="button" class="btn  btn-danger" id="btn-cancel">
+									<i class="fa fa-arrow-circle-left"></i> 取消并收起
+								</button>
+							</div>
+							<script>
+								function clearinput() {
+									$("#tit").val('');
+									$("#msg").val('');
+								}
+								$("#btn-cancel").click(function(e) {
+									clearinput();
+									$("#div_addnew").fadeOut(800);
+									$("#pagebox").fadeIn(800);
+									$("#tcontent").fadeIn(800);
+								});
+								$("#btn_save")
+										.click(
+												function(e) {
+													var tit = $("#tit").val();
+													var msg = $("#msg").val();
+													var utype = $("#utype")
+															.val();
+													var uleve = $("#uleve")
+															.val();
+													if (tit == '' || msg == '') {
+														modal('提示', '信息不完整');
+														return;
+													}
+													var URL = '__CONTROLLER__';
+													$
+															.ajax({
+																type : 'POST',
+																url : URL
+																		+ '/newsend',
+																data : {
+																	tit : tit,
+																	msg : msg,
+																	utype : utype,
+																	uleve : uleve
+																},
+																dataType : "text",
+																beforeSend : function() {
+																	sh_loading();
+																},
+																complete : function(
+																		data) {
+																	sh_loading_close();
+																},
+																success : function(
+																		data) {
+																	clearinput();
+																	//alert(data);
+																	if (data == 'guolv') {
+																		modal(
+																				'提示',
+																				'请不要在消息内容中包含暴力，色情，宗教等语义或字眼。');
+																	} else if (data == null) {
+																		modal(
+																				'提示',
+																				'没有符合要求的会员(0)');
+																	} else {
+
+																		var b = $
+																				.parseJSON(data);
+																		if (b != null) {
+																			$(
+																					"#sys")
+																					.val(
+																							'1');
+																			modal(
+																					'提示',
+																					'消息已经群发给'
+																							+ b.length
+																							+ '人.');
+																			$(
+																					"#btn-sys")
+																					.click();
+																			$(
+																					"#btn-cancel")
+																					.click();
+																		} else {
+																			modal(
+																					'提示',
+																					'没有符合要求的会员(1)');
+																		}
+																	}
+																}
+															});
+
+												});
+							</script>
+
+						</fieldset>
+					</form>
+				</div>
+			</div>
+
+			<script>
+		//加载文章列表
+		function loadmore() {
+			$("#btn_nextpage").html('请稍后...');
+			$("#btn_nextpage").removeClass("btn-info");
+			var URL = '__CONTROLLER__';
+			var s = $("#curpage").val();
+			var forsys = $("#sys").val();
+			$
+					.ajax({
+						type : 'POST',
+						url : URL + '/list_msg',
+						data : {
+							s : s,
+							forsys : forsys
+						},
+						dataType : "text",
+						beforeSend : function() {
+							sh_loading();
+						},
+						complete : function(data) {
+							sh_loading_close();
+						},
+						success : function(data) {
+							var b = $.parseJSON(data);
+							var str = "";
+							if (b.length < 1) {
+								$("#btn_nextpage").html('没有更多数据');
+								$("#btn_nextpage").fadeOut(1000);
+								return;
+							}
+							for (var i = 0; i < b.length; i++) {
+								str = str + '<tr>';
+								str = str + '	<td>';
+								str = str + b[i].id;
+								str = str + '	</td>';
+								str = str + '	<td>';
+								str = str + b[i].tit;
+								str = str + '	</td>';
+								str = str + '	<td>';
+								str = str + b[i].poster;
+								str = str + '	</td>';
+								str = str + '	<td>';
+								str = str + b[i].user;
+								str = str + '	</td>';
+								str = str + '	<td>';
+								str = str + b[i].datetime;
+								str = str + '	</td>';
+								str = str + '	<td>';
+								if (b[i].stat == '0') {
+									str = str + '未读';
+								} else {
+									str = str + '已读';
+								}
+								str = str + '	</td>';
+								str = str + '	<td style="text-align:center">';
+								str = str
+										+ '		<a href="javascript:;" class="view-link" onclick="show_msg('
+										+ "'" + b[i].id + "'" + ')">查看内容</a>';
+								str = str + '	</td>';
+								str = str + '</tr>';
+							}
+							var pgn = "{$sh1_page_listnum1}";
+							$("#curpage").val(parseInt(s) + parseInt(pgn));
+							$("#content").append(str);
+							$("#btn_nextpage").html(
+							'<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+							$("#btn_nextpage").addClass("btn-default");
+						}
+					});
+		}
+
+		//获取
+		function show_msg(id) {
+			var URL = '__CONTROLLER__';
+			$.ajax({
+				type : 'POST',
+				url : URL + '/load_msg',
+				data : {
+					id : id
+				},
+				dataType : "text",
+				beforeSend : function() {
+					sh_loading();
+				},
+				complete : function(data) {
+					sh_loading_close();
+				},
+				success : function(data) {
+					var b = $.parseJSON(data);
+					modal(b.tit, b.msg + '<br/>' + b.datetime);
+				}
+			});
+		}
+	</SCRIPT>
+			<input type="hidden" id="curpage" value="0" />
+			<!--footer-->
+			<include file="Public:foot" />
+			<!--//footer-->
+		</div>
+	</div>
+</body>
+
+
+</html>

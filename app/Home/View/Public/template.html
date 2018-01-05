@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body class="cbp-spmenu-push">
+	<include file="Public:alerts" />
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="__MODULE__">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">网站概览</h3>
+				<div class="blank-page widget-shadow scroll" id="style-2 div1">
+					<p>Lorem Ipsum is simply dummy text of the printing and
+						typesetting industry. Lorem Ipsum has been the industry's standard
+						dummy text ever since the 1500s, when an unknown printer took a
+						galley of type and scrambled it to make a type specimen book. It
+						has survived not only five centuries, but also the leap into
+						electronic It is a long established fact that a reader will be
+						distracted by the readable content of a page when looking at its
+						layout. The point of using Lorem Ipsum is that it has a
+						more-or-less normal distribution of letters, as opposed to using
+						'Content here.</p>
+				</div>
+			</div>
+		</div>
+		<!--footer-->
+		<include file="Public:foot" />
+		<!--//footer-->
+	</div>
+</body>
+</html>

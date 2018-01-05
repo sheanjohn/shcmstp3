@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body>
+	<include file="Public:alerts" />
+<body class="cbp-spmenu-push" onload="loadmore()">
+	<div class="main-content">
+		<if condition="$_GET['select'] neq 'yes'"> <!--left-fixed -navigation-->
+		<include file="Public:menu" /> <!--left-fixed -navigation--> <!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="index.html">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends --> </if>
+
+		<!-- main content start-->
+
+		<if condition="$_GET['select'] neq 'yes'">
+
+		<div id="page-wrapper">
+		</if>
+		<div class="main-page">
+			<h3 class="title1">{$CNAME}</h3>
+
+			<div class="blank-page widget-shadow scroll" id="gbodx">
+				<div
+					style="border-bottom: solid 1px #999; margin: 10px; display: none;"></div>
+				<a href="#" class="btn btn-primary" id="btn_addnew"><i
+					class="fa fa-file-o"></i> 创建新图库</a>
+
+				<script>
+								$("#btn_addnew").click(function(e) {
+                                    $("#div_addnew").fadeIn(800);
+									$("#content").fadeOut(800);
+									$("#pagebox").fadeOut(800);
+                                });
+							</script>
+			</div>
+
+			<div class="bs-example widget-shadow">
+				<ul class="thumbnails" id="content"
+					style="padding: 10px; list-style: none;">
+				</ul>
+				<div id="pagebox" style="padding: 5px; text-align: center;">
+					<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+						class="fa fa-arrow-circle-right fa-lg"></i>
+						继续加载{$sh1_page_listnum1}条数据</span>
+					<script>
+									$("#btn_nextpage").click(function(e) {
+	                                    loadmore();
+	                                });
+								</script>
+				</div>
+			</div>
+
+			<!-- 新建开始 -->
+			<div class="bs-example blank-page widget-shadow"
+				data-example-id="hoverable-table" style="display: none"
+				id="div_addnew">
+				<fieldset>
+					<legend>编辑图库</legend>
+					<div class="control-group">
+						<label class="control-label">名称(创建后无法修改)</label>
+						<div class="controls">
+							<input type="text" class="form-control1" id="pictitle"
+								placeholder="请输入名称..." />
+							<script>
+										$(function(){
+											$("#pictitle").val('图库_'+getNowFormatDate("1"));
+										})
+									</script>
+						</div>
+					</div>
+					<div class="form-actions" style="margin-top: 10px;">
+						<button type="button" class="btn btn-primary" id="btn_save">
+							<i class="fa fa-save"></i> 保存
+						</button>
+						<button class="btn btn-danger" id="btn-cancel">
+							<i class="fa fa-arrow-circle-left"></i> 取消并收起
+						</button>
+						<input type="hidden" value="0" id="id" />
+						<script>
+									//子窗口赋值
+									function getV(v,cid){
+										window.parent.getV(v,cid);
+									}
+									//清空表单
+									function clearfm(){
+										$("#id").val("0");
+										$("#pictitle").val("");
+									}
+									$("#btn-cancel").click(function(e) {
+										clearfm();
+                                        $("#div_addnew").fadeOut(800);
+										$("#content").fadeIn(800);
+										$("#pagebox").fadeIn(800);
+                                    });
+									$("#btn_save").click(function(e) {
+										var id=$("#id").val();
+										var pictitle=$("#pictitle").val();
+										if(id=='' || pictitle==''){
+											balert('warning','信息不完整');
+											return;
+										}
+                                        var URL='__CONTROLLER__';
+										$.ajax({
+											type:'POST',
+											url:URL + '/save_pic',
+											data:{
+												id:id,
+												pictitle:pictitle
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												clearfm();
+												if(data=='ok'){
+													window.location.reload();
+												}else if(data=='rename'){
+													modal('提示','这个图库已经有了');
+												}else{
+													modal('错误','保存失败');
+													$("#btn-cancel").click();
+												}
+											}
+										});
+
+                                    });
+								</script>
+					</div>
+				</fieldset>
+			</div>
+			<script>
+			//栏目列表
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_pic',
+											data:{
+												s:s
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												var show1,show2,show3,show4,show5
+												show3="{$_GET['select']}";
+												show4="{$_GET['cid']}";
+												var rp="__ROOT__/";
+												for (var i=0;i<b.length;i++)
+												{
+
+show1=b[i].pic1
+if(show1!='0'){
+	show2='<img src="'+rp+show1+'" style="height:150px;" data-lity data-lity-target="'+URL+'/items/id/'+b[i].id+'/select/'+show3+'/cid/'+show4+'"/>';
+}else{
+	show2='<img src="__PUBLIC__/noimg.gif" style="height:150px;"  data-lity data-lity-target="'+URL+'/items/id/'+b[i].id+'/select/'+show3+'/cid/'+show4+'"/>';
+}
+if(show3=='selku'){
+	show5='<a href="javascript:;" onclick="window.parent.getV('+"'"+b[i].id+"','"+show4+"'"+')"><i class="fa fa-check"></i> 选择图片库</a>';
+}else{
+	show5='<a href="javascript:;" data-lity data-lity-target="'+URL+'/items/id/'+b[i].id+'/select/'+show3+'/cid/'+show4+'">进入图库</a> | <a href="javascript:;" onclick="del_cate('+"'"+b[i].id+"'"+')">删除</a> ';
+}
+
+str=str+'<li class="col-md-3">';
+str=str+'	<div class="thumbnail" style="height:210px;">';
+str=str+show2;
+str=str+'		<div class="caption">';
+str=str+'			<h5>'+b[i].pictitle+'</h5>';
+str=str+'<p>'+show5;
+str=str+'			</p>';
+str=str+'		</div>';
+str=str+'	</div>';
+str=str+'</li>';
+
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str+"<div class='clearfix'></div>");
+											$("#btn_nextpage").html('<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+											$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+			//读取
+			function load_cate(id){
+				var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/load_cate',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							var b=$.parseJSON(data);
+							$("#id").val(b.id);
+							$("#catetitle").val(b.catetitle);
+							$("#fid").val(b.fid);
+							$("#url").val(b.url);
+							//icon
+							$("#cont").val(b.cont);
+							$("#ismenu").val(b.ismenu);
+							$("#isshow").val(b.isshow);
+							$("#orderid").val(b.orderid);
+							$("#div_addnew").fadeIn(1000);
+						}
+					});
+			}
+			function del_cate(id){
+				if(id==''){
+					modal('错误','数据错误');
+					return;
+				}else if(confirm("确定要删除吗？")){
+					var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/del_pic',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							if(data=='ok'){
+								window.location.reload();
+							}else if(data=='hasfiles'){
+								modal('提示','图库内还有文件，因此图库不能被删除');
+							}else{
+								modal('错误','删除失败');
+							}
+						}
+					});
+				}
+			}
+		</script>
+			<input type="hidden" id="curpage" value="0" />
+		</div>
+		<if condition="$_GET['select'] neq 'yes'">
+	</div>
+	</if>
+	<!--footer-->
+	<include file="Public:foot" />
+	<!--//footer-->
+	</div>
+</body>
+
+</html>

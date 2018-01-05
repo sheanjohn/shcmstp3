@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body class="cbp-spmenu-push">
+	<include file="Public:alerts" />
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="__MODULE__">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<script type="text/javascript" src="__PUBLIC__/editor/wangEditor.js"></script>
+			<!-- 模块主控部分开始 -->
+			<script>
+		
+		/**
+		公用变量
+		**/
+		var model_id="{$_GET['id']}";
+		var model;
+	    var E = window.wangEditor;
+		/**
+		自动加载
+		**/
+		$.post("__CONTROLLER__/int_model",{id:model_id},function(data){
+			if(data!='err'){
+				model=data;
+				var el = $('#p1'); 
+				var resu;
+				if(el.html()){
+					resu=el.html().replace(/{#title}/g,data.mname);
+				}else{
+					modal('提示','数据错误');
+				}
+				
+				el.html(resu);  
+			}else{
+				modal('错误','数据错误');
+			}
+			settable();
+			loadmore();
+		})
+		/*处理控件*/
+		function settable(){
+			var ctrls=model.ctrls;
+			$("#table_ctrls_title").before("<th>ID</th>");
+			for(var i=0;i<ctrls.length;i++){
+				//处理表格头,编辑器、图片、图片库类型不显示
+				if(ctrls[i].cui!='3' && ctrls[i].cui!='4' && ctrls[i].cui!='1'){
+					$("#table_ctrls_title").before("<th>"+ctrls[i].cname+"</th>");
+				}
+				//表单===============================================
+				
+				if(ctrls[i].cui=='1'){
+					//使用图片
+					csstr='<div style="padding-top:10px; padding-bottom:10px;">';
+					csstr+='<a href="javascript:;" onclick="op('+"'cui_"+ctrls[i].id+"','0'"+')"';
+					csstr+='	class="btn btn-sm btn-success"><i class="fa fa-check"></i> 从图库中选择...</a> <a';
+					csstr+='	href="javascript:;" ';
+					csstr+='class="btn btn-sm btn-info btn_pics" onclick="imgsw('+"'"+ctrls[i].id+"'"+')" name="'+ctrls[i].id+'"><i class="fa fa-search"></i> 图标预览</a>';
+					csstr+='<input type="hidden" id="cui_'+ctrls[i].id+'" /></div>';
+				}else if(ctrls[i].cui=='3'){
+					//文本编辑器
+					csstr='<div id="teditor'+ctrls[i].id+'" style="z-index:-100;"></div>';
+				}else if(ctrls[i].cui=='2'){
+					//下拉选择是否
+					csstr='<select id="cui_'+ctrls[i].id+'" class="form-control1">';
+					csstr+='<option value="否">否</option>';
+					csstr+='<option value="是">是</option>';
+					csstr+='</select>';
+				}else if(ctrls[i].cui=='4'){
+					//使用图片库
+					csstr='<div style="padding-top:10px; padding-bottom:10px;">';
+					csstr+='<a href="javascript:;" onclick="op('+"'cui_"+ctrls[i].id+"','1'"+')"';
+					csstr+='	class="btn btn-sm btn-success"><i class="fa fa-check"></i> 选择一个图片库</a> <a';
+					csstr+='	href="javascript:;" ';
+					csstr+='class="btn btn-sm btn-info btn_pics" onclick="imgku('+"'"+ctrls[i].id+"'"+')" name="'+ctrls[i].id+'"><i class="fa fa-search"></i> 查看图片库</a>';
+					csstr+='<input type="hidden" id="cui_'+ctrls[i].id+'" /></div>';
+				}else{
+					//普通表单项
+					csstr='<div class="controls">';
+					csstr+='	<input type="text" class="form-control1" id="cui_'+ctrls[i].id+'"';
+					csstr+='		placeholder="请输入'+ctrls[i].cname+'..." maxlength="'+ctrls[i].clen+'" />';
+					csstr+='</div>';
+				}
+				
+				htmlstr='';
+				htmlstr+='<div class="control-group">';
+				htmlstr+='<label class="control-label">'+ctrls[i].cname+'</label>';
+				htmlstr+=csstr;
+				htmlstr+='</div>';
+				$("#controller_fm").before(htmlstr);
+				
+				if(ctrls[i].cui=='3'){
+					eval("edit_" + ctrls[i].id+" = new E('#teditor"+ctrls[i].id+"');");
+					eval("edit_" + ctrls[i].id+".create();");
+					//eval("var set_" + i + "=" + i);
+					//为编辑器create
+					//edit_ + ctrls[i].id = new E('#teditor'+ctrls[i].id);
+					//editor.create()
+				}
+				//表单END===============================================
+
+			}
+			
+		}
+		var lightbox;
+		function op(cid,ku) {
+			var v;
+			if(ku=='1'){
+				v="selku";
+			}else{
+				v="yes";
+			}
+	        // Open a URL in a lightbox
+			lightbox = lity("__MODULE__/pic/index/select/"+v+"/cid/"+cid);
+			
+			// Bind as an event handler
+			$(document).on('click', '[data-lightbox]', lity);
+	    }
+		
+		//预览图片库
+		function imgku(id){
+			var imgv=$("#cui_"+id).val();
+			if(imgv==''){
+				modal('提示','尚未选择图库');
+				return;
+			}else{
+				var url="__MODULE__/pic/items/id/"+imgv;
+				lightbox = lity(url);
+			}
+		}
+		
+		//预览图片按钮
+		function imgsw(id){
+
+			var imgv=$("#cui_"+id).val();
+			if(imgv==''){
+            	modal('提示','还没设置图标');
+			}else{
+				var URL='__CONTROLLER__';
+				$.ajax({
+					type:'POST',
+					url:URL + '/get_iconurl_byid',
+					data:{
+						id:imgv
+						},
+					dataType:"text",
+			beforeSend:function() { 
+				sh_loading();
+				}, 
+				complete:function(data) { 
+				sh_loading_close();
+				}, 
+					success: function(data){
+						lightbox = lity(data);
+					}
+				});
+
+			}
+		}
+	</script>
+			<!-- 模块主控部分结束 -->
+			<!---开始--->
+			<div class="main-page" id="p1">
+				<h3 class="title1">{#title}</h3>
+				<div class="blank-page widget-shadow scroll" id="gbodx">
+					<p>点击按钮创建新的{#title}</p>
+					<span class="btn btn-sm btn-success" id="btn-addnew"><i
+						class="fa fa-plus"></i> 新建{#title}</span>
+					<script>
+								$("#btn-addnew").click(function(e) {
+                                    $("#div_addnew").fadeIn(800);
+									$("#tcontent").fadeOut(800);
+									$("#pagebox").fadeOut(800);
+									$("#isedit").val('0');
+									$("#sessc").val(getNowFormatDate(2));
+                                });
+							</script>
+				</div>
+				<div class="bs-example widget-shadow">
+					<table id="tcontent" class="table table-hover">
+						<thead>
+							<tr>
+								<th id="table_ctrls_title">操作</th>
+								<!-- 这里自动添加控件名 -->
+							</tr>
+						</thead>
+						<tbody id="content"></tbody>
+					</table>
+					<div id="pagebox" style="padding: 5px; text-align: center;">
+						<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+							class="fa fa-arrow-circle-right fa-lg"></i>
+							继续加载{$sh1_page_listnum1}条数据</span>
+						<script>
+									$("#btn_nextpage").click(function(e) {
+	                                    loadmore();
+	                                });
+								</script>
+					</div>
+				</div>
+
+				<!--开始-->
+				<div class="bs-example blank-page widget-shadow"
+					data-example-id="hoverable-table" style="display: none"
+					id="div_addnew">
+					<fieldset>
+						<legend>编辑{#title}</legend>
+
+						<!-- 这里自动添加表单控件 -->
+
+						<div style="margin-top: 10px;" class="form-actions"
+							id="controller_fm">
+							<button type="button" class="btn btn-primary" id="btn_save">
+								<i class="fa fa-save"></i> 保存
+							</button>
+							<button class="btn btn-danger" id="btn-cancel">
+								<i class="fa fa-arrow-circle-left"></i> 取消并收起
+							</button>
+
+							<input type="hidden" value="" id="sessc" /> <input type="hidden"
+								value="0" id="isedit" />
+							<script>
+									//子窗口赋值
+									function getV(v,cid){
+										//alert(cid+'+'+v);
+										$("#"+cid).val(v);
+										lightbox.close();
+										//return v;
+									}
+									//清空表单
+									function clearfm(){
+										$("#sessc").val("");
+										$("#isedit").val('0');
+										for(var i=0;i<model.ctrls.length;i++){
+											if(model.ctrls[i].cui=='3'){
+												eval("edit_"+model.ctrls[i].id+".txt.html('');");
+											}else if(model.ctrls[i].cui=='2'){
+												$("#cui_"+model.ctrls[i].id).val('0');
+											}else{
+												$("#cui_"+model.ctrls[i].id).val('');
+											}
+										}
+									}
+									$("#btn-cancel").click(function(e) {
+										clearfm();
+                                        $("#div_addnew").fadeOut(800);
+										$("#tcontent").fadeIn(800);
+										$("#pagebox").fadeIn(800);
+                                    });
+									//更新数据，新的数组法
+									$("#btn_save").click(function(e){
+
+										var isedit=$("#isedit").val();
+										var id,val,mid,sessc;
+										mid="{$_GET['id']}";
+										sessc=$("#sessc").val();
+										
+										var ctrls=model.ctrls;
+										var cts=new Array(ctrls.length);
+										for(var i=0;i<ctrls.length;i++){
+											cts[i] = new Array(6);
+											cts[i][0]=ctrls[i].id;
+											if(ctrls[i].cui=='3'){
+												eval("var val=edit_"+ctrls[i].id+".txt.html();");
+												cts[i][1]=val;
+											}else{
+												cts[i][1]=$("#cui_"+ctrls[i].id).val();
+											}
+											cts[i][2]=i;
+											cts[i][3]=mid;
+											cts[i][4]=sessc;
+											cts[i][5]=isedit;
+											if(cts[i][1]=="" || cts[i][1]==null){
+												modal('错误','在自定义模块中，所有字段必须有值');
+												return;
+											}
+										}
+										//console.log(cts);
+										
+
+										var URL='__CONTROLLER__';
+										if(sessc==''){
+											modal('错误','识别码数据错误');
+											return;
+										}
+										$.post(URL+"/save_model",
+												{cts:JSON.stringify(cts)},
+												function(data){
+													window.location.reload();
+												})
+									})
+									
+									
+								</script>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+			//
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										var modelid="{$_GET['id']}";
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_model',
+											data:{
+												s:s,
+												modelid:modelid
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												if(data==null || data=='null'){
+													//sh_loading_close();
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												var b=$.parseJSON(data);
+												var str="";
+												
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												
+												for(var i=0;i<b.length;i++){
+													str="<tr>";
+													str+="<td>"+b[i]['sessc']+"</td>";
+													for(var a=0;a<b[i]['list'].length;a++){
+														if(b[i]['list'][a].cui=='1' || b[i]['list'][a].cui=='3' || b[i]['list'][a].cui=='4'){
+														//	str+="<td>-</td>";
+														}else{
+															str+="<td>"+b[i]['list'][a].strval+"</td>";
+														}
+													}
+													str+='<td><a href="javascript:;" onclick="load_model('+"'"+b[i]['sessc']+"'"+')">编辑</a> | <a href="javascript:;" onclick="del_model('+"'"+b[i]['sessc']+"'"+')">删除</a></td>';
+													str+="</tr>";
+													$("#content").append(str);
+												}
+												var pgn="{$sh1_page_listnum1}";
+												$("#curpage").val(parseInt(s)+parseInt(pgn));
+												$("#btn_nextpage").html(
+												'<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+										$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+			
+			//列表中预览图标
+			function viewicon(id){
+				if(id==''){
+					balert('warning','还没设置图标');
+				}else{
+					var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/get_iconurl_byid',
+						data:{
+							id:id
+						},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+													success: function(data){
+														lightbox = lity(data);
+													}
+												});
+
+											}
+			}
+			
+			//读取
+			function load_model(id){
+				var URL='__CONTROLLER__';
+				var mid="{$_GET['id']}";
+					$.ajax({
+						type:'POST',
+						url:URL + '/load_model',
+						data:{
+							sessc:id,
+							mid:mid
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							var b=$.parseJSON(data);
+							$("#sessc").val(id);
+							$("#isedit").val('1');
+							for(var i=0;i<b.length;i++){
+								if(b[i].cui=='3'){
+									eval("edit_"+b[i].ctrl_id+".txt.html('"+b[i].strval+"');");
+								}else{
+									$("#cui_"+b[i].ctrl_id).val(b[i].strval);
+								}
+							}
+
+							$("#pagebox").fadeOut(800);
+							$("#tcontent").fadeOut(800);
+							$("#div_addnew").fadeIn(1000);
+						}
+					});
+			}
+			function del_model(id){
+				if(id==''){
+					balert('danger','数据错误');
+					return;
+				}else if(confirm("确定要删除吗？")){
+					var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/del_model',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							if(data=='ok'){
+								window.location.reload();
+							}else{
+								balert('danger','删除失败');
+							}
+						}
+					});
+				}
+			}
+		</script>
+	<input type="hidden" id="curpage" value="0" />
+	<!--footer-->
+	<include file="Public:foot" />
+	<!--//footer-->
+</body>
+</html>

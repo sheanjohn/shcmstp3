@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body>
+	<include file="Public:alerts" /><body class="cbp-spmenu-push">
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="__MODULE__">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">概览</h3>
+				<div class="panel-body widget-shadow ">
+					<div class="col-md-4">
+						<span class="label badge-success"><i
+							class="fa fa-area-chart"></i> 数据统计</span>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>功能名</th>
+									<th>统计数量</th>
+								</tr>
+							</thead>
+							<tbody>
+								<volist name="menu_count" id="i" key="num">
+								<tr>
+									<th scope="row">{$num}</th>
+									<td>{$i.tabname}</td>
+									<td>{$i.count}</td>
+								</tr>
+								</volist>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-8">
+						<span class="label badge-success"><i class="fa fa-clock-o"></i>
+							系统日志</span>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>日期编码</th>
+									<th>相关人</th>
+									<th>操作语</th>
+								</tr>
+							</thead>
+							<tbody id="logtab">
+								<!-- 这里自动加载日志列表 -->
+							</tbody>
+						</table>
+						<script>
+							$(function(){
+								sh_loading();
+								$.post("__CONTROLLER__/log_top10",{},function(data){
+									var n=1;
+									for(var i=0;i<data.length;i++){
+										n=i+1;
+										$("#logtab").append("<tr><th scope='row'>"+n+"</th> <td>"+data[i].logdate+' </td><td><span class="badge label-danger">'+data[i].uname+'</span></td><td><!--'+data[i].action+'-->  '+data[i].actcont+"</td></tr>");
+									}
+								})
+								sh_loading_close();
+							})
+						</script>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<!--footer-->
+		<include file="Public:foot" />
+		<!--//footer-->
+	</div>
+</body>
+
+
+</html>

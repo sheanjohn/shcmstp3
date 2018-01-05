@@ -1,0 +1,56 @@
+<div class="profile_details">
+	<ul>
+		<li class="dropdown profile_details_drop"><a href="#"
+			class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				<div class="profile_img">
+					<span class="prfil-img"><img
+						src="__PUBLIC__/sim/images/2.png" alt=""> </span>
+					<div class="user-name">
+						<p>{$Think.session.uname}</p>
+						<span>权限：{$Think.session.utype}</span>
+					</div>
+					<i class="fa fa-angle-down lnr"></i> <i class="fa fa-angle-up lnr"></i>
+					<div class="clearfix"></div>
+				</div>
+		</a>
+			<ul class="dropdown-menu drp-mnu">
+				<li><a href="javascript:;" onclick="requestFullScreen()"><i
+						class="fa fa-window-maximize"></i> 全屏</a></li>
+				<li><a href="javascript:;"
+					onclick="showinfo('textdata_premission')"><i
+						class="fa fa-exclamation-circle"></i> 权限</a></li>
+				<li><a id="btn_logout" href="javascript:;"><i
+						class="fa fa-sign-out"></i> 退出登陆</a></li>
+			</ul></li>
+	</ul>
+</div>
+<script>
+$("#btn_logout").click(function(e) {
+	var res=confirm("是否要退出登录？");
+	if(res){
+		window.location.href="__CONTROLLER__/logout"
+	}
+	});
+//进入全屏
+function requestFullScreen() {
+    var de = document.documentElement;
+    if (de.requestFullscreen) {
+        de.requestFullscreen();
+    } else if (de.mozRequestFullScreen) {
+        de.mozRequestFullScreen();
+    } else if (de.webkitRequestFullScreen) {
+        de.webkitRequestFullScreen();
+    }
+}
+//退出全屏
+function exitFullscreen() {
+    var de = document;
+    if (de.exitFullscreen) {
+        de.exitFullscreen();
+    } else if (de.mozCancelFullScreen) {
+        de.mozCancelFullScreen();
+    } else if (de.webkitCancelFullScreen) {
+        de.webkitCancelFullScreen();
+    }
+}
+</script>

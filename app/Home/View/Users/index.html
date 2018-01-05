@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body onLoad="loadmore('');getdtpk()">
+	<include file="Public:alerts" />
+<body class="cbp-spmenu-push">
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="index.html">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">{$CNAME}</h3>
+				<div class="blank-page widget-shadow scroll" id="gbodx">
+					<div class="col-md-4">
+						<div class="input-group">
+							<span class="input-group-addon"> <i class="fa fa-search"></i></span>
+							<input type="text" class="form-control1"
+								placeholder="请输入用户名进行搜索(完整匹配)..." id="ipt_search" />
+						</div>
+					</div>
+					<div class="col-md-4">
+						<button class="btn btn-info" id="btn_search"
+							style="margin-bottom: 10px;">
+							<i class="fa fa-search"></i> 查找用户
+						</button>
+						<button class="btn btn-default" id="btn_all"
+							style="margin-bottom: 10px;">
+							<i class="fa fa-undo"></i> 返回全部会员
+						</button>
+						<script>
+					$("#btn_search").click(function(e) {
+						$("#content").empty();
+						$("#curpage").val('0');
+						loadmore($("#ipt_search").val());
+                    });
+					$("#btn_all").click(function(){
+						$("#curpage").val('0');
+						$("#content").empty();
+						$("#ipt_search").val('');
+						loadmore('');
+						$("#btn_nextpage").html('<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+						$("#btn_nextpage").fadeIn(1000);
+					})
+					</script>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="bs-example widget-shadow">
+					<table id="tcontent" class="table table-hover"
+						style="text-align: left;">
+						<thead>
+							<tr>
+								<th>UID</th>
+								<th>用户名</th>
+								<th>类型 / 等级</th>
+								<th>积分</th>
+								<th>余额</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="content"></tbody>
+					</table>
+					<div id="pagebox" style="padding: 5px; text-align: center;">
+						<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+							class="fa fa-arrow-circle-right fa-lg"></i>
+							继续加载{$sh1_page_listnum1}条数据</span>
+						<script>
+								$("#btn_nextpage").click(function(e) {
+                                    loadmore($("#ipt_search").val());
+                                });
+							</script>
+					</div>
+				</div>
+
+				<!-- 新建开始 -->
+				<div class="bs-example blank-page widget-shadow"
+					data-example-id="hoverable-table" style="display: none"
+					id="div_addnew">
+					<fieldset>
+						<legend>编辑用户</legend>
+						<div class="control-group">
+							<label class="control-label">用户名</label>
+							<div class="controls">
+								<input type="text" class="form-control1" id="uname"
+									disabled="disabled" />
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">生日</label>
+							<div class="controls">
+								<input type="text" class="form-control1" id="shengri"
+									placeholder="点击选择..." onkeyup="this.value=''" />
+								<script>
+									function getdtpk(){
+										//$("#dt").datepicker( "option", "dateFormat", 'mm/dd/yy' );				
+										$("#shengri").datepicker();
+										$("#shengri").datepicker( "option", "dateFormat", 'yymmdd' );	
+									}
+								</script>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">类型</label>
+							<div class="controls">
+								<select id="utype" class="form-control1">
+									<volist name="sh1_user_type" id='e1'>
+									<option value="{$e1}">{$e1}</option>
+									</volist>
+								</select>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">等级</label>
+							<div class="controls">
+								<select id="uleve" class="form-control1">
+									<volist name="sh1_user_level" id='e2'>
+									<option value="{$e2}">{$e2}</option>
+									</volist>
+								</select>
+							</div>
+						</div>
+
+						<div style="margin-top: 10px;">
+							<button type="button" class="btn btn-primary" id="btn_save">
+								<i class="fa fa-save"></i> 保存
+							</button>
+							<button class="btn btn-danger" id="btn-cancel">
+								<i class="fa fa-arrow-circle-left"></i> 取消并收起
+							</button>
+							<input type="hidden" value="0" id="id" /> <input type="hidden"
+								id="icon" />
+							<script>
+									//子窗口赋值
+									function getV(v){
+										$("#icon").val(v);
+										lightbox.close();
+									}
+									//清空表单
+									function clearfm(){
+										$("#uname").val('');
+										$("#shengri").val('');
+										$("#id").val("0");
+									}
+									$("#btn-cancel").click(function(e) {
+										clearfm();
+                                        $("#div_addnew").fadeOut(800);
+									$("#tcontent").fadeIn(800);
+									$("#pagebox").fadeIn(800);
+                                    });
+									$("#btn_save").click(function(e) {
+										var id=$("#id").val();
+										var uname=$("#uname").val();
+										var shengri=$("#shengri").val();
+										var utype=$("#utype").val();
+										var uleve=$("#uleve").val();
+										if(id=='' || uname=='' || shengri==''){
+											modal('提示','信息不完整');
+											return;
+										}
+                                        var URL='__CONTROLLER__';
+										$.ajax({
+											type:'POST',
+											url:URL + '/save_users',
+											data:{
+												id:id,
+												uname:uname,
+												utype:utype,
+												uleve:uleve,
+												shengri:shengri
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												//alert(id+','+uname+','+utype+','+uleve+','+shengri);
+												}, 
+											success: function(data){
+												clearfm();
+												//alert(data);
+												if(data=='ok'){
+													window.location.reload();
+												}else{
+													modal('错误','保存失败');
+													$("#btn-cancel").click();
+												}
+											}
+										});
+
+                                    });
+								</script>
+						</div>
+					</fieldset>
+				</div>
+				<include file="Public:foot" />
+
+				<script>
+			//栏目列表
+			function loadmore(key){
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										if (key=="" || key==null){
+											key='null';
+										}
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_users',
+											data:{
+												s:s,
+												key:key
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												var show1,show2,u
+												//u="{:C('ROOT_DIR')}";
+												for (var i=0;i<b.length;i++)
+												{
+
+str=str+'<tr>';
+str=str+'	<td>';
+str=str+b[i].id;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].uname;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].utype+" / "+b[i].uleve;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].jifen;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].yue;
+str=str+'	</td>';
+
+str=str+'	<td>';
+str=str+'		<a href="javascript:;" onclick="load_users('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
+str=str+'		<a href="javascript:;" class="view-link" onclick="del_users('+"'"+b[i].id+"'"+')">删除</a>';
+str=str+'	</td>';
+str=str+'</tr>';
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str);
+											$("#btn_nextpage").html(
+											'<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+									$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+			//读取
+			function load_users(id){
+				var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/load_users',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							var b=$.parseJSON(data);
+							$("#id").val(b.id);
+							$("#uname").val(b.uname);
+							$("#utype").val(b.utype);
+							$("#uleve").val(b.uleve);
+							$("#shengri").val(b.shengri);
+
+							$("#pagebox").fadeOut(800);
+							$("#tcontent").fadeOut(800);
+							$("#div_addnew").fadeIn(1000);
+						}
+					});
+			}
+			function del_users(id){
+				if(id==''){
+					modal('错误','数据错误');
+					return;
+				}else if(confirm("确定要删除吗？")){
+					var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/del_cate',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							if(data=='ok'){
+								window.location.reload();
+							}else{
+								modal('错误','删除失败');
+							}
+						}
+					});
+				}
+			}
+		</script>
+				<input type="hidden" id="curpage" value="0" />
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

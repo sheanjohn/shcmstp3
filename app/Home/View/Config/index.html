@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body onload="loadmore()">
+	<include file="Public:alerts" />
+<body class="cbp-spmenu-push">
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="index.html">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">{$CNAME}</h3>
+				<div class="bs-example widget-shadow">
+					<table id="tcontent" class="table table-hover">
+						<thead>
+							<tr>
+								<th style="text-align: center">参数名</th>
+								<th style="text-align: center">参数值</th>
+								<th style="text-align: center">说明</th>
+								<th style="text-align: center">操作</th>
+							</tr>
+						</thead>
+						<tbody id="content">
+							<tr>
+								<td style="text-align: center">
+									<div class="input-group">
+										<input type="text" class="form-control1"
+											placeholder="请输入新的参数名" id="cname_add"
+											onKeyUp="value=value.replace(/[^\w\.\/]/ig,'')" />
+										<div class="input-group-addon">
+											<a id="btn_ot" href="#" style="color: #999;"><i
+												class="fa fa-reorder fa-lg"></i></a>
+										</div>
+
+									</div> <script>
+											$("#btn_ot").click(function(e) {
+                                                $("#selbox").slideDown(200);
+                                            });
+										</script>
+								</td>
+								<td style="text-align: center"><input type="text"
+									placeholder="请输入新的参数值" id="cvalue_add" class="form-control1" /></td>
+								<td style="text-align: center"><input type="text"
+									placeholder="请输入说明" id="ccont_add" class="form-control1" /></td>
+								<td><a id="btn_save_addnew" href="javascript:;">保存</a></td>
+							</tr>
+						</tbody>
+						<tbody>
+						</tbody>
+					</table>
+					<div id="selbox"
+						style="background: #eee; margin-left: 20px; position: absolute; top: 200px; border: solid 1px #999999; z-index: 999; display: none; width: 300px; padding: 0px;">
+						<h5 style="padding: 10px;">预置参数名</h5>
+						<div style="padding: 5px; background: #fff;">
+							<span
+								style="margin-bottom: 5px; padding-bottom: 5px; display: block;">
+								系统约定并预置了以下参数名，请选择<br />(也可以不使用此功能)：
+							</span> <select id="sel1" class="form-control1">
+								<option selected>请选择...</option>
+								<option value="sh1_page_listnum0" label="前台列表项数量">列表项数量(后台)</option>
+								<option value="sh1_page_listnum1" label="后台列表项数量">列表项数量(前台)</option>
+								<option value="sh1_site_name0" label="网站名称">网站名</option>
+								<option value="sh1_site_name1" label="网站标题">网站标题</option>
+								<option value="sh1_site_key" label="网站关键字">网站关键字</option>
+								<option value="sh1_site_desc" label="网站描述">网站描述</option>
+								<option value="sh1_site_copyright" label="网站底部文字">网站底部文字</option>
+								<option value="sh1_user_level" label="会员等级">会员等级说明符</option>
+								<option value="sh1_user_type" label="会员类型">会员类型说明符</option>
+								<option value="sh1_page_bkc" label="指定背景颜色">控制台背景颜色</option>
+								<option value="sh1_log_pwr" label="系统日志开关（true/false）">打开、关闭系统日志</option>
+								<option value="sh1_sys_guolv" label="脏字过滤(妈的,操你妈,习近平,邪教,溜冰)">脏字过滤</option>
+							</select>
+							<div style="margin-top: 5px;"></div>
+							<button id="btn-ok" type="button" class="btn btn-success">
+								<i class="fa fa-save fa-lg"></i> 确定
+							</button>
+							<button id="btn-cal" type="button" class="btn btn-danger">
+								<i class="fa fa-arrow-circle-left fa-lg"></i> 取消
+							</button>
+							<script>
+								$("#btn-ok").click(function(e) {
+									$("#cname_add").val($("#sel1").val());
+									var t=$("#sel1").find("option:selected").attr('label'); 
+                                    $("#selbox").slideUp(200);
+									$("#ccont_add").val(t);
+                                });
+								$("#btn-cal").click(function(e) {
+                                    $("#selbox").slideUp(200);
+                                });
+							</script>
+						</div>
+					</div>
+					<div id="pagebox" style="padding: 5px; text-align: center;">
+						<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+							class="fa fa-arrow-circle-right fa-lg"></i> 继续加载25条数据</span>
+						<script>
+								$("#btn_nextpage").click(function(e) {
+									loadmore();
+                                 
+                                });
+							</script>
+					</div>
+				</div>
+
+				<script>
+								function clearinput(){
+									$("#cname_add").val('');
+									$("#cvalue_add").val('');
+									$("#ccont_add").val('');
+								}
+								$("#btn_save_addnew").click(function(e) {
+									var id="0";
+									var cname=$("#cname_add").val();
+									var cvalue=$("#cvalue_add").val();
+									var ccont=$("#ccont_add").val();
+									if(id=='' || cname=='' || cvalue==''){
+										modal('提示','信息不完整');
+										return;
+									}
+									if(ccont==''||ccont==null){
+										ccont='无说明';
+									}
+                                    var URL='__CONTROLLER__';
+									$.ajax({
+										type:'POST',
+										url:URL + '/save_conf',
+										data:{
+											id:id,
+											cname:cname,
+											cvalue:cvalue,
+											ccont:ccont
+											},
+										dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+										success: function(data){
+											clearinput();
+											if(data=='ok'){
+												window.location.reload();
+											}else if(data=='rename'){
+												modal('提示','参数已存在');
+											}else{
+												modal('错误','保存失败');
+											}
+										}
+									});
+
+                                });
+								function saveconf(id){
+									var cname=$("#cname_"+id).val();
+									var cvalue=$("#cvalue_"+id).val();
+									var ccont=$("#ccont_"+id).val();
+									if(id=='' || cname=='' || cvalue==''){
+										modal('提示','信息不完整');
+										return;
+									}
+									if(ccont==''||ccont==null){
+										ccont='无说明';
+									}
+                                    var URL='__CONTROLLER__';
+									$.ajax({
+										type:'POST',
+										url:URL + '/save_conf',
+										data:{
+											id:id,
+											cname:cname,
+											cvalue:cvalue,
+											ccont:ccont
+											},
+										dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+										success: function(data){
+											clearinput();
+											if(data=='ok'){
+												window.location.reload();
+											}else if(data=='rename'){
+												modal('提示','参数已存在');
+											}else{
+												modal('错误','保存失败');
+											}
+										}
+									});
+								}
+							</script>
+
+				<script>
+		//加载
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_conf',
+											data:{
+												s:s
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												for (var i=0;i<b.length;i++)
+												{
+str=str+'<tr>';
+str=str+'	<td>';
+str=str+'<input type="text" class="form-control1" disabled="" value="'+b[i].cname+'" id="cname_'+b[i].id+'" onKeyUp="value=value.replace(/[^\w\.\/]/ig,'+"''"+')" />';
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+'<input type="text"  class="form-control1"  value="'+b[i].cvalue+'" id="cvalue_'+b[i].id+'" />';
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+'<input  class="form-control1"  type="text" value="'+b[i].ccont+'" id="ccont_'+b[i].id+'" />';
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+'				<a onclick="saveconf('+"'"+b[i].id+"'"+')" role="menuitem" tabindex="-1" href="javascript:;"> 保存</a>';
+str=str+'				<a onclick="del_conf('+"'"+b[i].id+"'"+')" role="menuitem" tabindex="-1" href="javascript:;"> 删除</a>';
+str=str+'	</div>';
+str=str+'	</td>';
+str=str+'</tr>';
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str);
+											$("#btn_nextpage").html('<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+											$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+		
+		 //删除
+		 function del_conf(id){
+			 if(id==""){
+				 modal('错误',"数据错误");
+				 return;
+			 }else if(confirm("确定要删除吗？")){
+				 
+				 var URL='__CONTROLLER__';
+				 $.ajax({
+					 type:'POST',
+			     url:URL+'/del_conf',
+			     data:{
+			    	 	id:id
+			    	 },
+			     datatype:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												},  
+			     success:function(data){
+			    	 if(data=='ok'){
+							window.location.reload();
+						}else{
+							modal('错误','删除失败:'+data);
+						}
+			     }
+			 });
+				 
+			 }
+		 }
+		 </SCRIPT>
+				<input type="hidden" id="curpage" value="0" />
+			</div>
+		</div>
+		<!--footer-->
+		<include file="Public:foot" />
+		<!--//footer-->
+	</div>
+</body>
+
+</html>

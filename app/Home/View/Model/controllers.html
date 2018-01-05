@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body class="cbp-spmenu-push" onload="loadmore()">
+	<include file="Public:alerts" />
+	<div class="main-content">
+		<div class="main-page" style="padding: 20px;">
+			<h3 class="title1">控件管理</h3>
+			<div class="blank-page widget-shadow scroll" id="gbodx">
+				<div class="col-md-12">
+					<p>
+						点击按钮添加一个控件，点击<a href="javascript:;"
+							onclick="showinfo('textdata_model_ctrl')">这里</a>获取关于控件的帮助
+					</p>
+					<a href="#" class="btn btn-primary" id="btn_addnew"><i
+						class="fa fa-file"></i> 新控件</a>
+					<script>
+									$("#btn_addnew").click(function(e) {
+	                                    $("#div_addnew").fadeIn(800);
+										$("#tcontent").fadeOut(800);
+										$("#pagebox").fadeOut(800);
+	                                });
+						</script>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="bs-example widget-shadow">
+				<table id="tcontent" class="table table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>名称(点击查看说明)</th>
+							<th>长度</th>
+							<th>类型</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody id="content"></tbody>
+				</table>
+				<div id="pagebox" style="padding: 5px; text-align: center;">
+					<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+						class="fa fa-arrow-circle-right fa-lg"></i>
+						继续加载{$sh1_page_listnum1}条数据</span>
+					<script>
+									$("#btn_nextpage").click(function(e) {
+	                                    loadmore();
+	                                });
+								</script>
+				</div>
+			</div>
+
+			<!-- 新建开始 -->
+			<div class="span12" id="div_addnew" style="display: none;">
+				<fieldset>
+					<legend>编辑控件属性</legend>
+					<div class="control-group">
+						<label class="control-label">名称</label>
+						<div class="controls">
+							<input type="text" class="form-control1" id="cname"
+								placeholder="请输入控件名称..." />
+						</div>
+					</div>
+
+
+					<div class="control-group">
+						<label class="control-label">长度</label>
+						<div class="controls">
+							<input type="text" class="form-control1" id="clen"
+								placeholder="请输入长度..." />
+						</div>
+					</div>
+
+
+					<div class="control-group">
+						<label class="control-label">类型</label>
+						<div class="controls">
+							<select id="cui" class="form-control1">
+								<option value="0">输入框</option>
+								<option value="1">从图片库中选择图片</option>
+								<option value="2">下拉列表(是/否)</option>
+								<option value="3">文本编辑器</option>
+								<option value="4">选择一个图片库</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">说明(方便了解控件信息)</label>
+						<div class="controls">
+							<input type="text" class="form-control1" id="cinfo"
+								placeholder="请用最多60字简要说明该控件，也可不填" />
+						</div>
+					</div>
+
+					<div style="margin-top: 10px;">
+						<button type="button" class="btn btn-primary" id="btn_save">
+							<i class="fa fa-save"></i> 保存
+						</button>
+						<button class="btn btn-danger" id="btn-cancel">
+							<i class="fa fa-arrow-circle-left"></i> 取消并收起
+						</button>
+						<input type="hidden" value="0" id="id" /> <input type="hidden"
+							id="picurl" /> <input type="hidden" id="picid"
+							value="{$_GET['id']}" />
+						<script>
+									//清空表单
+									function clearfm(){
+										$("#id").val("0");
+										$("#cname").val("");
+										$("#cinfo").val("");
+										$("#cui").val("0");
+										$("#clen").val("");
+									}
+									$("#btn-cancel").click(function(e) {
+										clearfm();
+										$("#div_addnew").fadeOut(800);
+										$("#tcontent").fadeIn(800);
+										$("#pagebox").fadeIn(800);
+                                    });
+									$("#btn_save").click(function(e) {
+										var id=$("#id").val();
+										var cname=$("#cname").val();
+										var cinfo=$("#cinfo").val();
+										var cui=$("#cui").val();
+										var clen=$("#clen").val();
+										if(id=='' || cname=='' || clen==''){
+											modal('提示','信息不完整');
+											return;
+										}
+                                        var URL='__CONTROLLER__';
+										$.ajax({
+											type:'POST',
+											url:URL + '/save_ctrl',
+											data:{
+												id:id,
+												cname:cname,
+												cinfo:cinfo,
+												clen:clen,
+												cui:cui
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												clearfm();
+												if(data=='ok'){
+													window.location.reload();
+												}else{
+													modal('错误','保存失败');
+													$("#btn-cancel").click();
+												}
+											}
+										});
+
+                                    });
+								</script>
+					</div>
+				</fieldset>
+			</div>
+
+			<script>
+			//栏目列表
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_ctrl',
+											data:{
+												s:s
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												var show1,show2
+												for (var i=0;i<b.length;i++)
+												{
+													show1=b[i].cui;
+													if(show1=='0'){
+														show2='普通输入框';
+													}else if(show1=='1'){
+														show2='图片(ID)';
+													}else if(show1=='2'){
+														show2='是/否';
+													}else if(show1=='3'){
+														show2='文本编辑器';
+													}else{
+														show2='图片库(ID)';
+													}
+
+
+str=str+'<tr>';
+str=str+'	<td>';
+str=str+b[i].id;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+'<a href="javascript:;" onclick="modal('+"'"+b[i].cname+"','"+b[i].cinfo+"'"+')">'+b[i].cname+'</a>';
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].clen;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+show2;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+'		<a href="javascript:;" onclick="load_ctrl('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
+str=str+'		<a href="javascript:;" class="view-link" onclick="del_ctrl('+"'"+b[i].id+"'"+')">删除</a>';
+str=str+'	</td>';
+str=str+'</tr>';
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str);
+											$("#btn_nextpage").html(
+											'<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+									$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+			//读取
+			function load_ctrl(id){
+				
+				var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/load_ctrl',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												},  
+						success: function(data){
+							var b=$.parseJSON(data);
+							$("#id").val(b.id);
+							$("#cname").val(b.cname);
+							$("#cinfo").val(b.cinfo);
+							$("#cui").val(b.cui);
+							$("#clen").val(b.clen);
+							
+							$("#div_addnew").fadeIn(1000);
+							$("#tcontent").fadeOut(800);
+							$("#pagebox").fadeOut(800);
+						}
+					});
+			}
+			
+			
+			function del_ctrl(id){
+				if(id==''){
+					modal('错误','数据错误');
+					return;
+				}else if(confirm("确定要删除吗？")){
+					var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/del_ctrl',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							if(data=='ok'){
+								window.location.reload();
+							}else if(data=='hasuse'){
+								modal('错误','控件正在被[模块]或[模块内容]使用，无法删除。<br/>可先删除模块，然后再试');
+							}else{
+								modal('错误','删除失败');
+							}
+						}
+					});
+				}
+			}
+			
+		</script>
+			<input type="hidden" id="curpage" value="0" />
+		</div>
+		<!--footer-->
+		<include file="Public:foot" />
+		<!--//footer-->
+	</div>
+</body>
+</html>

@@ -1,6 +1,1 @@
-# shcmstp3
-开源、基于ThinkPHP3、简单易用
-
-shcmstp3项目目前正在开发阶段
-
-请期待第一个版本的诞生！
+﻿﻿﻿﻿**# simAdmin**开源、基于ThinkPHP3、简单易用> shcmstp3项目目前正在开发阶段###### 测试、部署、安装>1.  基本的PHP+MYSQL运行环境即可（PHP5.3.X或更高版本）>2. 将Notes目录下的数据库导入>4. 移步/admin/common/conf/config.php 进行基本设置>5. 可修改值，请不要删除值>6. 设置默认模块>7. 如默认模块不再是'Home'则需要访问index.php/home进入后台管理>8. 默认账户和密码：账户：admin1 密码：admin

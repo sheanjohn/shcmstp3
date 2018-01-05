@@ -20,9 +20,9 @@
 		var masks = $(".mask");
 		for (var i = 0; i < masks.length; i++) {
 			var ele_id = $(masks[i]).attr("ele");
-			var eleTop= $(ele_id).offset().top;
+			//var eleTop= $(ele_id).offset().top;
 			var gun = $(document).scrollTop();
-            var top = eleTop-gun;
+            //var top = eleTop-gun;
 			$(masks[i]).css({
 				"top": top+'px'
 			});

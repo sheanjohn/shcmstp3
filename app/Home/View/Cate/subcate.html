@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body class="cbp-spmenu-push" onLoad="loadmore();getmod();">
+	<include file="Public:alerts" />
+	<div class="main-content">
+		<div class="main-page" style="padding: 20px;">
+			<!-- main content start-->
+			<h3 class="title1">{$CNAME} / 子栏目管理</h3>
+			<div class="blank-page widget-shadow scroll" id="gbodx">
+				<a href="#" class="btn btn-primary" id="btn_addnew"><i
+					class="icon-plus icon-white"></i> 创建子栏目</a>
+				<script>
+								$("#btn_addnew").click(function(e) {
+                                    $("#div_addnew").fadeIn(800);
+									$("#tcontent").fadeOut(800);
+									$("#pagebox").fadeOut(800);
+                                });
+							</script>
+			</div>
+			<div class="bs-example widget-shadow">
+				<table id="tcontent" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>名称</th>
+							<th>导航栏显示</th>
+							<th>列表中显示</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody id="content"></tbody>
+				</table>
+				<div id="pagebox" style="padding: 5px; text-align: center;">
+					<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+						class="fa fa-arrow-circle-right fa-lg"></i> 继续加载25条数据</span>
+					<script>
+									$("#btn_nextpage").click(function(e) {
+	                                    loadmore();
+	                                });
+								</script>
+				</div>
+			</div>
+
+			<!-- 新建开始 -->
+			<div class="bs-example blank-page widget-shadow"
+				data-example-id="hoverable-table" style="display: none"
+				id="div_addnew">
+				<fieldset>
+					<legend>编辑栏目</legend>
+					<div class="control-group">
+						<label class="control-label">名称</label>
+						<div class="controls">
+							<input type="text" class="form-control1" id="catetitle"
+								placeholder="请输入名称..." />
+							<script>
+										function copytitle2cont(){
+											var str=$("#catetitle").val();
+											//$("#cont")
+										}
+									</script>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">排序</label>
+						<div class="controls">
+							<input type="text" class="form-control1"
+								placeholder="请输入排序，越小越靠前" id="orderid" value="10" />
+						</div>
+					</div>
+
+					<input type="hidden" value="{$_GET['id']}" id="fid" />
+
+					<div class="control-group">
+						<label class="control-label">使用模块</label>
+						<div class="controls">
+							<select id="cmod" class="form-control1">
+								<option value="0">不使用模块功能</option>
+							</select>
+						</div>
+					</div>
+
+
+					<div class="control-group">
+						<label class="control-label">链接</label>
+						<div class="controls">
+							<input type="text" class="form-control1" id="url"
+								placeholder="http://" />
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">图标</label>
+						<div class="controls">
+							<a href="javascript:;" id="btn_selicon"
+								class="btn btn-sm btn-success"><i class="fa fa-check"></i>
+								从图库中选择...</a> <a href="javascript:;" id="btn_icon_view"
+								class="btn btn-sm btn-info"><i class="fa fa-search"></i>
+								图标预览</a>
+							<script>
+										var lightbox;
+										$("#btn_selicon").click(function(e) {
+                                            // Open a URL in a lightbox
+											lightbox = lity("__MODULE__/pic/index/select/yes");
+											
+											// Bind as an event handler
+											$(document).on('click', '[data-lightbox]', lity);
+                                        });
+
+										//猎取所有模块
+										function getmod(){
+											$.post("__CONTROLLER__/getmod",{},function(data){
+												$('#cmod').empty();
+											    for(var i = 0; i < data.length; i++)
+											    {
+												    $('#cmod').append('<option value="'+data[i].id+'">'+data[i].mname+'</option>');
+											    }
+											    $('#cmod').append('<option value="0" selected>不使用模块功能</option>');
+											})
+										}
+										
+										$("#btn_icon_view").click(function(e) {
+                                            if(!$("#icon").val()){
+                                            	modal('提示','还没设置图标');
+											}else{
+												var id=$("#icon").val();
+												var URL='__CONTROLLER__';
+												$.ajax({
+													type:'POST',
+													url:URL + '/get_iconurl_byid',
+													data:{
+														id:id
+														},
+													dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+													success: function(data){														
+														lightbox = lity(data);
+													}
+												});
+
+											}
+                                        });
+									</script>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">是否在导航栏中显示</label>
+						<div class="controls">
+							<select id="ismenu" class="form-control1">
+								<option selected value="1">显示</option>
+								<option value="0">不显示</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">是否在列表中显示</label>
+						<div class="controls">
+							<select id="isshow" class="form-control1">
+								<option value="1">显示</option>
+								<option selected value="0">不显示</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">是否设置为专题栏目</label>
+						<div class="controls">
+							<select id="zhuanti" class="form-control1">
+								<option value="1">是</option>
+								<option selected value="0">不设置</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">栏目说明(200字符)</label>
+						<div class="controls">
+							<textarea class="form-control1" id="cont" maxlength="200"
+								onkeydown="if(this.value.length>=200) {event.returnValue=false}"
+								rows="2" style="margin: 0px; height: 42px;"></textarea>
+						</div>
+					</div>
+
+					<div class="form-actions" style="margin: 10px 0px 10px 0px;">
+						<button type="button" class="btn btn-primary" id="btn_save">
+							<i class="fa fa-save fa-lg"></i> 保存
+						</button>
+						<button class="btn btn-danger" id="btn-cancel">
+							<i class="fa fa-arrow-circle-left fa-lg"></i> 取消并收起
+						</button>
+						<input type="hidden" value="0" id="id" /> <input type="hidden"
+							id="icon" />
+						<script>
+									//子窗口赋值
+									function getV(v,cid){
+										$("#icon").val(v);
+										lightbox.close();
+									}
+									//清空表单
+									function clearfm(){
+										$("#id").val("0");
+										$("#catetitle").val("");
+										$("#fid").val("{$_GET['id']}");
+										$("#url").val("");
+										$("#cont").val("");
+										$("#ismenu").val("1");
+										$("#isshow").val("0");
+										$("#orderid").val("");
+										$("#icon").val("");
+										$("#zhuanti").val('0');
+										$("cmod").val('0');
+									}
+									$("#btn-cancel").click(function(e) {
+										clearfm();
+                                        $("#div_addnew").fadeOut(800);
+										$("#tcontent").fadeIn(800);
+										$("#pagebox").fadeIn(800);
+                                    });
+									$("#btn_save").click(function(e) {
+										var id=$("#id").val();
+										var catetitle=$("#catetitle").val();
+										var fid=$("#fid").val();
+										var url=$("#url").val();
+										var icon=$("#icon").val();
+										var cont=$("#cont").val();
+										var ismenu=$("#ismenu").val();
+										var isshow=$("#isshow").val();
+										var orderid=$("#orderid").val();
+										var icon=$("#icon").val();
+										var zhuanti=$("#zhuanti").val();
+										var cmod=$("#cmod").val();
+										if(id=='' || fid=='' || cont=='' || orderid==''){
+											modal('提示','信息不完整');
+											return;
+										}
+                                        var URL='__CONTROLLER__';
+										$.ajax({
+											type:'POST',
+											url:URL + '/save_cate',
+											data:{
+												id:id,
+												catetitle:catetitle,
+												fid:fid,
+												url:url,
+												cont:cont,
+												ismenu:ismenu,
+												isshow:isshow,
+												orderid:orderid,
+												icon:icon,
+												zhuanti:zhuanti,
+												cmod:cmod
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												clearfm();
+												if(data=='ok'){
+													window.location.reload();
+												}else if(data=='rename'){
+													modal('提示','这个栏目已经有了');
+												}else{
+													modal('错误','保存失败');
+													$("#btn-cancel").click();
+												}
+											}
+										});
+
+                                    });
+								</script>
+					</div>
+				</fieldset>
+			</div>
+			<script>
+			//栏目列表
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										var id="{$_GET['id']}";
+										if(id==''){
+											modal("错误","数据加载异常，请刷新网页……");
+											return;
+										}
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_cate_byid',
+											data:{
+												s:s,
+												id:id
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												var show1,show2,show3,show4
+												for (var i=0;i<b.length;i++)
+												{
+/*private*/
+if(b[i].isshow=='1'){
+	show1='显示';
+}else{
+	show1='-'
+}
+if(b[i].ismenu=='1'){
+	show2='显示';
+}else{
+	show2='-';
+}
+if(b[i].zhuanti=='1'){
+	show3="<font color='red'>[专题]</font> ";
+}else{
+	show3="";
+}
+if(b[i].cmod=='0'){
+	show4='';
+}else{
+	show4="<font color='blue'>[模块]</font> ";
+}
+
+str=str+'<tr>';
+str=str+'	<td>';
+str=str+b[i].id;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+show3+show4+b[i].catetitle;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+show2;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+show1;
+str=str+'	</td>';
+/*
+str=str+'	<td>';
+if(b[i].icon!=''){
+	str=str+'		<a href="javascript:;" data-lity data-lity-target="'+b[i].icon+'">查看图标</a>';
+}
+
+if(b[i].url!=''){
+	str=str+'		<a href="javascript:;" data-lity data-lity-target="'+b[i].url+'">查看链接</a>';
+}
+str=str+'	</td>';
+*/
+str=str+'	<td>';
+str=str+'		<a href="javascript:;" onclick="load_cate('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
+str=str+'		<a href="javascript:;" class="view-link" onclick="del_cate('+"'"+b[i].id+"'"+')">删除</a>';
+str=str+'	</td>';
+str=str+'</tr>';
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str);
+											$("#btn_nextpage").html('<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+											$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+			//读取
+			function load_cate(id){
+				var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/load_cate',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							var b=$.parseJSON(data);
+							$("#id").val(b.id);
+							$("#catetitle").val(b.catetitle);
+							$("#fid").val(b.fid);
+							$("#url").val(b.url);
+							//icon
+							$("#icon").val(b.icon);
+							$("#cont").val(b.cont);
+							$("#ismenu").val(b.ismenu);
+							$("#isshow").val(b.isshow);
+							$("#orderid").val(b.orderid);
+							$("#zhuanti").val(b.zhuanti);
+							$("#cmod").val(b.cmod);
+
+							$("#tcontent").fadeOut(800);
+							$("#pagebox").fadeOut(800);
+							$("#div_addnew").fadeIn(1000);
+						}
+					});
+			}
+			function del_cate(id){
+				if(id==''){
+					modal('错误','数据错误');
+					return;
+				}else if(confirm("确定要删除吗？")){
+					var URL='__CONTROLLER__';
+					$.ajax({
+						type:'POST',
+						url:URL + '/del_cate',
+						data:{
+							id:id
+							},
+						dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+						success: function(data){
+							if(data=='ok'){
+								window.location.reload();
+							}else{
+								modal('错误','删除失败');
+							}
+						}
+					});
+				}
+			}
+		</script>
+			<input type="hidden" id="curpage" value="0" />
+
+			<include file="Public:foot" />
+		</div>
+	</div>
+</body>
+</html>

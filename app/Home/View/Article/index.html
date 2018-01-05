@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body>
+	<include file="Public:alerts" /></include>
+<body class="cbp-spmenu-push" onload="loadmore()">
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="__MODULE__">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">{$CNAME}</h3>
+				<div class="blank-page widget-shadow scroll" id="gbodx">
+					<div class="col-md-4">
+						<div class="input-group">
+							<span class="input-group-addon"> <i class="fa fa-folder-o"></i>
+							</span> <select id="sea" class="form-control1">
+								<option selected disabled value="0">根据栏目查找...</option>
+								<option value="0">全部栏目</option>
+								<volist name="cate_list" id="cate">
+								<option value="{$cate.id}" disabled>---------{$cate.catetitle}---------</option>
+								<volist name="cate['sub']" id="ii">
+								<option value="{$ii.id}">{$ii.catetitle}</option>
+								</volist> </volist>
+							</select>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+						<button id="btn-sea" class="btn btn-default ">
+							<i class="fa fa-search"></i> 查找
+						</button>
+						<button class="btn btn-primary" id="btn_addnew">
+							<i class="fa fa-file-o"></i> 创建文章
+						</button>
+					</div>
+					<div class="clearfix"></div>
+					<script>
+			$("#btn_addnew").click(function(e) {
+				$("#div_addnew").fadeIn(800);
+				$("#pagebox").fadeOut(800);
+				$("#tcontent").fadeOut(800);
+			});
+			$("#btn-sea").click(function() {
+				$("#curpage").val('0');
+				$("#content").empty();
+				loadmore();
+			})
+		</script>
+				</div>
+
+				<div class="bs-example widget-shadow">
+					<table id="tcontent" class="table table-hover"
+						style="text-align: left;">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>文章标题</th>
+								<th>栏目ID</th>
+								<th style="display: none;">摘要</th>
+								<th>日期</th>
+								<th>是否显示</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="content"></tbody>
+						<tbody>
+						</tbody>
+					</table>
+					<div id="pagebox" style="padding: 5px; text-align: center;">
+						<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+							class="fa fa-arrow-circle-right fa-lg"></i>
+							继续加载{$sh1_page_listnum1}条数据</span>
+						<script>
+				$("#btn_nextpage").click(function(e) {
+					loadmore();
+	
+				});
+			</script>
+					</div>
+				</div>
+
+				<div class="bs-example blank-page widget-shadow"
+					data-example-id="hoverable-table" style="display: none"
+					id="div_addnew">
+					<form class="form-horizontal">
+						<fieldset>
+							<legend>编辑文章</legend>
+							<div class="control-group">
+								<label class="control-label" for="input01">文章标题</label>
+								<div class="controls">
+									<input type="text" class="form-control1" id="atitle"
+										placeholder="请输入文章标题..."
+										onblur="acont_top.value='发布、整理：{$Think.session.uname}'" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="input01">栏目名</label>
+								<div class="controls">
+									<select id="fid" class="form-control1">
+										<volist name="cate_list" id="cate">
+										<option value="{$cate.id}" disabled>---------{$cate.catetitle}---------</option>
+										<volist name="cate['sub']" id="ii">
+										<option value="{$ii.id}">{$ii.catetitle}</option>
+										</volist> </volist>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">图片</label>
+								<div class="controls">
+									<a href="javascript:;" id="btn_selicon"
+										class="btn btn-sm btn-success"><i class="fa fa-check"></i>
+										从图库中选择...</a> <a href="javascript:;" id="btn_icon_view"
+										class="btn btn-sm btn-info"><i class="fa fa-search"></i>
+										图标预览</a>
+									<script>
+										var lightbox;
+										$("#btn_selicon").click(function(e) {
+                                            // Open a URL in a lightbox
+											lightbox = lity("__MODULE__/pic/index/select/yes");
+											
+											// Bind as an event handler
+											$(document).on('click', '[data-lightbox]', lity);
+                                        });
+										$("#btn_icon_view").click(function(e) {
+                                            if($("#photo").val()==''){
+                                            	modal('提示','还没设置图标');
+											}else{
+												var id=$("#photo").val();
+												var URL='__CONTROLLER__';
+												$.ajax({
+													type:'POST',
+													url:URL + '/get_iconurl_byid',
+													data:{
+														id:id
+														},
+													dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+													success: function(data){
+														lightbox = lity(data);
+													}
+												});
+
+											}
+                                        });
+									</script>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="optionsCheckbox">是否指定专题栏目</label>
+								<div class="controls">
+									<select class="form-control1" id="zhuanti">
+										<OPTION selected value="0">不指定</OPTION>
+										<volist name="cate_list" id="cate1">
+										<option value="{$cate1.id}" disabled>---------{$cate1.catetitle}---------</option>
+										<volist name="cate1['sub']" id="ii1"> <if
+											condition="$ii1['zhuanti'] neq 0">
+										<option value="{$ii1.id}">[√] {$ii1.catetitle}</option>
+										<else />
+										<option disabled="disabled" value="{$ii1.id}">[×]
+											{$ii1.catetitle}</option>
+										</if> </volist> </volist>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="textarea">摘要</label>
+								<div class="controls">
+									<textarea class="form-control1" id="acont_top" rows="4"
+										placeholder="请输入摘要..."></textarea>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="textarea">内容</label>
+								<div class="controls">
+									<div id="teditor"></div>
+									<script type="text/javascript"
+										src="__PUBLIC__/editor/wangEditor.js"></script>
+									<script type="text/javascript">
+							var E = window.wangEditor
+							var editor = new E('#teditor')
+							// 或者 var editor = new E( document.getElementById('#editor') )
+							editor.create()
+						</script>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="optionsCheckbox">是否显示</label>
+								<div class="controls">
+									<select id="isshow" class="form-control1">
+										<OPTION selected value="0">是</OPTION>
+										<OPTION value="1">否</OPTION>
+									</select>
+								</div>
+							</div>
+							<div style="margin-top: 10px;">
+								<button type="button" class="btn btn-primary" id="btn_save">
+									<i class="fa fa-save fa-lg"></i> 保存
+								</button>
+								<button type="button" class="btn btn-danger" id="btn-cancel">
+									<i class="fa fa-arrow-circle-left fa-lg"></i> 取消并收起
+								</button>
+								<input type="hidden" value="0" id="id" /> <input type="hidden"
+									id="photo" />
+							</div>
+							<script>
+				//子窗口赋值
+				function getV(v,cid){
+					$("#photo").val(v);
+					lightbox.close();
+				}
+					function clearinput() {
+						$("#acont_top").val('');
+						editor.txt.clear();
+						$("#atitle").val('');
+						$("#isshow").val('0');
+						$("#id").val('0');
+						$("#fid").val('');
+						$("#zhuanti").val('0');
+					}
+					$("#btn-cancel").click(function(e) {
+						clearinput();
+						$("#div_addnew").fadeOut(800);
+						$("#pagebox").fadeIn(800);
+						$("#tcontent").fadeIn(800);
+						$("#photo").val('');
+					});
+					$("#btn_save").click(
+							function(e) {
+								var id = $("#id").val();
+								var fid = $("#fid").val();
+								var atitle = $("#atitle").val();
+								var acont_top = $("#acont_top").val();
+								//var acont=$("#acont").val();
+								var acont = editor.txt.html();
+								var zhuanti = $('#zhuanti').val();
+								var isshow = $("#isshow").val();
+								var photo=$("#photo").val();
+								if (id == '' || fid == '' || acont_top == ''
+										|| acont == '' || atitle == '') {
+									modal('提示', '信息不完整');
+									return;
+								}
+								var URL = '__CONTROLLER__';
+								$.ajax({
+									type : 'POST',
+									url : URL + '/save_article',
+									data : {
+										id : id,
+										fid : fid,
+										atitle : atitle,
+										acont : acont,
+										acont_top : acont_top,
+										isshow : isshow,
+										zhuanti : zhuanti,
+										photo:photo
+									},
+									dataType : "text",
+									beforeSend : function() {
+										sh_loading();
+									},
+									complete : function(data) {
+										sh_loading_close();
+									},
+									success : function(data) {
+										clearinput();
+										if (data == 'ok') {
+											window.location.reload();
+										} else if (data == 'rename') {
+											modal('提示', '这篇文章已存在');
+										} else {
+											modal('错误', '保存失败');
+											$("#btn-cancel").click();
+										}
+									}
+								});
+
+							});
+				</script>
+
+						</fieldset>
+					</form>
+				</div>
+
+				<script>
+		//加载文章列表
+		function loadmore() {
+			$("#btn_nextpage").html('请稍后...');
+			$("#btn_nextpage").removeClass("btn-info");
+			var URL = '__CONTROLLER__';
+			var s = $("#curpage").val();
+			var sea = $("#sea").val();
+			$
+					.ajax({
+						type : 'POST',
+						url : URL + '/list_article',
+						data : {
+							s : s,
+							sea : sea
+						},
+						dataType : "text",
+						beforeSend : function() {
+							sh_loading();
+						},
+						complete : function(data) {
+							sh_loading_close();
+						},
+						success : function(data) {
+							var b = $.parseJSON(data);
+							var str = "";
+							if (b.length < 1) {
+								$("#btn_nextpage").html('没有更多数据');
+								$("#btn_nextpage").fadeOut(1000);
+								return;
+							}
+							var show1;
+							for (var i = 0; i < b.length; i++) {
+								if (b[i].zhuanti != 0) {
+									show1 = "<font color='red'>[专题]</font> ";
+								} else {
+									show1 = "";
+								}
+								/*
+								获取栏目名字
+								 */
+								catename = getCateName(b[i].fid, b[i].id);
+								str = str + '<tr>';
+								str = str + '	<td>';
+								str = str + b[i].id;
+								str = str + '	</td>';
+								str = str + '	<td>';
+								str = str + show1 + b[i].atitle;
+								str = str + '	</td>';
+								str = str
+										+ '	<td id="list_catename_'+b[i].id+'">';
+								str = str + '读取中...';
+								str = str + '	</td>';
+								/*
+								 str=str+'	<td style="text-align:center">';
+								 str=str+b[i].acont_top;
+								 str=str+'	</td>';
+								 */
+								str = str + '	<td>';
+								str = str + b[i].adate;
+								str = str + '	</td>';
+								str = str + '	<td>';
+								if (b[i].isshow == 0) {
+									str = str + "是";
+								} else if (b[i].isshow == 1) {
+									str = str + "否";
+								}
+								str = str + '	</td>';
+								str = str + '	<td style="text-align:center">';
+								str = str
+										+ '		<a href="javascript:;" onclick="load_article('
+										+ "'" + b[i].id + "'"
+										+ ')" class="view-link">修改</a>';
+								str = str
+										+ '		<a href="javascript:;" class="view-link" onclick="del_article('
+										+ "'" + b[i].id + "'" + ')">删除</a>';
+								str = str + '	</td>';
+								str = str + '</tr>';
+							}
+							var pgn = "{$sh1_page_listnum1}";
+							$("#curpage").val(parseInt(s) + parseInt(pgn));
+							$("#content").append(str);
+							$("#btn_nextpage").html(
+									'<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+							$("#btn_nextpage").addClass("btn-default");
+						}
+					});
+		}
+
+		//获取一个文章
+		function load_article(id) {
+			var URL = '__CONTROLLER__';
+			$.ajax({
+				type : 'POST',
+				url : URL + '/load_article',
+				data : {
+					id : id
+				},
+				dataType : "text",
+				beforeSend : function() {
+					sh_loading();
+				},
+				complete : function(data) {
+					sh_loading_close();
+				},
+				success : function(data) {
+					var b = $.parseJSON(data);
+					$("#id").val(b.id);
+					$("#atitle").val(b.atitle);
+					$("#fid").val(b.fid);
+					editor.txt.html(b.acont);
+					$("#acont_top").val(b.acont_top);
+					$("#adata").val(b.adata);
+					$("#isshow").val(b.isshow);
+					$("#zhuanti").val(b.zhuanti);
+					$("#photo").val(b.photo);
+
+					$("#pagebox").fadeOut(800);
+					$("#tcontent").fadeOut(800);
+					$("#div_addnew").fadeIn(1000);
+				}
+			});
+		}
+		//获取栏目名称
+		function getCateName(cateid, id) {
+			var URL = '__CONTROLLER__';
+			$.ajax({
+				type : 'POST',
+				url : URL + '/get_path',
+				data : {
+					cateid : cateid
+				},
+				dataType : "text",
+				success : function(data) {
+					$("#list_catename_" + id).html(data);
+				}
+			});
+		}
+		//删除一个文章
+		function del_article(id) {
+			if (id == "") {
+				modal('错误', "数据错误");
+				return;
+			} else if (confirm("确定要删除吗？")) {
+
+				var URL = '__CONTROLLER__';
+				$.ajax({
+					type : 'POST',
+					url : URL + '/del_article',
+					data : {
+						id : id
+					},
+					datatype : "text",
+					beforeSend : function() {
+						sh_loading();
+					},
+					complete : function(data) {
+						sh_loading_close();
+					},
+					success : function(data) {
+						if (data == 'ok') {
+							window.location.reload();
+						} else {
+							modal('错误', '删除失败:' + data);
+						}
+					}
+				});
+
+			}
+		}
+	</SCRIPT>
+				<input type="hidden" id="curpage" value="0" />
+			</div>
+		</div>
+		<!--footer-->
+		<include file="Public:foot" />
+		<!--//footer-->
+	</div>
+</body>
+
+
+</html>

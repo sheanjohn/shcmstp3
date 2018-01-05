@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<include file="Public:head" />
+<include file="Public:script" />
+<body onload="loadmore()">
+	<include file="Public:alerts" />
+<body class="cbp-spmenu-push">
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<include file="Public:menu" />
+		<!--left-fixed -navigation-->
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="index.html">
+						<h1>{:C('simName')}</h1> <span>{:C('simSubName')}</span>
+					</a>
+				</div>
+				<!--//logo-->
+				<!--search-box-->
+				<include file="Public:searchbox" />
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
+			</div>
+			<div class="header-right">
+				<include file="Public:topmenu" />
+				<!--notification menu end -->
+				<include file="Public:usermenu" />
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- //header-ends -->
+		<!-- main content start-->
+		<div id="page-wrapper">
+			<div class="main-page">
+				<h3 class="title1">{$CNAME}</h3>
+				<div class="blank-page widget-shadow scroll" id="gbodx">
+					<a href="javascript:;" class="btn btn-danger" id="btn_addnew"><i
+						class="fa fa-minus-circle"></i> 清空日志</a>
+					<script>
+								$("#btn_addnew").click(function(e) {
+                                    var resu=confirm('是否要清空日志？');
+                                    if(resu){
+                                    	$.post("__CONTROLLER__/clear_logs",{},function(data){
+                                    		if(data=='ok'){
+                                    			window.location.reload();
+                                    		}else{
+                                    			modal('提示','清空数据库时发生错误');
+                                    		}
+                                    	})
+                                    }
+                                });
+							</script>
+				</div>
+				<div class="bs-example widget-shadow">
+					<table id="tcontent" class="table table-hover"
+						style="text-align: left;">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>日期</th>
+								<th>详情</th>
+							</tr>
+						</thead>
+						<tbody id="content"></tbody>
+						<tbody>
+						</tbody>
+					</table>
+					<div id="pagebox" style="padding: 5px; text-align: center;">
+						<span class="btn btn-sm btn-default" id="btn_nextpage"><i
+							class="fa fa-arrow-circle-right fa-lg"></i> 继续加载25条数据</span>
+						<script>
+									$("#btn_nextpage").click(function(e) {
+										loadmore();
+	                                 
+	                                });
+								</script>
+					</div>
+				</div>
+				<script>
+		//加载
+			function loadmore(){
+										$("#btn_nextpage").html('请稍后...');
+										$("#btn_nextpage").removeClass("btn-info");
+										var URL='__CONTROLLER__';
+										var s=$("#curpage").val();
+										$.ajax({
+											type:'POST',
+											url:URL + '/list_logs',
+											data:{
+												s:s
+												},
+											dataType:"text",
+											beforeSend:function() { 
+												sh_loading();
+												}, 
+												complete:function(data) { 
+												sh_loading_close();
+												}, 
+											success: function(data){
+												var b=$.parseJSON(data);
+												var str="";
+												if(b.length<1){
+													$("#btn_nextpage").html('没有更多数据');
+													$("#btn_nextpage").fadeOut(1000);
+													return;
+												}
+												var show1;
+												for (var i=0;i<b.length;i++)
+												{
+str=str+'<tr>';
+str=str+'	<td>';
+str=str+b[i].id;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].logdate;
+str=str+'	</td>';
+str=str+'	<td>';
+str=str+b[i].uname+' '+b[i].action+','+b[i].uname+' '+b[i].actcont;
+str=str+'	</td>';
+
+/*
+str=str+'	<td style="text-align:center">';
+str=str+'		<a href="javascript:;" onclick="load_article('+"'"+b[i].id+"'"+')" class="view-link">修改</a>';
+str=str+'		<a href="javascript:;" class="view-link" onclick="del_article('+"'"+b[i].id+"'"+')">删除</a>';
+str=str+'	</td>';
+*/
+str=str+'</tr>';
+												}
+											var pgn="{$sh1_page_listnum1}";
+											$("#curpage").val(parseInt(s)+parseInt(pgn));
+											$("#content").append(str);
+											$("#btn_nextpage").html('<i class="fa fa-arrow-circle-right fa-lg"></i> 继续加载{$sh1_page_listnum1}条数据');
+											$("#btn_nextpage").addClass("btn-default");
+											}
+										});
+			}
+		 </SCRIPT>
+				<input type="hidden" id="curpage" value="0" />
+			</div>
+		</div>
+		<!--footer-->
+		<include file="Public:foot" />
+		<!--//footer-->
+	</div>
+</body>
+
+</html>
