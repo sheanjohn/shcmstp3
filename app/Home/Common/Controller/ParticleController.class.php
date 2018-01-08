@@ -17,6 +17,8 @@ class ParticleController extends PpublicController {
 	 */
 	public function save_article() {
 		$id = $_POST ['id'];
+		//处理标签
+		$this->insert_tag($_POST ['tag']);
 		$d ['Atitle'] = $_POST ['atitle'];
 		$d ['Acont'] = $_POST ['acont'];
 		$d ['Acont_top'] = $_POST ['acont_top'];
@@ -25,6 +27,7 @@ class ParticleController extends PpublicController {
 		$d ['Adate'] = date ( "Ymd" );
 		$d ['zhuanti'] = $_POST ['zhuanti'];
 		$d ['photo'] = $_POST ['photo'];
+		$d ['tag'] = $_POST ['tag'];
 		$c = M ( "article" )->where ( "Atitle='" . $_POST ['atitle'] . "'" )->count ();
 		if ($c > 1) {
 			$this->write_log ( session ( 'uname' ), '被无情拒绝了', '试图创建一个已经存在的文章' );

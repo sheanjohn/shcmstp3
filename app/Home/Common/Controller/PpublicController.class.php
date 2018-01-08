@@ -2,13 +2,35 @@
 
 namespace Home\Common\Controller;
 
-//use Think\Controller;
+// use Think\Controller;
 use Common\Controller\Sim_publicController;
 
 class PpublicController extends Sim_publicController {
 	
 	//
 	public function _initialize() {
+	}
+	
+	/**
+	 * 处理标签
+	 */
+	public function insert_tag($tagstr) {
+		$tagarr=explode(',',$tagstr);
+		if(count($tagarr)){
+			foreach($tagarr as $k => $v){
+				if(!$v){
+					continue;
+				}else{
+					$c=M('tags')->where("tagname='".$v."'")->count();
+					if($c){
+						continue;
+					}else{
+						$d['tagname']=$v;
+						$r=M('tags')->add($d);
+					}
+				}
+			}
+		}
 	}
 	
 	/**

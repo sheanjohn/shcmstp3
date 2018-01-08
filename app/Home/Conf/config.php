@@ -18,5 +18,6 @@ return array (
 		'UT_Config' => 5, // 参数权限
 		'UT_Index' => 1, // 控制台首页
 		'UT_Message' => 4,  // 站内信，消息
-		'UT_Aliapi' => 5//阿里云API
+		'UT_Aliapi' => 5,//阿里云API
+		'UT_Tags' => 5,//标签
 );

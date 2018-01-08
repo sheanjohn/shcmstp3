@@ -133,6 +133,13 @@
 								</div>
 							</div>
 							<div class="control-group">
+								<label class="control-label" for="input01">标签</label>
+								<div class="controls">
+									<input type="text" class="form-control1" id="tag"
+										placeholder="请输入标签，多个标签用英文逗号分开"/>
+								</div>
+							</div>
+							<div class="control-group">
 								<label class="control-label" for="input01">栏目名</label>
 								<div class="controls">
 									<select id="fid" class="form-control1">
@@ -261,6 +268,7 @@
 						$("#id").val('0');
 						$("#fid").val('');
 						$("#zhuanti").val('0');
+						$("#tag").val('');
 					}
 					$("#btn-cancel").click(function(e) {
 						clearinput();
@@ -280,6 +288,7 @@
 								var zhuanti = $('#zhuanti').val();
 								var isshow = $("#isshow").val();
 								var photo=$("#photo").val();
+								var tag=$("#tag").val();
 								if (id == '' || fid == '' || acont_top == ''
 										|| acont == '' || atitle == '') {
 									modal('提示', '信息不完整');
@@ -297,7 +306,8 @@
 										acont_top : acont_top,
 										isshow : isshow,
 										zhuanti : zhuanti,
-										photo:photo
+										photo:photo,
+										tag:tag
 									},
 									dataType : "text",
 									beforeSend : function() {
@@ -442,6 +452,7 @@
 					$("#isshow").val(b.isshow);
 					$("#zhuanti").val(b.zhuanti);
 					$("#photo").val(b.photo);
+					$("#tag").val(b.tag);
 
 					$("#pagebox").fadeOut(800);
 					$("#tcontent").fadeOut(800);
