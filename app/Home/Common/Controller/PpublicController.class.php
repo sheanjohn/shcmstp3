@@ -81,7 +81,8 @@ class PpublicController extends Sim_publicController {
 				'users',
 				'model',
 				'model_ctrls',
-				'message' 
+				'message' ,
+				'tags'
 		);
 		foreach ( $tabs as $k => $v ) {
 			if ($v == 'category') {
@@ -121,6 +122,9 @@ class PpublicController extends Sim_publicController {
 					break;
 				case 'message' :
 					$reval = '站内信、消息';
+					break;
+				case 'tags':
+					$reval='标签';
 					break;
 				default :
 					$reval = '未知';
